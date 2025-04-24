@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Notícias - AMUV{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Notícias Recentes</h2>
+
+<div class="grid md:grid-cols-2 gap-6">
+    {% for noticia in noticias %}
+    <div class="bg-white p-4 rounded shadow">
+        {% if noticia.imagem_capa %}
+            <img src="{{ noticia.imagem_capa.url }}" alt="{{ noticia.titulo }}" class="mb-2 rounded">
+        {% endif %}
+        <h3 class="text-xl font-semibold">
+            <a href="{% url 'noticias:detalhe' noticia.pk %}" class="text-red-700 hover:underline">
+                {{ noticia.titulo }}
+            </a>
+        </h3>
+        <p class="text-sm text-gray-600">{{ noticia.publicado_em|date:"d M Y" }}</p>
+        <p class="mt-2">{{ noticia.subtitulo|default:"" }}</p>
+    </div>
+    {% empty %}
+    <p>Nenhuma notícia encontrada.</p>
+    {% endfor %}
+</div>
+{% endblock %}

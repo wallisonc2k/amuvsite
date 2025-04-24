@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Pagamentos - AMUV{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Histórico de Contribuições</h2>
+
+<table class="min-w-full bg-white rounded shadow">
+    <thead class="bg-gray-200">
+        <tr>
+            <th class="p-2 text-left">Referência</th>
+            <th class="p-2 text-left">Valor</th>
+            <th class="p-2 text-left">Data</th>
+            <th class="p-2 text-left">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pagamento in pagamentos %}
+        <tr class="border-t">
+            <td class="p-2">{{ pagamento.referencia_mes }}</td>
+            <td class="p-2">R$ {{ pagamento.valor }}</td>
+            <td class="p-2">{{ pagamento.data_pagamento|date:"d/m/Y" }}</td>
+            <td class="p-2">
+                {% if pagamento.confirmado %}
+                    <span class="text-green-600 font-bold">Confirmado</span>
+                {% else %}
+                    <span class="text-yellow-600">Pendente</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="p-2 text-center text-gray-500">Nenhum pagamento registrado.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}AMUV{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <header class="bg-red-700 text-white p-4">
+        <div class="max-w-6xl mx-auto flex justify-between">
+            <h1 class="text-xl font-bold">AMUV</h1>
+            <nav>
+                <a href="{% url 'core:home' %}" class="px-2">Início</a>
+                <a href="{% url 'core:sobre' %}" class="px-2">Sobre</a>
+                <a href="{% url 'core:contato' %}" class="px-2">Contato</a>
+                <a href="{% url 'noticias:lista' %}" class="px-2">Notícias</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto mt-6">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-gray-800 text-white mt-12 p-4 text-center">
+        © {{ now|date:"Y" }} AMUV. Todos os direitos reservados.
+    </footer>
+
+</body>
+</html>
