@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'widget_tweaks',
 
     # Allauth (ordem é importante!)
     'django.contrib.sites',  # necessário para o allauth
@@ -130,7 +131,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -139,4 +143,24 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Primeiro, garanta que o novo model de usuário está configurado
 # em settings.py
+SITE_ID = 1
+
 AUTH_USER_MODEL = 'membros.Membro'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+LOGIN_URL = 'accounts:login'
+LOGIN_REDIRECT_URL = 'membros:painel'
+LOGOUT_REDIRECT_URL = '/'
+
+#ACCOUNT_EMAIL_VERIFICATION="mandatory"
+ACCOUNT_EMAIl_REQUIRED=False
+EMAIL_BACKEND="django.core.mail.backends.console.EmailBackend"
+
+import os
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

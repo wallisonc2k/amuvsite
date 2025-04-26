@@ -3,6 +3,25 @@
 {% block title %}Início - AMUV{% endblock %}
 
 {% block content %}
-<h2 class="text-2xl font-bold mb-4">Bem-vindo à AMUV</h2>
-<p>Portal da Associação dos Moradores Unidos por Vermelhos.</p>
+<div class="bg-white rounded-xl shadow-md p-6 max-w-3xl mx-auto text-center">
+    <h2 class="text-3xl font-bold text-red-700 mb-4">Bem-vindo à AMUV</h2>
+    <p class="text-gray-700 text-lg mb-6">
+        Associação dos Moradores Unidos por Vermelhos – fortalecendo nossa comunidade com união, transparência e participação.
+    </p>
+
+    <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <a href="{% url 'noticias:lista' %}" class="bg-red-600 text-white px-6 py-3 rounded-lg shadow hover:bg-red-700 transition">
+            Ver Notícias
+        </a>
+        {% if not user.is_authenticated %}
+        <a href="{% url 'account_signup' %}" class="bg-green-600 text-white px-6 py-3 rounded-lg shadow hover:bg-green-700 transition">
+            Tornar-se Membro
+        </a>
+        {% else %}
+        <a href="{% url 'membros:painel' %}" class="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700 transition">
+            Ir para o Painel
+        </a>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

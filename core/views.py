@@ -18,3 +18,6 @@ class ContatoView(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+class DoacaoView(TemplateView):
+    template_name = "core/doacao.html"

@@ -1,25 +1,29 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Notícias - AMUV{% endblock %}
 
 {% block content %}
-<h2 class="text-2xl font-bold mb-4">Notícias Recentes</h2>
+<div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-red-700 mb-6 text-center">Notícias Recentes</h2>
 
-<div class="grid md:grid-cols-2 gap-6">
-    {% for noticia in noticias %}
-    <div class="bg-white p-4 rounded shadow">
-        {% if noticia.imagem_capa %}
-            <img src="{{ noticia.imagem_capa.url }}" alt="{{ noticia.titulo }}" class="mb-2 rounded">
-        {% endif %}
-        <h3 class="text-xl font-semibold">
-            <a href="{% url 'noticias:detalhe' noticia.pk %}" class="text-red-700 hover:underline">
-                {{ noticia.titulo }}
-            </a>
-        </h3>
-        <p class="text-sm text-gray-600">{{ noticia.publicado_em|date:"d M Y" }}</p>
-        <p class="mt-2">{{ noticia.subtitulo|default:"" }}</p>
+    <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for noticia in noticias %}
+        <div class="bg-white rounded-xl overflow-hidden shadow hover:shadow-lg transition">
+            {% if noticia.imagem_capa %}
+            <img src="{{ noticia.imagem_capa.url }}" alt="{{ noticia.titulo }}"
+                 class="w-full h-48 object-cover">
+            {% endif %}
+            <div class="p-4">
+                <h3 class="text-xl font-semibold text-red-700 hover:underline">
+                    <a href="{% url 'noticias:detalhe' noticia.pk %}">{{ noticia.titulo }}</a>
+                </h3>
+                <p class="text-sm text-gray-500 mb-2">{{ noticia.publicado_em|date:"d M Y" }}</p>
+                <p class="text-gray-700">{{ noticia.subtitulo|default:"" }}</p>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center text-gray-600 col-span-full">Nenhuma notícia encontrada.</p>
+        {% endfor %}
     </div>
-    {% empty %}
-    <p>Nenhuma notícia encontrada.</p>
-    {% endfor %}
 </div>
 {% endblock %}
