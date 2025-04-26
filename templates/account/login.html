@@ -1,0 +1,35 @@
+{% load widget_tweaks %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Entrar | AMUV</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen px-4">
+    <div class="w-full sm:max-w-sm md:max-w-md bg-white p-6 sm:p-8 rounded-xl shadow-lg">
+        <h2 class="text-2xl font-bold text-center mb-6">Entrar na sua conta</h2>
+        <form method="post" action="{% url 'account_login' %}" class="space-y-4">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div>
+                <label class="block text-sm font-medium">Usuário</label>
+                {{ form.login|add_class:"w-full px-4 py-2 border rounded-lg mt-1 text-sm" }}
+            </div>
+            <div>
+                <label class="block text-sm font-medium">Senha</label>
+                {{ form.password|add_class:"w-full px-4 py-2 border rounded-lg mt-1 text-sm" }}
+            </div>
+            <button type="submit" class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition">
+                Entrar
+            </button>
+        </form>
+        <p class="text-center text-sm mt-4">
+            Não tem conta?
+            <a href="{% url 'account_signup' %}" class="text-red-600 hover:underline">Cadastre-se</a>
+        </p>
+    </div>
+</body>
+</html>

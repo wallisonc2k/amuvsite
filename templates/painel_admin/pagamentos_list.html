@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Gerenciar Pagamentos - AMUV{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto py-8 px-6 bg-white shadow rounded-xl">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Gerenciar Pagamentos</h2>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full text-sm text-left">
+            <thead class="bg-gray-100 text-gray-700">
+                <tr>
+                    <th class="p-3">Membro</th>
+                    <th class="p-3">Referência</th>
+                    <th class="p-3">Valor</th>
+                    <th class="p-3">Status</th>
+                    <th class="p-3">Data</th>
+                    <th class="p-3">Ações</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                {% for pagamento in pagamentos %}
+                <tr class="hover:bg-gray-50">
+                    <td class="p-3 font-medium">{{ pagamento.membro.get_full_name|default:pagamento.membro.username }}</td>
+                    <td class="p-3">{{ pagamento.referencia_mes }}</td>
+                    <td class="p-3">R$ {{ pagamento.valor }}</td>
+                    <td class="p-3">
+                        {% if pagamento.confirmado %}
+                            <span class="text-green-600 font-semibold">Confirmado</span>
+                        {% else %}
+                            <span class="text-yellow-600 font-semibold">Pendente</span>
+                        {% endif %}
+                    </td>
+                    <td class="p-3">{{ pagamento.data_pagamento|date:"d/m/Y" }}</td>
+                    <td class="p-3">
+                        <a href="{% url 'painel_admin:payments_edit' pagamento.pk %}" class="text-blue-600 hover:underline">Editar</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center py-4 text-gray-500">Nenhum pagamento encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

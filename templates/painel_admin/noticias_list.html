@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Gerenciar Notícias - AMUV{% endblock %}
+
+{% block content %}
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold">Gerenciar Notícias</h2>
+    <a href="{% url 'painel_admin:news_create' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+      Nova Notícia
+    </a>
+  </div>
+
+  <div class="overflow-x-auto bg-white shadow rounded-lg">
+    <table class="min-w-full text-left text-sm">
+      <thead class="bg-gray-100 text-gray-700 uppercase">
+        <tr>
+          <th class="px-4 py-3">Título</th>
+          <th class="px-4 py-3">Publicado em</th>
+          <th class="px-4 py-3 text-right">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for noticia in noticias %}
+        <tr class="border-t hover:bg-gray-50">
+          <td class="px-4 py-3">{{ noticia.titulo }}</td>
+          <td class="px-4 py-3">{{ noticia.publicado_em|date:"d/m/Y" }}</td>
+          <td class="px-4 py-3 text-right space-x-2">
+            <a href="{% url 'painel_admin:news_edit' noticia.pk %}" class="text-blue-600 hover:underline">Editar</a>
+            <a href="{% url 'painel_admin:news_delete' noticia.pk %}" class="text-red-600 hover:underline">Remover</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="3" class="px-4 py-6 text-center text-gray-500">Nenhuma notícia cadastrada.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
