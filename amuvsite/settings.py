@@ -152,7 +152,9 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-LOGIN_URL = 'accounts:login'
+ACCOUNT_ADAPTER = 'membros.adapters.CustomAccountAdapter'
+
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = 'membros:painel'
 LOGOUT_REDIRECT_URL = '/'
 

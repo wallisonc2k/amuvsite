@@ -1,4 +1,70 @@
-<footer class="bg-gray-800 text-white text-sm text-center py-4 relative z-10">
+{% load static %}
+<footer class="bg-gray-900 text-gray-300 py-12">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+
+    <!-- Sobre a AMUV -->
+    <div>
+      <h3 class="text-white text-xl font-bold mb-4">AMUV</h3>
+      <p class="text-gray-400 text-sm leading-relaxed">
+        A missão da AMUV é promover a cidadania, a cultura e o desenvolvimento social em Vermelhos e região.
+      </p>
+
+      <!-- Redes sociais -->
+      <div class="flex space-x-4 mt-4">
+        <a href="https://wa.me/5587981429343" target="_blank">
+          <img src="{% static 'img/whatsapp.png' %}" alt="WhatsApp" class="w-6 h-6">
+        </a>
+        <a href="https://facebook.com/SEUPERFIL" target="_blank">
+          <img src="{% static 'img/facebook.png' %}" alt="Facebook" class="w-6 h-6">
+        </a>
+        <a href="https://www.instagram.com/paixaodecristodevermelhos/" target="_blank">
+          <img src="{% static 'img/instagram.png' %}" alt="Instagram" class="w-6 h-6">
+        </a>
+      </div>
+    </div>
+
+    <!-- Links e Projetos agrupados lado a lado no mobile -->
+    <div class="col-span-2">
+      <div class="grid grid-cols-2 gap-8">
+
+        <!-- Links rápidos -->
+        <div>
+          <h3 class="text-white text-xl font-bold mb-4">Links</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="{% url 'core:home' %}" class="hover:text-red-500">Home</a></li>
+            <li><a href="{% url 'core:sobre' %}" class="hover:text-red-500">Sobre</a></li>
+            <li><a href="{% url 'noticias:lista' %}" class="hover:text-red-500">Notícias</a></li>
+            <li><a href="{% url 'core:contato' %}" class="hover:text-red-500">Contato</a></li>
+          </ul>
+        </div>
+
+        <!-- Projetos -->
+        <div>
+          <h3 class="text-white text-xl font-bold mb-4">Projetos</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:text-red-500">Eventos Culturais</a></li>
+            <li><a href="#" class="hover:text-red-500">Ações Sociais</a></li>
+            <li><a href="#" class="hover:text-red-500">Educação Comunitária</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Galeria -->
+    <div>
+      <h3 class="text-white text-xl font-bold mb-4">Galeria</h3>
+      <div class="grid grid-cols-3 gap-2">
+        <img src="{% static 'img/na_cruz.jpeg' %}" alt="Foto 1" class="w-full h-20 object-cover rounded-md">
+        <img src="{% static 'img/jesus_carregando.webp' %}" alt="Foto 2" class="w-full h-20 object-cover rounded-md">
+        <img src="{% static 'img/herodis.webp' %}" alt="Foto 3" class="w-full h-20 object-cover rounded-md">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Base do footer -->
+  <div class="mt-10 text-center text-gray-500 text-sm">
     © {{ now|date:"Y" }} AMUV. Todos os direitos reservados.
-  </footer>
-  
+  </div>
+</footer>

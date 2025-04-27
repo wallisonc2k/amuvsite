@@ -11,9 +11,14 @@ class ListaNoticiasView(ListView):
 class DetalheNoticiaView(DetailView):
     model = Noticia
     template_name = 'noticias/detalhe.html'
-
+    context_object_name = 'noticia'
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['outras_noticias'] = Noticia.objects.exclude(pk=self.object.pk).order_by('-publicado_em')[:4]
+        outras_noticias = Noticia.objects.exclude(pk=self.object.pk).order_by('-publicado_em')[:4]
+        context['outras_noticias'] = outras_noticias if outras_noticias.exists() else None
         return context
+
 

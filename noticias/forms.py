@@ -4,7 +4,7 @@ from .models import Noticia
 class NoticiaForm(forms.ModelForm):
     class Meta:
         model = Noticia
-        fields = ['titulo', 'subtitulo', 'conteudo', 'imagem_capa']
+        fields = ['titulo', 'subtitulo', 'resumo', 'conteudo', 'imagem_capa']
         widgets = {
             'titulo': forms.TextInput(attrs={
                 'class': 'w-full px-4 py-2 border rounded-xl',
@@ -13,6 +13,11 @@ class NoticiaForm(forms.ModelForm):
             'subtitulo': forms.TextInput(attrs={
                 'class': 'w-full px-4 py-2 border rounded-xl',
                 'placeholder': 'Digite o subtítulo (opcional)'
+            }),
+            'resumo': forms.Textarea(attrs={
+                'class': 'w-full px-4 py-2 border rounded-xl h-24',
+                'placeholder': 'Digite um resumo curto da notícia...',
+                'maxlength': '300',  # Limite visual no form
             }),
             'conteudo': forms.Textarea(attrs={
                 'class': 'w-full px-4 py-2 border rounded-xl h-40',
@@ -28,3 +33,9 @@ class NoticiaForm(forms.ModelForm):
         if "spam" in titulo.lower():
             raise forms.ValidationError("O título não pode conter a palavra 'spam'.")
         return titulo
+
+    def clean_resumo(self):
+        resumo = self.cleaned_data.get('resumo')
+        if len(resumo) > 300:
+            raise forms.ValidationError("O resumo deve ter no máximo 300 caracteres.")
+        return resumo

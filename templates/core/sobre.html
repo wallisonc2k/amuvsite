@@ -1,20 +1,73 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Sobre - AMUV{% endblock %}
 
+{% block hero %}
+<section class="relative h-96 bg-cover bg-center" style="background-image: url('{% static "img/banner1.jpg" %}')">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative z-10 flex flex-col justify-end pb-10 h-full p-6">
+        
+        <h2 class="text-3xl md:text-5xl font-bold text-white pb-8">Sobre a AMUV</h2>
+        
+        {% include "partials/breadcrumb.html" %}
+
+    </div>
+</section>
+{% endblock %}
+
 {% block content %}
-<div class="bg-white rounded-xl shadow-md p-6 max-w-3xl mx-auto">
-    <h2 class="text-3xl font-bold text-red-700 mb-4">Sobre a AMUV</h2>
-    
-    <p class="text-gray-800 text-lg leading-relaxed mb-4">
-        A <strong>Associação dos Moradores Unidos por Vermelhos (AMUV)</strong> é uma organização comunitária que atua promovendo cidadania, cultura e desenvolvimento local.
-    </p>
+<div class="bg-white rounded-xl shadow-md p-6 max-w-5xl mx-auto space-y-8">
 
-    <p class="text-gray-700 leading-relaxed mb-4">
-        Nossa missão é fortalecer os laços entre os moradores, fomentar ações sociais e culturais, e representar os interesses da comunidade de forma ética e participativa.
-    </p>
+    <section>
+        <h2 class="text-3xl font-bold text-red-700 mb-4">Quem Somos</h2>
+        <p class="text-gray-800 text-lg leading-relaxed mb-4">
+            A <strong>Associação dos Moradores Unidos por Vermelhos (AMUV)</strong> é uma organização comunitária que atua promovendo cidadania, cultura e desenvolvimento local.
+        </p>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            Nossa missão é fortalecer os laços entre os moradores, fomentar ações sociais e culturais, e representar os interesses da comunidade de forma ética e participativa.
+        </p>
+        <p class="text-gray-700 leading-relaxed">
+            Através de projetos, eventos e iniciativas colaborativas, buscamos transformar o distrito de Vermelhos em um lugar cada vez mais justo, unido e próspero.
+        </p>
+    </section>
 
-    <p class="text-gray-700 leading-relaxed">
-        Através de projetos, eventos e iniciativas colaborativas, buscamos transformar o bairro de Vermelhos em um lugar cada vez mais justo, unido e próspero.
-    </p>
+    <section>
+        <h2 class="text-3xl font-bold text-red-700 hidden mb-4">Paixão de Cristo, o Nazareno</h2>
+        <img src="{% static 'img/paixao_de_cristo.jpg' %}" alt="Paixão de Cristo" class="rounded-lg shadow-lg mb-6 w-full h-auto">        
+        <p class="text-gray-700 leading-relaxed mb-4">
+            Desde 2009, a AMUV realiza o espetáculo <strong>"Paixão de Cristo, o Nazareno"</strong>, uma emocionante encenação que revive a trajetória de Jesus Cristo com mais de 60 voluntários entre atores e figurantes.
+        </p>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            Inspirado na fé da comunidade, o evento acontece anualmente na Sexta-Feira da Paixão, transformando arte em oração. Com figurinos autênticos, cenários imersivos e intensa participação popular, o espetáculo se consolidou como um dos maiores eventos culturais e religiosos da região.
+        </p>
+        <p class="text-gray-700 leading-relaxed">
+            Além de fortalecer os valores cristãos, a produção promove a cultura, estimula o voluntariado e reforça os laços sociais da comunidade de Vermelhos e distritos vizinhos como Jutaí.
+        </p>
+    </section>
+
+    <section>
+        <h2 class="text-3xl font-bold text-red-700 mb-4">Impacto na Comunidade</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+            <div class="bg-red-100 rounded-lg p-4 shadow-md">
+                <h3 class="font-bold text-xl text-red-700 mb-2">Cultural</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    Um marco que valoriza a arte local e resgata tradições através da encenação.
+                </p>
+            </div>
+            <div class="bg-red-100 rounded-lg p-4 shadow-md">
+                <h3 class="font-bold text-xl text-red-700 mb-2">Religioso</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    Fortalece a fé cristã, unindo a comunidade em torno de valores espirituais.
+                </p>
+            </div>
+            <div class="bg-red-100 rounded-lg p-4 shadow-md">
+                <h3 class="font-bold text-xl text-red-700 mb-2">Social</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    Estimula o voluntariado, a cooperação e o sentimento de pertencimento local.
+                </p>
+            </div>
+        </div>
+    </section>
+
 </div>
 {% endblock %}

@@ -1,0 +1,15 @@
+<nav class="text-white text-sm mb-2">
+    <ol class="list-reset flex">
+        <li><a href="{% url 'core:home' %}" class="hover:underline">Home</a></li>
+        {% if breadcrumb_items %}
+            {% for item in breadcrumb_items %}
+                <li><span class="mx-2">/</span></li>
+                {% if item.url %}
+                    <li><a href="{{ item.url }}" class="hover:underline">{{ item.name }}</a></li>
+                {% else %}
+                    <li class="text-gray-300">{{ item.name }}</li>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </ol>
+</nav>
