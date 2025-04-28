@@ -1,40 +1,92 @@
-<section x-data="carousel()" x-init="start()" x-cloak class="relative overflow-hidden h-[80vh]">
+<section x-data="carousel()" x-init="start()" x-cloak class="relative overflow-hidden h-[90vh]">
     
     <!-- Wrapper de Slides (apenas para as imagens de fundo) -->
-    <div class="absolute inset-0 flex transition-transform duration-700 ease-in-out"
+    <div class="absolute inset-0 flex transition-transform duration-1000 ease-in-out"
          :style="`transform: translateX(-${imagemAtual * 100}%);`">
         
         <template x-for="(imagem, index) in imagens" :key="index">
-            <div class="flex-shrink-0 w-full h-full bg-cover bg-center"
+            <div class="flex-shrink-0 w-full h-full bg-cover bg-center transform scale-110 transition-transform duration-10000"
+                 :class="{'scale-100': index === imagemAtual}"
                  :style="`background-image: url('${imagem}')`">
             </div>
         </template>
     </div>
 
-    <!-- Filtro escuro sobre as imagens -->
-    <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+    <!-- Filtro escuro sobre as imagens com gradiente -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70"></div>
 
     <!-- Conteúdo fixo sobre as imagens -->
-    <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-6">
-        <h1 class="text-4xl md:text-6xl font-bold mb-4">Fortalecendo a Comunidade de Vermelhos</h1>
-        <p class="text-lg md:text-2xl">União, cidadania e solidariedade para transformar o nosso futuro.</p>
+    <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-6 max-w-6xl mx-auto">
+        <div data-aos="fade-down" data-aos-duration="1000">
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 text-shadow leading-tight">
+                Fortalecendo a Comunidade de <span class="text-amuv-red-400">Vermelhos</span>
+            </h1>
+        </div>
+        
+        <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+            <p class="text-lg md:text-2xl max-w-3xl mx-auto mb-8 text-shadow">
+                União, cidadania e solidariedade para transformar o nosso futuro e construir uma comunidade mais forte.
+            </p>
+        </div>
 
-        <div class="flex flex-col sm:flex-row justify-center gap-4 mt-6">
-            <a href="{% url 'noticias:lista' %}" class="bg-red-600 text-white px-6 py-3 rounded-lg shadow hover:bg-red-700 transition">
-                Ver Notícias
+        <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400" class="flex flex-col sm:flex-row justify-center gap-6 mt-6">
+            <a href="{% url 'noticias:lista' %}" class="bg-amuv-red-600 text-white px-8 py-4 rounded-full shadow-lg hover:bg-amuv-red-700 transition transform hover:scale-105 flex items-center justify-center">
+                <span>Ver Notícias</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
             </a>
+            
             {% if not user.is_authenticated %}
-            <a href="{% url 'account_signup' %}" class="bg-green-600 text-white px-6 py-3 rounded-lg shadow hover:bg-green-700 transition">
-                Tornar-se Membro
+            <a href="{% url 'account_signup' %}" class="bg-white text-amuv-red-700 px-8 py-4 rounded-full shadow-lg hover:bg-gray-100 transition transform hover:scale-105 flex items-center justify-center">
+                <span>Tornar-se Membro</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
+                </svg>
             </a>
             {% else %}
-            <a href="{% url 'membros:painel' %}" class="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700 transition">
-                Ir para o Painel
+            <a href="{% url 'membros:painel' %}" class="bg-white text-amuv-red-700 px-8 py-4 rounded-full shadow-lg hover:bg-gray-100 transition transform hover:scale-105 flex items-center justify-center">
+                <span>Ir para o Painel</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V7.414a1 1 0 00-.293-.707L11.414 2.414A1 1 0 0010.707 2H4a1 1 0 00-1 1zm0 2a1 1 0 011-1h5.5v3.5a1 1 0 001 1H14v6.5a1 1 0 01-1 1H4a1 1 0 01-1-1V5z" clip-rule="evenodd" />
+                </svg>
             </a>
             {% endif %}
         </div>
     </div>
 
+    <!-- Controles do Carrossel -->
+    <div class="absolute bottom-8 left-0 right-0 flex justify-center space-x-3 z-20">
+        <template x-for="(_, index) in imagens" :key="index">
+            <button @click="navegar(index)" 
+                    class="w-3 h-3 rounded-full transition-all duration-300"
+                    :class="index === imagemAtual ? 'bg-amuv-red-600 w-8' : 'bg-white/50 hover:bg-white/80'">
+            </button>
+        </template>
+    </div>
+
+    <!-- Setas de navegação -->
+    <button @click="navegarAnterior()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 z-20 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+    </button>
+    
+    <button @click="navegarProximo()" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 z-20 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+    </button>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20">
+        <a href="#content" class="text-white animate-bounce flex flex-col items-center opacity-75 hover:opacity-100 transition">
+            <span class="text-sm mb-1">Rolar para baixo</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+        </a>
+    </div>
 </section>
 
 <script>
@@ -49,12 +101,27 @@ function carousel() {
         intervalo: null,
         start() {
             this.intervalo = setInterval(() => {
-                this.proximaImagem()
+                this.navegarProximo()
             }, 8000); // Intervalo de 8 segundos para cada imagem
         },
-        proximaImagem() {
+        navegarProximo() {
+            clearInterval(this.intervalo);
             this.imagemAtual = (this.imagemAtual + 1) % this.imagens.length;
+            this.start();
+        },
+        navegarAnterior() {
+            clearInterval(this.intervalo);
+            this.imagemAtual = (this.imagemAtual - 1 + this.imagens.length) % this.imagens.length;
+            this.start();
+        },
+        navegar(index) {
+            clearInterval(this.intervalo);
+            this.imagemAtual = index;
+            this.start();
         }
     }
 }
 </script>
+
+<!-- Âncora para rolagem -->
+<div id="content"></div>

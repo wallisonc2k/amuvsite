@@ -4,70 +4,264 @@
 
 {% block hero %}
 <section class="relative h-96 bg-cover bg-center" style="background-image: url('{% static "img/banner1.jpg" %}')">
-    <div class="absolute inset-0 bg-black/60"></div>
-    <div class="relative z-10 flex flex-col justify-end pb-10 h-full p-6">
-        
-        <h2 class="text-3xl md:text-5xl font-bold text-white pb-8">Sobre a AMUV</h2>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/80 to-red-900/70"></div>
+    <div class="relative z-10 flex flex-col justify-end pb-10 h-full p-6 max-w-7xl mx-auto">
+        <div class="animate-fade-in-up">
+            <h2 class="text-3xl md:text-5xl font-bold text-white pb-4">Sobre a AMUV</h2>
+            <p class="text-white/80 text-lg max-w-2xl">Conheça nossa história, missão e como trabalhamos para transformar nossa comunidade</p>
+        </div>
         
         {% include "partials/breadcrumb.html" %}
-
     </div>
 </section>
 {% endblock %}
 
 {% block content %}
-<div class="bg-white rounded-xl shadow-md p-6 max-w-5xl mx-auto space-y-8">
-
-    <section>
-        <h2 class="text-3xl font-bold text-red-700 mb-4">Quem Somos</h2>
-        <p class="text-gray-800 text-lg leading-relaxed mb-4">
-            A <strong>Associação dos Moradores Unidos por Vermelhos (AMUV)</strong> é uma organização comunitária que atua promovendo cidadania, cultura e desenvolvimento local.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-            Nossa missão é fortalecer os laços entre os moradores, fomentar ações sociais e culturais, e representar os interesses da comunidade de forma ética e participativa.
-        </p>
-        <p class="text-gray-700 leading-relaxed">
-            Através de projetos, eventos e iniciativas colaborativas, buscamos transformar o distrito de Vermelhos em um lugar cada vez mais justo, unido e próspero.
-        </p>
-    </section>
-
-    <section>
-        <h2 class="text-3xl font-bold text-red-700 hidden mb-4">Paixão de Cristo, o Nazareno</h2>
-        <img src="{% static 'img/paixao_de_cristo.jpg' %}" alt="Paixão de Cristo" class="rounded-lg shadow-lg mb-6 w-full h-auto">        
-        <p class="text-gray-700 leading-relaxed mb-4">
-            Desde 2009, a AMUV realiza o espetáculo <strong>"Paixão de Cristo, o Nazareno"</strong>, uma emocionante encenação que revive a trajetória de Jesus Cristo com mais de 60 voluntários entre atores e figurantes.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-            Inspirado na fé da comunidade, o evento acontece anualmente na Sexta-Feira da Paixão, transformando arte em oração. Com figurinos autênticos, cenários imersivos e intensa participação popular, o espetáculo se consolidou como um dos maiores eventos culturais e religiosos da região.
-        </p>
-        <p class="text-gray-700 leading-relaxed">
-            Além de fortalecer os valores cristãos, a produção promove a cultura, estimula o voluntariado e reforça os laços sociais da comunidade de Vermelhos e distritos vizinhos como Jutaí.
-        </p>
-    </section>
-
-    <section>
-        <h2 class="text-3xl font-bold text-red-700 mb-4">Impacto na Comunidade</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-            <div class="bg-red-100 rounded-lg p-4 shadow-md">
-                <h3 class="font-bold text-xl text-red-700 mb-2">Cultural</h3>
-                <p class="text-gray-700 leading-relaxed">
-                    Um marco que valoriza a arte local e resgata tradições através da encenação.
-                </p>
+<!-- Introdução com Timeline -->
+<section class="py-16 bg-white relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-1 h-full bg-red-100"></div>
+    <div class="absolute top-0 left-0 w-1 h-24 bg-red-600"></div>
+    
+    <div class="max-w-5xl mx-auto px-6">
+        <div class="flex items-start">
+            <div class="mr-6 flex-shrink-0">
+                <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </div>
             </div>
-            <div class="bg-red-100 rounded-lg p-4 shadow-md">
-                <h3 class="font-bold text-xl text-red-700 mb-2">Religioso</h3>
-                <p class="text-gray-700 leading-relaxed">
-                    Fortalece a fé cristã, unindo a comunidade em torno de valores espirituais.
+            
+            <div class="bg-white rounded-xl shadow-md p-8 mb-12 border-l-4 border-red-600">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Quem Somos</h2>
+                <p class="text-gray-800 text-lg leading-relaxed mb-4">
+                    A <strong class="text-red-700">Associação dos Moradores Unidos por Vermelhos (AMUV)</strong> é uma organização comunitária que atua promovendo cidadania, cultura e desenvolvimento local desde 2009.
                 </p>
-            </div>
-            <div class="bg-red-100 rounded-lg p-4 shadow-md">
-                <h3 class="font-bold text-xl text-red-700 mb-2">Social</h3>
-                <p class="text-gray-700 leading-relaxed">
-                    Estimula o voluntariado, a cooperação e o sentimento de pertencimento local.
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Nossa missão é fortalecer os laços entre os moradores, fomentar ações sociais e culturais, e representar os interesses da comunidade de forma ética e participativa.
                 </p>
+                <p class="text-gray-700 leading-relaxed">
+                    Através de projetos, eventos e iniciativas colaborativas, buscamos transformar o distrito de Vermelhos em um lugar cada vez mais justo, unido e próspero.
+                </p>
+                
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-red-50 p-4 rounded-lg border border-red-100">
+                        <div class="flex items-center mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <h4 class="font-semibold text-gray-800">Missão</h4>
+                        </div>
+                        <p class="text-sm text-gray-600">Promover o desenvolvimento social e cultural da comunidade.</p>
+                    </div>
+                    
+                    <div class="bg-red-50 p-4 rounded-lg border border-red-100">
+                        <div class="flex items-center mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            <h4 class="font-semibold text-gray-800">Visão</h4>
+                        </div>
+                        <p class="text-sm text-gray-600">Ser reconhecida como referência em união comunitária e ação social.</p>
+                    </div>
+                    
+                    <div class="bg-red-50 p-4 rounded-lg border border-red-100">
+                        <div class="flex items-center mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                            <h4 class="font-semibold text-gray-800">Valores</h4>
+                        </div>
+                        <p class="text-sm text-gray-600">Ética, solidariedade, respeito e compromisso com a comunidade.</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
-
-</div>
+        
+        <!-- Nosso Projeto Principal -->
+        <div class="flex items-start">
+            <div class="mr-6 flex-shrink-0">
+                <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-md p-8 mb-12 border-l-4 border-red-600">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Paixão de Cristo, o Nazareno</h2>
+                
+                <div class="mb-6 overflow-hidden rounded-xl shadow-lg relative group">
+                    <img src="{% static 'img/paixao_de_cristo.jpg' %}" alt="Paixão de Cristo" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                        <p class="text-white font-medium">Encenação realizada anualmente desde 2009</p>
+                    </div>
+                </div>
+                
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Desde 2009, a AMUV realiza o espetáculo <strong class="text-red-700">"Paixão de Cristo, o Nazareno"</strong>, uma emocionante encenação que revive a trajetória de Jesus Cristo com mais de 60 voluntários entre atores e figurantes.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Inspirado na fé da comunidade, o evento acontece anualmente na Sexta-Feira da Paixão, transformando arte em oração. Com figurinos autênticos, cenários imersivos e intensa participação popular, o espetáculo se consolidou como um dos maiores eventos culturais e religiosos da região.
+                </p>
+                
+                <div class="flex flex-wrap gap-4 mt-6">
+                    <div class="flex items-center bg-red-50 px-4 py-2 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="text-gray-700 text-sm font-medium">Desde 2009</span>
+                    </div>
+                    
+                    <div class="flex items-center bg-red-50 px-4 py-2 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span class="text-gray-700 text-sm font-medium">+60 voluntários</span>
+                    </div>
+                    
+                    <div class="flex items-center bg-red-50 px-4 py-2 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        <span class="text-gray-700 text-sm font-medium">Espetáculo Anual</span>
+                    </div>
+                    
+                    <div class="flex items-center bg-red-50 px-4 py-2 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+                        </svg>
+                        <span class="text-gray-700 text-sm font-medium">Evento Regional</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Impacto na Comunidade -->
+        <div class="flex items-start">
+            <div class="mr-6 flex-shrink-0">
+                <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-md p-8 border-l-4 border-red-600">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Impacto na Comunidade</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-gradient-to-br from-red-50 to-white rounded-xl p-6 shadow-md transform transition-transform hover:-translate-y-1">
+                        <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-xl text-red-700 mb-3">Cultural</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Um marco que valoriza a arte local e resgata tradições através da encenação, promovendo nossa história e identidade.
+                        </p>
+                        <ul class="mt-4 space-y-2">
+                            <li class="flex items-center text-sm text-gray-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                Preservação das tradições
+                            </li>
+                            <li class="flex items-center text-sm text-gray-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                Estímulo ao teatro regional
+                            </li>
+                            <li class="flex items-center text-sm text-gray-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                Valorização artística local
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-red-50 to-white rounded-xl p-6 shadow-md transform transition-transform hover:-translate-y-1">
+                        <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-xl text-red-700 mb-3">Religioso</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Fortalece a fé cristã, unindo a comunidade em torno de valores espirituais e tradições religiosas importantes.
+                        </p>
+                        <ul class="mt-4 space-y-2">
+                            <li class="flex items-center text-sm text-gray-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                Celebração da fé
+                            </li>
+                            <li class="flex items-center text-sm text-gray-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                Educação bíblica vivencial
+                            </li>
+                            <li class="flex items-center text-sm text-gray-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                Reflexão espiritual
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-red-50 to-white rounded-xl p-6 shadow-md transform transition-transform hover:-translate-y-1">
+                        <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-xl text-red-700 mb-3">Social</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Estimula o voluntariado, a cooperação e o sentimento de pertencimento local, fortalecendo nossa comunidade.
+                        </p>
+                        <ul class="mt-4 space-y-2">
+                            <li class="flex items-center text-sm text-gray-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                Integração comunitária
+                            </li>
+                            <li class="flex items-center text-sm text-gray-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                Fomento ao voluntariado
+                            </li>
+                            <li class="flex items-center text-sm text-gray-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                Engajamento de jovens
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-10 text-center">
+                    <p class="text-gray-700 text-lg font-medium mb-6">Quer fazer parte da nossa história?</p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="#" class="inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-full transition shadow-md">
+                            Seja um voluntário
+                        </a>
+                        <a href="#" class="inline-block border-2 border-red-600 text-red-600 hover:bg-red-50 font-semibold py-3 px-6 rounded-full transition">
+                            Apoiar projetos
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

@@ -1,43 +1,140 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}{{ object.titulo }} - AMUV{% endblock %}
+{% block title %}{{ noticia.titulo }} - AMUV{% endblock %}
+
+{% block hero %}
+<section class="relative py-20 bg-gradient-to-br from-red-700 to-red-900 overflow-hidden">
+  <div class="absolute inset-0 opacity-20" style="background-image: url('{% static 'img/pattern-bg.png' %}'); background-repeat: repeat;"></div>
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="mb-4 inline-block">
+        <a href="{% url 'noticias:lista' %}" class="text-white/80 hover:text-white flex items-center font-medium">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Voltar para Notícias
+        </a>
+      </div>
+      
+      <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">{{ noticia.titulo }}</h1>
+      
+      {% if noticia.subtitulo %}
+      <p class="text-xl text-white/90 mt-2">{{ noticia.subtitulo }}</p>
+      {% endif %}
+      
+      <div class="mt-6 flex items-center justify-center text-white/80">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        <time datetime="{{ noticia.publicado_em|date:'Y-m-d' }}">
+          Publicado em {{ noticia.publicado_em|date:"d 'de' F 'de' Y" }}
+        </time>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
 
 {% block content %}
-<article class="bg-white p-6 sm:p-8 rounded-xl shadow max-w-4xl mx-auto">
-    <h1 class="text-3xl sm:text-4xl font-bold text-red-700 mb-2 leading-tight">
-        {{ object.titulo }}
-    </h1>
-    <p class="text-sm text-gray-500 mb-4">
-        Publicado em {{ object.publicado_em|date:"d 'de' F 'de' Y" }}
-    </p>
-
-    {% if object.imagem_capa %}
-        <img src="{{ object.imagem_capa.url }}" alt="Imagem da notícia" class="w-full rounded-lg mb-6 shadow-sm object-cover max-h-[500px]">
-    {% endif %}
-
-    <div class="prose prose-red max-w-none prose-img:rounded-lg prose-img:shadow-md prose-a:text-red-600 prose-a:underline hover:prose-a:text-red-800">
-        {{ object.conteudo|linebreaks }}
+<!-- Conteúdo da Notícia -->
+<article class="py-12 bg-white">
+  <div class="max-w-3xl mx-auto px-6">
+    {% if noticia.imagem_capa %}
+    <div class="mb-8">
+      <img src="{{ noticia.imagem_capa.url }}" alt="{{ noticia.titulo }}" class="w-full h-auto rounded-lg shadow-lg">
+      {% if noticia.legenda_imagem %}
+      <p class="text-sm text-gray-500 mt-2 italic text-center">{{ noticia.legenda_imagem }}</p>
+      {% endif %}
     </div>
+    {% endif %}
+    
+    <div class="prose prose-red lg:prose-lg mx-auto">
+      {{ noticia.conteudo|safe }}
+    </div>
+    
+    <div class="mt-10 pt-8 border-t border-gray-200">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <a href="#" class="inline-flex items-center text-gray-600 hover:text-red-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+            </svg>
+            Compartilhar
+          </a>
+        </div>
+        <a href="{% url 'noticias:lista' %}" class="inline-flex items-center font-medium text-red-600 hover:text-red-800">
+          Voltar para Notícias
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
 </article>
 
+<!-- Outras Notícias -->
 {% if outras_noticias %}
-<section class="mt-12 max-w-4xl mx-auto">
-    <h2 class="text-2xl font-semibold mb-4 text-gray-800">📌 Outras Notícias</h2>
-    <div class="grid sm:grid-cols-2 gap-6">
-        {% for noticia in outras_noticias %}
-        <div class="bg-white p-4 rounded shadow">
-            {% if noticia.imagem_capa %}
-                <img src="{{ noticia.imagem_capa.url }}" alt="{{ noticia.titulo }}" class="mb-2 rounded h-40 w-full object-cover">
-            {% endif %}
-            <h3 class="text-lg font-bold text-red-700">
-                <a href="{% url 'noticias:detalhe' noticia.pk %}" class="hover:underline">
-                    {{ noticia.titulo }}
-                </a>
-            </h3>
-            <p class="text-sm text-gray-500">{{ noticia.publicado_em|date:"d M Y" }}</p>
-        </div>
-        {% endfor %}
+<section class="py-12 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="mb-10 text-center">
+      <h2 class="text-2xl font-bold text-gray-800 mb-2">Outras Notícias</h2>
+      <div class="w-16 h-1 bg-red-600 mx-auto"></div>
     </div>
+    
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for outra in outras_noticias %}
+      <a href="{% url 'noticias:detalhe' outra.slug %}" class="block group">
+        <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+          {% if outra.imagem_capa %}
+          <div class="h-48 overflow-hidden">
+            <img src="{{ outra.imagem_capa.url }}" alt="{{ outra.titulo }}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300">
+          </div>
+          {% else %}
+          <div class="h-48 bg-red-100 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+            </svg>
+          </div>
+          {% endif %}
+          
+          <div class="p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-2 group-hover:text-red-700 transition-colors">{{ outra.titulo }}</h3>
+            {% if outra.subtitulo %}
+            <p class="text-gray-600 mb-4 line-clamp-2">{{ outra.subtitulo }}</p>
+            {% endif %}
+            <div class="flex items-center text-sm text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <time datetime="{{ outra.publicado_em|date:'Y-m-d' }}">{{ outra.publicado_em|date:"d M Y" }}</time>
+            </div>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    
+    <div class="mt-10 text-center">
+      <a href="{% url 'noticias:lista' %}" class="inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-full transition transform hover:scale-105 shadow-md">
+        Ver todas as notícias
+      </a>
+    </div>
+  </div>
 </section>
 {% endif %}
+
+<!-- Chamada para Ação -->
+<section class="py-10 bg-gradient-to-r from-red-600 to-red-800 text-white">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h2 class="text-2xl font-bold mb-4">Fique por dentro das novidades da AMUV</h2>
+    <p class="mb-6 max-w-2xl mx-auto">Inscreva-se para receber atualizações sobre eventos, notícias e atividades da nossa associação.</p>
+    <form class="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
+      <input type="email" placeholder="Seu e-mail" class="flex-1 px-4 py-3 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-red-300">
+      <button type="submit" class="bg-white text-red-600 hover:bg-gray-100 font-semibold px-6 py-3 rounded-full transition transform hover:scale-105 shadow-md">
+        Inscrever-se
+      </button>
+    </form>
+  </div>
+</section>
 {% endblock %}

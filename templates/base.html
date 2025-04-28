@@ -4,18 +4,94 @@
   <meta charset="UTF-8">
   <title>{% block title %}AMUV{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Associação dos Moradores Unidos por Vermelhos - AMUV">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'sans': ['Montserrat', 'sans-serif'],
+          },
+          colors: {
+            'amuv-red': {
+              100: '#FFECEE',
+              200: '#FAD2D5',
+              300: '#E98E95',
+              400: '#E15B67',
+              500: '#D82836',
+              600: '#C41E2B',
+              700: '#A2131F',
+              800: '#7F0F19',
+              900: '#5A0A12',
+            },
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'float': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
   <script src="https://unpkg.com/alpinejs" defer></script>
-  <style>[x-cloak] { display: none !important; }</style>
+  <style>
+    [x-cloak] { display: none !important; }
+    html {scroll-behavior: smooth;}
+    .text-shadow { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
+    .gradient-overlay {
+      background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+    }
+    .swiper-button-next, .swiper-button-prev {
+      color: white !important;
+      background: rgba(216, 40, 54, 0.7);
+      width: 40px !important;
+      height: 40px !important;
+      border-radius: 50%;
+    }
+    .swiper-button-next:after, .swiper-button-prev:after {
+      font-size: 18px !important;
+    }
+    .swiper-pagination-bullet-active {
+      background: #D82836 !important;
+    }
+    .animated-border {
+      position: relative;
+      overflow: hidden;
+    }
+    .animated-border:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #D82836;
+      transition: width 0.3s ease;
+    }
+    .animated-border:hover:after {
+      width: 100%;
+    }
+  </style>
   <!-- Swiper CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
   <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
-
+  <!-- AOS Animation Library -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
 </head>
 
-<body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen overflow-x-hidden relative">
+<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen overflow-x-hidden relative font-sans">
 
   {% include 'partials/navbar.html' %}
 
@@ -25,23 +101,54 @@
   {% endblock %}
 
   <!-- Conteúdo principal -->
-  <main class="flex-grow max-w-6xl mx-auto w-full px-4 py-6 relative z-10">
+  <main class="flex-grow w-full relative z-10">
     {% block content %}{% endblock %}
   </main>
 
   {% include 'partials/footer.html' %}
 
   <!-- Botão Flutuante DOE -->
-  <a href="{% url 'core:doacao' %}" class="animate-pulse fixed bottom-24 right-6 bg-red-600 text-white font-bold py-3 px-6 rounded-full shadow-lg z-50 hover:bg-red-700 transition">
-    DOE
+  <a href="{% url 'core:doacao' %}" class="group animate-float fixed bottom-24 right-6 bg-amuv-red-600 text-white font-bold py-3 px-6 rounded-full shadow-xl z-50 hover:bg-amuv-red-700 transition transform hover:scale-105 flex items-center gap-2">
+    <span>DOE AGORA</span>
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+    </svg>
   </a>
 
   <!-- Botão Flutuante WhatsApp -->
-  <a href="https://wa.me/5587981429343" target="_blank" class="fixed bottom-6 right-6 bg-green-500 rounded-full p-4 shadow-lg z-50">
+  <a href="https://wa.me/5587981429343" target="_blank" class="fixed bottom-6 right-6 bg-green-500 rounded-full p-4 shadow-xl z-50 transform hover:scale-110 transition-transform">
     <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
       <path d="M16 0C7.164 0 0 7.164 0 16c0 2.837.743 5.52 2.036 7.88L0 32l8.286-2.165A15.89 15.89 0 0016 32c8.837 0 16-7.164 16-16S24.837 0 16 0zm0 29.333c-2.67 0-5.182-.714-7.39-1.953l-.531-.313-4.924 1.285 1.312-4.787-.344-.546C2.735 20.157 2.667 18.098 2.667 16 2.667 8.636 8.636 2.667 16 2.667c7.364 0 13.333 5.969 13.333 13.333 0 7.364-5.969 13.333-13.333 13.333zm7.104-9.563c-.393-.197-2.329-1.152-2.69-1.282-.36-.131-.624-.197-.889.197-.262.393-1.017 1.282-1.247 1.544-.229.262-.459.295-.852.098-.393-.197-1.657-.61-3.157-1.944-1.166-1.036-1.956-2.317-2.186-2.71-.229-.393-.025-.604.172-.8.177-.176.393-.459.589-.688.196-.229.262-.393.393-.655.131-.262.066-.492-.033-.688-.098-.197-.889-2.145-1.219-2.939-.321-.771-.647-.666-.889-.678h-.761c-.262 0-.688.098-1.047.492s-1.376 1.345-1.376 3.28 1.41 3.8 1.606 4.065c.196.262 2.775 4.236 6.73 5.944.941.406 1.672.649 2.24.83.941.299 1.797.257 2.475.156.755-.113 2.329-.951 2.661-1.87.328-.918.328-1.704.229-1.87-.098-.164-.36-.262-.753-.459z"/>
     </svg>
   </a>
+
+  <!-- Back to top button -->
+  <button id="backToTop" class="fixed bottom-6 left-6 bg-gray-800 text-white rounded-full p-3 shadow-xl z-50 opacity-0 hover:bg-gray-900 transition" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+    </svg>
+  </button>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Inicializar animações AOS
+      AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true
+      });
+      
+      // Botão voltar ao topo
+      const backToTopBtn = document.getElementById('backToTop');
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 400) {
+          backToTopBtn.style.opacity = '1';
+        } else {
+          backToTopBtn.style.opacity = '0';
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>

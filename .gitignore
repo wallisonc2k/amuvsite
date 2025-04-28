@@ -1,14 +1,68 @@
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.sqlite3
+*.py[cod]
+*$py.class
+
+# Virtual environment
 env/
+venv/
+ENV/
 .venv/
-*.env
+
+# Django stuff:
 *.log
-*.zip
-*.DS_Store
-node_modules/
+local_settings.py
 db.sqlite3
-/static/
+db.sqlite3-journal
+media/
+staticfiles/
+
+# VS Code
+.vscode/
+
+# Pycharm
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test coverage reports
+htmlcov/
+.coverage
+.coverage.*
+
+# Migrations (opcional ignorar, cuidado!)
+# Se você quiser ignorar as migrações antigas em apps novos, mas geralmente é melhor versionar!
+# **/migrations/
+# !**/migrations/__init__.py
+
+# Node (caso use npm ou yarn para frontend)
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Environment files
+.env
+*.env
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Backup files
+*.bak
+*.swp
+*.swo
+
+# Pipenv
+Pipfile.lock
+
+# Docker
+*.pid
+
+# Celery beat schedule files
+celerybeat-schedule
+
