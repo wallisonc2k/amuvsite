@@ -109,13 +109,15 @@
     {% include 'partials/footer.html' %}
   {% endblock%}
 
-  <!-- Botão Flutuante DOE -->
+  {% block btnFlutuante %}
+  <!-- Botão Flutuante COLABORE -->
   <a href="{% url 'core:doacao' %}" class="group animate-float fixed bottom-24 right-6 bg-amuv-red-600 text-white font-bold py-3 px-6 rounded-full shadow-xl z-50 hover:bg-amuv-red-700 transition transform hover:scale-105 flex items-center gap-2">
     <span>COLABORE</span>
     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
     </svg>
   </a>
+  {% endblock%}
 
   <!-- Botão Flutuante WhatsApp -->
   <a href="https://wa.me/5587981429343" target="_blank" class="fixed bottom-6 right-6 bg-green-500 rounded-full p-4 shadow-xl z-50 transform hover:scale-110 transition-transform">
