@@ -104,12 +104,14 @@
   <main class="flex-grow w-full relative z-10">
     {% block content %}{% endblock %}
   </main>
-
-  {% include 'partials/footer.html' %}
+  
+  {% block footer %}
+    {% include 'partials/footer.html' %}
+  {% endblock%}
 
   <!-- Botão Flutuante DOE -->
   <a href="{% url 'core:doacao' %}" class="group animate-float fixed bottom-24 right-6 bg-amuv-red-600 text-white font-bold py-3 px-6 rounded-full shadow-xl z-50 hover:bg-amuv-red-700 transition transform hover:scale-105 flex items-center gap-2">
-    <span>DOE AGORA</span>
+    <span>COLABORE</span>
     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
     </svg>

@@ -1,65 +1,288 @@
-{% extends 'base.html' %}
+{% extends 'base_membros.html' %}
 {% load widget_tweaks %}
-
+{% load static %}
 {% block title %}{% if form.instance.pk %}Editar{% else %}Nova{% endif %} Notícia - AMUV{% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto py-12 px-8 bg-white shadow-2xl rounded-3xl">
-    <h1 class="text-4xl font-bold text-gray-800 mb-10 text-center">
+<div class="py-12 px-4 md:px-8">
+  <!-- Header da página com gradiente -->
+  <div class="max-w-4xl mx-auto mb-10 bg-gradient-to-r from-red-600 to-red-700 rounded-t-3xl shadow-lg overflow-hidden">
+    <div class="px-8 py-8 text-center relative">
+      <div class="absolute inset-0 opacity-10" style="background-image: url('{% static 'img/noticias_amuv.webp' %}'); background-repeat: repeat;"></div>
+      <h1 class="text-3xl md:text-4xl font-bold text-white relative z-10">
         {% if form.instance.pk %}Editar Notícia{% else %}Nova Notícia{% endif %}
-    </h1>
+      </h1>
+      <p class="text-red-100 mt-2 relative z-10">Compartilhe informações importantes com a comunidade</p>
+    </div>
+  </div>
 
+  <!-- Formulário com design aprimorado -->
+  <div class="max-w-4xl mx-auto bg-white shadow-2xl rounded-b-3xl p-8 md:p-10">
     <form method="post" enctype="multipart/form-data" class="space-y-8">
-        {% csrf_token %}
+      {% csrf_token %}
 
-        <!-- Título -->
-        <div>
-            <label for="{{ form.titulo.id_for_label }}" class="block text-lg font-semibold text-gray-700 mb-2">Título *</label>
-            {{ form.titulo|add_class:"w-full border-gray-300 rounded-xl shadow-sm focus:ring-red-600 focus:border-red-600 text-gray-900 text-base" }}
-            {% include "forms/field_errors.html" with field=form.titulo %}
+      <!-- Progresso do formulário -->
+      <div class="mb-10 px-4">
+        <div class="flex justify-between mb-2">
+          <span class="text-sm font-medium text-red-600">Preenchimento</span>
+          <span class="text-sm font-medium text-red-600" id="form-progress">0%</span>
         </div>
+        <div class="w-full bg-gray-200 rounded-full h-2.5">
+          <div class="bg-red-600 h-2.5 rounded-full" id="progress-bar" style="width: 0%"></div>
+        </div>
+      </div>
 
-        <!-- Subtítulo -->
-        <div>
-            <label for="{{ form.subtitulo.id_for_label }}" class="block text-lg font-semibold text-gray-700 mb-2">Subtítulo</label>
-            {{ form.subtitulo|add_class:"w-full border-gray-300 rounded-xl shadow-sm focus:ring-red-600 focus:border-red-600 text-gray-900 text-base" }}
-            {% include "forms/field_errors.html" with field=form.subtitulo %}
-        </div>
+      <!-- Título -->
+      <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm transition-all hover:shadow-md">
+        <label for="{{ form.titulo.id_for_label }}" class="flex items-center text-lg font-semibold text-gray-700 mb-3">
+          <div class="w-8 h-8 bg-red-100 text-red-700 rounded-full flex items-center justify-center mr-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          Título <span class="text-red-600 ml-1">*</span>
+        </label>
+        {{ form.titulo|add_class:"w-full border-gray-300 rounded-xl shadow-sm focus:ring-red-600 focus:border-red-600 text-gray-900 text-base py-3 px-4" }}
+        {% include "forms/field_errors.html" with field=form.titulo %}
+        <p class="text-sm text-gray-500 mt-2">Escolha um título claro e atrativo para sua notícia.</p>
+      </div>
 
-        <!-- Resumo -->
-        <div>
-            <label for="{{ form.resumo.id_for_label }}" class="block text-lg font-semibold text-gray-700 mb-2">Resumo</label>
-            {{ form.resumo|add_class:"w-full border-gray-300 rounded-xl shadow-sm focus:ring-red-600 focus:border-red-600 text-gray-900 text-base h-32" }}
-            {% include "forms/field_errors.html" with field=form.resumo %}
-            <p class="text-sm text-gray-400 mt-1">Opcional: pequeno resumo que será exibido em listas ou prévias.</p>
-        </div>
+      <!-- Subtítulo -->
+      <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm transition-all hover:shadow-md">
+        <label for="{{ form.subtitulo.id_for_label }}" class="flex items-center text-lg font-semibold text-gray-700 mb-3">
+          <div class="w-8 h-8 bg-red-100 text-red-700 rounded-full flex items-center justify-center mr-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+            </svg>
+          </div>
+          Subtítulo
+        </label>
+        {{ form.subtitulo|add_class:"w-full border-gray-300 rounded-xl shadow-sm focus:ring-red-600 focus:border-red-600 text-gray-900 text-base py-3 px-4" }}
+        {% include "forms/field_errors.html" with field=form.subtitulo %}
+        <p class="text-sm text-gray-500 mt-2">Um complemento para o título principal (opcional).</p>
+      </div>
 
-        <!-- Conteúdo -->
-        <div>
-            <label for="{{ form.conteudo.id_for_label }}" class="block text-lg font-semibold text-gray-700 mb-2">Conteúdo *</label>
-            {{ form.conteudo|add_class:"w-full border-gray-300 rounded-xl shadow-sm focus:ring-red-600 focus:border-red-600 text-gray-900 text-base h-60" }}
-            {% include "forms/field_errors.html" with field=form.conteudo %}
+      <!-- Resumo -->
+      <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm transition-all hover:shadow-md">
+        <label for="{{ form.resumo.id_for_label }}" class="flex items-center text-lg font-semibold text-gray-700 mb-3">
+          <div class="w-8 h-8 bg-red-100 text-red-700 rounded-full flex items-center justify-center mr-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          Resumo
+        </label>
+        {{ form.resumo|add_class:"w-full border-gray-300 rounded-xl shadow-sm focus:ring-red-600 focus:border-red-600 text-gray-900 text-base py-3 px-4 h-32" }}
+        {% include "forms/field_errors.html" with field=form.resumo %}
+        <p class="text-sm text-gray-500 mt-2">Breve descrição que aparecerá nas listas e prévias de notícias (100-150 caracteres recomendados).</p>
+        <div class="mt-2 text-right">
+          <span id="resumo-contador" class="text-xs text-gray-500">0 caracteres</span>
         </div>
+      </div>
 
-        <!-- Imagem de Capa -->
-        <div>
-            <label for="{{ form.imagem_capa.id_for_label }}" class="block text-lg font-semibold text-gray-700 mb-2">Imagem de Capa</label>
-            {{ form.imagem_capa|add_class:"w-full border-gray-300 rounded-xl shadow-sm focus:ring-red-600 focus:border-red-600 text-gray-900 text-base" }}
-            {% include "forms/field_errors.html" with field=form.imagem_capa %}
-            <p class="text-sm text-gray-400 mt-1">Formatos aceitos: JPG, PNG. Tamanho recomendado: 1200x600px.</p>
+      <!-- Conteúdo -->
+      <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm transition-all hover:shadow-md">
+        <label for="{{ form.conteudo.id_for_label }}" class="flex items-center text-lg font-semibold text-gray-700 mb-3">
+          <div class="w-8 h-8 bg-red-100 text-red-700 rounded-full flex items-center justify-center mr-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+          </div>
+          Conteúdo <span class="text-red-600 ml-1">*</span>
+        </label>
+        {{ form.conteudo|add_class:"w-full border-gray-300 rounded-xl shadow-sm focus:ring-red-600 focus:border-red-600 text-gray-900 text-base py-3 px-4 h-72" }}
+        {% include "forms/field_errors.html" with field=form.conteudo %}
+        
+        <div class="mt-3 flex justify-between items-center text-sm">
+          <p class="text-gray-500">Escreva o texto completo da notícia com detalhes.</p>
+          <div class="flex space-x-2">
+            <button type="button" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-md text-gray-700 text-xs font-medium" onclick="formatText('bold')">Negrito</button>
+            <button type="button" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-md text-gray-700 text-xs font-medium" onclick="formatText('italic')">Itálico</button>
+            <button type="button" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-md text-gray-700 text-xs font-medium" onclick="formatText('list')">Lista</button>
+          </div>
         </div>
+      </div>
 
-        <!-- Botão de Ação -->
-        <div class="pt-6 text-center">
-            <button type="submit" class="inline-flex items-center px-8 py-3 bg-red-600 hover:bg-red-700 text-white text-lg font-bold rounded-full shadow-lg transition duration-300">
-                {% if form.instance.pk %}
-                    <i class="fas fa-save mr-2"></i> Salvar Alterações
-                {% else %}
-                    <i class="fas fa-upload mr-2"></i> Publicar Notícia
-                {% endif %}
-            </button>
+      <!-- Imagem de Capa -->
+      <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm transition-all hover:shadow-md">
+        <label for="{{ form.imagem_capa.id_for_label }}" class="flex items-center text-lg font-semibold text-gray-700 mb-3">
+          <div class="w-8 h-8 bg-red-100 text-red-700 rounded-full flex items-center justify-center mr-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          Imagem de Capa
+        </label>
+        
+        <div class="mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl">
+          <div class="space-y-1 text-center">
+            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+              <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <div class="flex text-sm text-gray-600">
+              <label for="{{ form.imagem_capa.id_for_label }}" class="relative cursor-pointer bg-white rounded-md font-medium text-red-600 hover:text-red-700 focus-within:outline-none">
+                <span>Enviar um arquivo</span>
+                {{ form.imagem_capa|add_class:"sr-only" }}
+              </label>
+              <p class="pl-1">ou arraste e solte</p>
+            </div>
+            <p class="text-xs text-gray-500">PNG, JPG até 5MB</p>
+          </div>
         </div>
+        
+        {% if form.instance.imagem_capa %}
+        <div class="mt-4 p-3 bg-red-50 rounded-lg border border-red-100 flex items-center">
+          <div class="flex-shrink-0 mr-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="flex-1 text-sm text-red-700">
+            Imagem atual: <strong>{{ form.instance.imagem_capa.name }}</strong>. Envie uma nova imagem para substituí-la.
+          </div>
+        </div>
+        {% endif %}
+        
+        {% include "forms/field_errors.html" with field=form.imagem_capa %}
+        <p class="text-sm text-gray-500 mt-2">Formatos aceitos: JPG, PNG. Tamanho recomendado: 1200x600px.</p>
+      </div>
+
+      <!-- Botões de Ação -->
+      <div class="pt-6 flex flex-col sm:flex-row justify-center gap-4">
+        <a href="{% url 'noticias:lista' %}" class="inline-flex items-center justify-center px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 text-base font-medium rounded-full shadow-md transition duration-300 order-2 sm:order-1">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+          </svg>
+          Cancelar
+        </a>
+        
+        <button type="submit" class="inline-flex items-center justify-center px-8 py-3 bg-red-600 hover:bg-red-700 text-white text-base font-bold rounded-full shadow-lg transition duration-300 order-1 sm:order-2 group">
+          {% if form.instance.pk %}
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Salvar Alterações
+          {% else %}
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+            Publicar Notícia
+          {% endif %}
+        </button>
+      </div>
 
     </form>
+  </div>
 </div>
+
+<!-- Scripts para funcionalidades do formulário -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Contador de caracteres para o resumo
+    const resumoField = document.getElementById('{{ form.resumo.id_for_label }}');
+    const resumoCounter = document.getElementById('resumo-contador');
+    
+    if (resumoField && resumoCounter) {
+      const updateCounter = function() {
+        const count = resumoField.value.length;
+        resumoCounter.textContent = count + ' caracteres';
+        
+        if (count > 150) {
+          resumoCounter.classList.add('text-red-600');
+          resumoCounter.classList.remove('text-gray-500');
+        } else {
+          resumoCounter.classList.remove('text-red-600');
+          resumoCounter.classList.add('text-gray-500');
+        }
+      };
+      
+      resumoField.addEventListener('input', updateCounter);
+      updateCounter(); // Inicializa o contador
+    }
+    
+    // Progresso do formulário
+    const formFields = [
+      document.getElementById('{{ form.titulo.id_for_label }}'),
+      document.getElementById('{{ form.subtitulo.id_for_label }}'),
+      document.getElementById('{{ form.resumo.id_for_label }}'),
+      document.getElementById('{{ form.conteudo.id_for_label }}'),
+      document.getElementById('{{ form.imagem_capa.id_for_label }}')
+    ];
+    
+    const requiredFields = [
+      document.getElementById('{{ form.titulo.id_for_label }}'),
+      document.getElementById('{{ form.conteudo.id_for_label }}')
+    ];
+    
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('form-progress');
+    
+    const updateProgress = function() {
+      let filled = 0;
+      let required = 0;
+      
+      requiredFields.forEach(field => {
+        if (field && field.value.trim() !== '') {
+          required++;
+        }
+      });
+      
+      formFields.forEach(field => {
+        if (field && field.value.trim() !== '') {
+          filled++;
+        }
+      });
+      
+      const requiredPercentage = (required / requiredFields.length) * 60;
+      const optionalPercentage = (filled - required) / (formFields.length - requiredFields.length) * 40;
+      const totalPercentage = Math.round(requiredPercentage + optionalPercentage);
+      
+      progressBar.style.width = totalPercentage + '%';
+      progressText.textContent = totalPercentage + '%';
+    };
+    
+    formFields.forEach(field => {
+      if (field) {
+        field.addEventListener('input', updateProgress);
+        field.addEventListener('change', updateProgress);
+      }
+    });
+    
+    updateProgress(); // Inicializa o progresso
+    
+    // Função para formatação de texto (simples)
+    window.formatText = function(type) {
+      const textarea = document.getElementById('{{ form.conteudo.id_for_label }}');
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const selectedText = textarea.value.substring(start, end);
+      let replacement = '';
+      
+      switch(type) {
+        case 'bold':
+          replacement = '**' + selectedText + '**';
+          break;
+        case 'italic':
+          replacement = '*' + selectedText + '*';
+          break;
+        case 'list':
+          replacement = '\n- ' + selectedText.split('\n').join('\n- ');
+          break;
+      }
+      
+      textarea.value = textarea.value.substring(0, start) + replacement + textarea.value.substring(end);
+      textarea.focus();
+      textarea.selectionStart = start + replacement.length;
+      textarea.selectionEnd = start + replacement.length;
+    };
+    
+    // Preview para upload de imagem
+    const imageInput = document.getElementById('{{ form.imagem_capa.id_for_label }}');
+    if (imageInput) {
+      imageInput.addEventListener('change', function(e) {
+        // Implementar preview de imagem aqui se necessário
+      });
+    }
+  });
+</script>
 {% endblock %}

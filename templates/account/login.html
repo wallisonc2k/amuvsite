@@ -1,35 +1,81 @@
+{% extends "base.html" %}
 {% load widget_tweaks %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Entrar | AMUV</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen px-4">
-    <div class="w-full sm:max-w-sm md:max-w-md bg-white p-6 sm:p-8 rounded-xl shadow-lg">
-        <h2 class="text-2xl font-bold text-center mb-6">Entrar na sua conta</h2>
-        <form method="post" action="{% url 'account_login' %}" class="space-y-4">
-            {% csrf_token %}
+
+{% block title %}Entrar | AMUV{% endblock %}
+{% block hero %}{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-[calc(100vh-8rem)] px-4 py-8">
+<section class="w-full sm:max-w-sm md:max-w-md bg-white p-6 sm:p-8 rounded-xl shadow-lg" x-data="{ loading: false }">
+
+    <h2 class="text-2xl font-bold text-center mb-6 text-red-700">Entrar na sua conta</h2>
+
+    <form method="post" action="{% url 'account_login' %}" class="space-y-4" @submit="loading = true">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+        <div class="bg-red-100 text-red-700 p-2 rounded text-sm">
             {{ form.non_field_errors }}
-            <div>
-                <label class="block text-sm font-medium">Usuário</label>
-                {{ form.login|add_class:"w-full px-4 py-2 border rounded-lg mt-1 text-sm" }}
+        </div>
+        {% endif %}
+
+        <!-- Campo Usuário -->
+        <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700" for="{{ form.login.id_for_label }}">
+                Usuário
+            </label>
+            <div class="flex items-center border rounded-lg overflow-hidden">
+                <div class="px-3 text-gray-400">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M5.121 17.804A8 8 0 0112 16a8 8 0 016.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                </div>
+                {{ form.login|add_class:"w-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500" }}
             </div>
-            <div>
-                <label class="block text-sm font-medium">Senha</label>
-                {{ form.password|add_class:"w-full px-4 py-2 border rounded-lg mt-1 text-sm" }}
+        </div>
+
+        <!-- Campo Senha -->
+        <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700" for="{{ form.password.id_for_label }}">
+                Senha
+            </label>
+            <div class="flex items-center border rounded-lg overflow-hidden">
+                <div class="px-3 text-gray-400">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 11c-1.105 0-2 .895-2 2v4h4v-4c0-1.105-.895-2-2-2z"></path>
+                        <path d="M17 8V6a5 5 0 00-10 0v2a2 2 0 00-2 2v8a2 2 0 002 2h10a2 2 0 002-2v-8a2 2 0 00-2-2z"></path>
+                    </svg>
+                </div>
+                {{ form.password|add_class:"w-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500" }}
             </div>
-            <button type="submit" class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition">
-                Entrar
-            </button>
-        </form>
-        <p class="text-center text-sm mt-4">
-            Não tem conta?
-            <a href="{% url 'account_signup' %}" class="text-red-600 hover:underline">Cadastre-se</a>
-        </p>
-    </div>
-</body>
-</html>
+        </div>
+
+        <!-- Botão Entrar -->
+        <button type="submit"
+            class="w-full flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded-lg transition"
+            :disabled="loading"
+        >
+            <template x-if="!loading">
+                <span>Entrar</span>
+            </template>
+            <template x-if="loading">
+                <span class="flex items-center">
+                    <svg class="w-5 h-5 animate-spin mr-2" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                    </svg>
+                    Carregando...
+                </span>
+            </template>
+        </button>
+    </form>
+
+    <p class="text-center text-sm mt-6">
+        Não tem conta?
+        <a href="{% url 'account_signup' %}" class="text-red-600 hover:underline font-semibold">Cadastre-se</a>
+    </p>
+
+</section>
+</div>
+{% endblock %}

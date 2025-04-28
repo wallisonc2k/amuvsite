@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block hero %}
+<section class="relative h-96 bg-cover bg-center" style="background-image: url('{% static "img/tres_cruz.jpeg" %}')">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/70 to-red-900/50"></div>
+    <div class="max-w-6xl mx-auto relative z-10 flex flex-col justify-end pb-10 h-full p-6">
+        <h2 class="text-4xl md:text-5xl font-bold text-white pb-4 animate-fade-in">Colabore com a AMUV</h2>
+        <p class="text-white/90 text-lg max-w-xl mb-4">Sua participação fortalece nossos projetos sociais, culturais e comunitários. Juntos, somos mais fortes.</p>
+        {% include "partials/breadcrumb.html" %}
+    </div>
+    <div class="absolute bottom-0 left-0 w-full overflow-hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" fill="#ffffff" preserveAspectRatio="none" class="h-12 w-full">
+            <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"></path>
+        </svg>
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<section class="py-16 bg-white" x-data="{ showModal: false, copied: false }">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-red-700 mb-4">
+                Junte-se a Nós
+            </h2>
+            <p class="text-gray-700 text-lg md:text-xl max-w-3xl mx-auto">
+                Seu apoio impulsiona nossos projetos sociais, eventos culturais e ações comunitárias. Toda contribuição fortalece nossa missão de transformar a vida dos moradores de Vermelhos.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 text-center">
+            <!-- Contribuição via PIX -->
+            <div class="p-8 bg-red-50 rounded-2xl shadow hover:shadow-lg transition">
+                <div class="mb-4">
+                    <svg class="w-12 h-12 mx-auto text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-red-800 mb-2">Contribuição via PIX</h3>
+                <p class="text-gray-600 mb-4">
+                    Chave PIX: <strong id="pix-key">amuv@comunidade.org</strong>
+                </p>
+                <div class="flex flex-col gap-3 items-center">
+                    <button
+                        class="bg-red-700 hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-full"
+                        @click="navigator.clipboard.writeText(document.getElementById('pix-key').textContent); copied = true; setTimeout(() => copied = false, 2000);"
+                    >
+                        Copiar Chave
+                    </button>
+
+                    <button
+                        class="bg-red-700 hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-full"
+                        @click="showModal = true"
+                    >
+                        Ver QR Code
+                    </button>
+
+                    <div x-show="copied" class="text-green-600 text-sm mt-2" x-transition>
+                        Chave copiada com sucesso!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Associação Mensal -->
+            <div class="p-8 bg-red-50 rounded-2xl shadow hover:shadow-lg transition">
+                <div class="mb-4">
+                    <svg class="w-12 h-12 mx-auto text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M3 10h11M9 21V3M17 16h4v6h-4z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-red-800 mb-2">Associe-se à AMUV</h3>
+                <p class="text-gray-600 mb-4">Seja um membro ativo e participe da construção de uma comunidade mais justa e unida.</p>
+                <a href="{% url 'account_signup' %}" class="bg-red-700 hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-full">
+                    Seja um Colaborador
+                </a>
+            </div>
+
+            <!-- Apoio Corporativo -->
+            <div class="p-8 bg-red-50 rounded-2xl shadow hover:shadow-lg transition">
+                <div class="mb-4">
+                    <svg class="w-12 h-12 mx-auto text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M20 13V6a2 2 0 0 0-2-2h-3.5L14 2h-4l-.5 2H6a2 2 0 0 0-2 2v7"></path><path d="M6 18h12v2a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-2z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-red-800 mb-2">Parcerias Institucionais</h3>
+                <p class="text-gray-600 mb-4">Sua empresa também pode fazer parte deste movimento social e cultural.</p>
+                <a href="{% url 'core:contato' %}" class="bg-red-700 hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-full">
+                    Fale Conosco
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de QR Code -->
+    <div
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+        x-show="showModal"
+        x-transition
+    >
+        <div class="bg-white p-6 rounded-xl shadow-lg relative max-w-sm w-full">
+            <button class="absolute top-2 right-2 text-gray-600 hover:text-gray-900" @click="showModal = false">
+                ✖
+            </button>
+            <h2 class="text-lg font-bold text-center text-red-800 mb-4">Escaneie o QR Code</h2>
+            <img src="{% static 'img/pix_qrcode_amuv.png' %}" alt="QR Code PIX" class="w-64 mx-auto">
+        </div>
+    </div>
+</section>
+
+<!-- Chamada final -->
+<section class="py-12 bg-red-100">
+    <div class="max-w-4xl mx-auto text-center px-6">
+        <h2 class="text-2xl font-bold text-red-800 mb-4">
+            Sua Colaboração Faz a Diferença
+        </h2>
+        <p class="text-gray-700 mb-6">
+            Cada gesto de apoio contribui para transformar sonhos em realidade. Vem com a gente construir um futuro melhor para Vermelhos!
+        </p>
+        <a href="{% url 'account_signup' %}" class="bg-red-700 hover:bg-red-800 text-white font-semibold py-3 px-6 rounded-full text-lg">
+            Colabore Agora
+        </a>
+    </div>
+</section>
+{% endblock %}
