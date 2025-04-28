@@ -1,0 +1,346 @@
+{% extends 'base_membros.html' %}
+{% load static %}
+{% block title %}Editar Perfil - AMUV{% endblock %}
+
+{% block content %}
+
+<!-- Cabeçalho da Página -->
+<section class="bg-gradient-to-r from-red-700 to-red-900 py-12 relative overflow-hidden">
+  <div class="absolute inset-0 opacity-20" style="background-image: url('{% static 'img/pattern-bg.png' %}'); background-repeat: repeat;"></div>
+  <div class="max-w-4xl mx-auto px-6 relative z-10">
+    <div class="flex items-center">
+      <a href="{% url 'membros:painel' %}" class="text-white hover:text-red-100 mr-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </a>
+      <h1 class="text-3xl font-bold text-white">Editar Perfil</h1>
+    </div>
+    <p class="text-red-100 mt-2">Atualize suas informações pessoais e preferências</p>
+  </div>
+</section>
+
+<!-- Conteúdo Principal -->
+<section class="py-12 bg-gray-50">
+  <div class="max-w-4xl mx-auto px-6">
+    <!-- Navegação em Abas -->
+    <div class="bg-white rounded-t-lg shadow-sm border-b border-gray-200">
+      <div class="flex">
+        <button class="px-6 py-4 text-red-700 font-medium border-b-2 border-red-600">
+          Informações Pessoais
+        </button>
+        <button class="px-6 py-4 text-gray-500 hover:text-gray-700 font-medium">
+          Senha e Segurança
+        </button>
+        <button class="px-6 py-4 text-gray-500 hover:text-gray-700 font-medium">
+          Notificações
+        </button>
+      </div>
+    </div>
+
+    <!-- Formulário de Edição -->
+    <div class="bg-white rounded-b-lg shadow-sm p-6 md:p-8">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- Foto do Perfil -->
+        <div class="mb-8 text-center">
+          <div class="relative inline-block">
+            {% if usuario.foto %}
+              <img src="{{ usuario.foto.url }}" alt="Foto de perfil" class="w-32 h-32 rounded-full object-cover mx-auto border-4 border-white shadow-md">
+            {% else %}
+              <div class="w-32 h-32 rounded-full bg-red-100 flex items-center justify-center text-red-700 mx-auto border-4 border-white shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+            {% endif %}
+            
+            <label for="id_foto" class="absolute bottom-0 right-0 bg-red-600 hover:bg-red-700 text-white p-2 rounded-full cursor-pointer shadow-md transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </label>
+            <input type="file" id="id_foto" name="foto" class="hidden" accept="image/*">
+          </div>
+          <p class="text-sm text-gray-500 mt-2">Clique no ícone para alterar sua foto</p>
+        </div>
+        
+        <!-- Dados Pessoais -->
+        <div class="space-y-6">
+          <!-- Nome Completo -->
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <label for="id_nome" class="block text-sm font-medium text-gray-700 mb-1">Nome</label>
+              <input type="text" id="id_nome" name="nome" value="{{ usuario.nome }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+            </div>
+            <div>
+              <label for="id_sobrenome" class="block text-sm font-medium text-gray-700 mb-1">Sobrenome</label>
+              <input type="text" id="id_sobrenome" name="sobrenome" value="{{ usuario.sobrenome }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+            </div>
+          </div>
+          
+          <!-- Email e Telefone -->
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <label for="id_email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input type="email" id="id_email" name="email" value="{{ usuario.email }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+            </div>
+            <div>
+              <label for="id_telefone" class="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
+              <input type="tel" id="id_telefone" name="telefone" value="{{ usuario.telefone }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+            </div>
+          </div>
+          
+          <!-- Data de Nascimento e CPF -->
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <label for="id_data_nascimento" class="block text-sm font-medium text-gray-700 mb-1">Data de Nascimento</label>
+              <input type="date" id="id_data_nascimento" name="data_nascimento" value="{{ usuario.data_nascimento|date:'Y-m-d' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+            </div>
+            <div>
+              <label for="id_cpf" class="block text-sm font-medium text-gray-700 mb-1">CPF</label>
+              <input type="text" id="id_cpf" name="cpf" value="{{ usuario.cpf }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" placeholder="000.000.000-00">
+            </div>
+          </div>
+          
+          <!-- Endereço -->
+          <div>
+            <h3 class="text-lg font-medium text-gray-900 mb-3">Endereço</h3>
+            
+            <div class="space-y-4">
+              <div class="grid md:grid-cols-3 gap-4">
+                <div class="md:col-span-2">
+                  <label for="id_logradouro" class="block text-sm font-medium text-gray-700 mb-1">Logradouro</label>
+                  <input type="text" id="id_logradouro" name="logradouro" value="{{ usuario.endereco.logradouro }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                </div>
+                <div>
+                  <label for="id_numero" class="block text-sm font-medium text-gray-700 mb-1">Número</label>
+                  <input type="text" id="id_numero" name="numero" value="{{ usuario.endereco.numero }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                </div>
+              </div>
+              
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label for="id_complemento" class="block text-sm font-medium text-gray-700 mb-1">Complemento</label>
+                  <input type="text" id="id_complemento" name="complemento" value="{{ usuario.endereco.complemento }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                </div>
+                <div>
+                  <label for="id_bairro" class="block text-sm font-medium text-gray-700 mb-1">Bairro</label>
+                  <input type="text" id="id_bairro" name="bairro" value="{{ usuario.endereco.bairro }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                </div>
+              </div>
+              
+              <div class="grid md:grid-cols-3 gap-4">
+                <div>
+                  <label for="id_cep" class="block text-sm font-medium text-gray-700 mb-1">CEP</label>
+                  <input type="text" id="id_cep" name="cep" value="{{ usuario.endereco.cep }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" placeholder="00000-000">
+                </div>
+                <div>
+                  <label for="id_cidade" class="block text-sm font-medium text-gray-700 mb-1">Cidade</label>
+                  <input type="text" id="id_cidade" name="cidade" value="{{ usuario.endereco.cidade }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                </div>
+                <div>
+                  <label for="id_estado" class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+                  <select id="id_estado" name="estado" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                    <option value="">Selecione</option>
+                    <option value="AC" {% if usuario.endereco.estado == 'AC' %}selected{% endif %}>Acre</option>
+                    <option value="AL" {% if usuario.endereco.estado == 'AL' %}selected{% endif %}>Alagoas</option>
+                    <option value="AP" {% if usuario.endereco.estado == 'AP' %}selected{% endif %}>Amapá</option>
+                    <option value="AM" {% if usuario.endereco.estado == 'AM' %}selected{% endif %}>Amazonas</option>
+                    <option value="BA" {% if usuario.endereco.estado == 'BA' %}selected{% endif %}>Bahia</option>
+                    <option value="CE" {% if usuario.endereco.estado == 'CE' %}selected{% endif %}>Ceará</option>
+                    <option value="DF" {% if usuario.endereco.estado == 'DF' %}selected{% endif %}>Distrito Federal</option>
+                    <option value="ES" {% if usuario.endereco.estado == 'ES' %}selected{% endif %}>Espírito Santo</option>
+                    <option value="GO" {% if usuario.endereco.estado == 'GO' %}selected{% endif %}>Goiás</option>
+                    <option value="MA" {% if usuario.endereco.estado == 'MA' %}selected{% endif %}>Maranhão</option>
+                    <option value="MT" {% if usuario.endereco.estado == 'MT' %}selected{% endif %}>Mato Grosso</option>
+                    <option value="MS" {% if usuario.endereco.estado == 'MS' %}selected{% endif %}>Mato Grosso do Sul</option>
+                    <option value="MG" {% if usuario.endereco.estado == 'MG' %}selected{% endif %}>Minas Gerais</option>
+                    <option value="PA" {% if usuario.endereco.estado == 'PA' %}selected{% endif %}>Pará</option>
+                    <option value="PB" {% if usuario.endereco.estado == 'PB' %}selected{% endif %}>Paraíba</option>
+                    <option value="PR" {% if usuario.endereco.estado == 'PR' %}selected{% endif %}>Paraná</option>
+                    <option value="PE" {% if usuario.endereco.estado == 'PE' %}selected{% endif %}>Pernambuco</option>
+                    <option value="PI" {% if usuario.endereco.estado == 'PI' %}selected{% endif %}>Piauí</option>
+                    <option value="RJ" {% if usuario.endereco.estado == 'RJ' %}selected{% endif %}>Rio de Janeiro</option>
+                    <option value="RN" {% if usuario.endereco.estado == 'RN' %}selected{% endif %}>Rio Grande do Norte</option>
+                    <option value="RS" {% if usuario.endereco.estado == 'RS' %}selected{% endif %}>Rio Grande do Sul</option>
+                    <option value="RO" {% if usuario.endereco.estado == 'RO' %}selected{% endif %}>Rondônia</option>
+                    <option value="RR" {% if usuario.endereco.estado == 'RR' %}selected{% endif %}>Roraima</option>
+                    <option value="SC" {% if usuario.endereco.estado == 'SC' %}selected{% endif %}>Santa Catarina</option>
+                    <option value="SP" {% if usuario.endereco.estado == 'SP' %}selected{% endif %}>São Paulo</option>
+                    <option value="SE" {% if usuario.endereco.estado == 'SE' %}selected{% endif %}>Sergipe</option>
+                    <option value="TO" {% if usuario.endereco.estado == 'TO' %}selected{% endif %}>Tocantins</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Preferências -->
+          <div>
+            <h3 class="text-lg font-medium text-gray-900 mb-3">Preferências</h3>
+            
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Áreas de Interesse</label>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  <label class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                    <input type="checkbox" name="interesses" value="cultural" {% if 'cultural' in usuario.interesses %}checked{% endif %} class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded">
+                    <span class="ml-2 text-gray-700">Eventos Culturais</span>
+                  </label>
+                  <label class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                    <input type="checkbox" name="interesses" value="religioso" {% if 'religioso' in usuario.interesses %}checked{% endif %} class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded">
+                    <span class="ml-2 text-gray-700">Eventos Religiosos</span>
+                  </label>
+                  <label class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                    <input type="checkbox" name="interesses" value="esporte" {% if 'esporte' in usuario.interesses %}checked{% endif %} class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded">
+                    <span class="ml-2 text-gray-700">Esportes</span>
+                  </label>
+                  <label class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                    <input type="checkbox" name="interesses" value="educacao" {% if 'educacao' in usuario.interesses %}checked{% endif %} class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded">
+                    <span class="ml-2 text-gray-700">Educação</span>
+                  </label>
+                  <label class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                    <input type="checkbox" name="interesses" value="saude" {% if 'saude' in usuario.interesses %}checked{% endif %} class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded">
+                    <span class="ml-2 text-gray-700">Saúde</span>
+                  </label>
+                  <label class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                    <input type="checkbox" name="interesses" value="social" {% if 'social' in usuario.interesses %}checked{% endif %} class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded">
+                    <span class="ml-2 text-gray-700">Ação Social</span>
+                  </label>
+                </div>
+              </div>
+              
+              <div>
+                <label class="flex items-center">
+                  <input type="checkbox" name="receber_notificacoes" {% if usuario.receber_notificacoes %}checked{% endif %} class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded">
+                  <span class="ml-2 text-gray-700">Desejo receber notificações por email sobre eventos e notícias</span>
+                </label>
+              </div>
+              
+              <div>
+                <label class="flex items-center">
+                  <input type="checkbox" name="disponivel_voluntario" {% if usuario.disponivel_voluntario %}checked{% endif %} class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded">
+                  <span class="ml-2 text-gray-700">Estou disponível para trabalhos voluntários</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Botões de Ação -->
+          <div class="pt-4 flex justify-end space-x-4">
+            <a href="{% url 'membros:painel' %}" class="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition">
+              Cancelar
+            </a>
+            <button type="submit" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg shadow-sm hover:shadow transition">
+              Salvar Alterações
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Script para Lidar com Upload de Imagem e Visualização Prévia -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const inputFoto = document.getElementById('id_foto');
+    const fotoPreview = inputFoto.parentElement.querySelector('img') || inputFoto.parentElement.querySelector('div');
+    
+    inputFoto.addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+          // Remover div placeholder se existir
+          if (fotoPreview.tagName === 'DIV') {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = "Foto de perfil";
+            img.className = "w-32 h-32 rounded-full object-cover mx-auto border-4 border-white shadow-md";
+            fotoPreview.parentNode.replaceChild(img, fotoPreview);
+          } else {
+            // Atualizar a imagem existente
+            fotoPreview.src = e.target.result;
+          }
+        }
+        
+        reader.readAsDataURL(e.target.files[0]);
+      }
+    });
+    
+    // Script para auto-completar endereço pelo CEP
+    const inputCep = document.getElementById('id_cep');
+    
+    inputCep.addEventListener('blur', function() {
+      const cep = this.value.replace(/\D/g, '');
+      
+      if (cep.length !== 8) {
+        return;
+      }
+      
+      fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        .then(response => response.json())
+        .then(data => {
+          if (!data.erro) {
+            document.getElementById('id_logradouro').value = data.logradouro;
+            document.getElementById('id_bairro').value = data.bairro;
+            document.getElementById('id_cidade').value = data.localidade;
+            document.getElementById('id_estado').value = data.uf;
+            // Foca no campo número após preenchimento
+            document.getElementById('id_numero').focus();
+          }
+        })
+        .catch(error => console.error('Erro ao buscar CEP:', error));
+    });
+    
+    // Formatação de campos
+    const inputCpf = document.getElementById('id_cpf');
+    inputCpf.addEventListener('input', function() {
+      let value = this.value.replace(/\D/g, '');
+      if (value.length > 11) value = value.slice(0, 11);
+      
+      if (value.length > 9) {
+        this.value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+      } else if (value.length > 6) {
+        this.value = value.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+      } else if (value.length > 3) {
+        this.value = value.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+      } else {
+        this.value = value;
+      }
+    });
+    
+    const inputTelefone = document.getElementById('id_telefone');
+    inputTelefone.addEventListener('input', function() {
+      let value = this.value.replace(/\D/g, '');
+      if (value.length > 11) value = value.slice(0, 11);
+      
+      if (value.length > 10) {
+        this.value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+      } else if (value.length > 6) {
+        this.value = value.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+      } else if (value.length > 2) {
+        this.value = value.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+      } else {
+        this.value = value;
+      }
+    });
+    
+    inputCep.addEventListener('input', function() {
+      let value = this.value.replace(/\D/g, '');
+      if (value.length > 8) value = value.slice(0, 8);
+      
+      if (value.length > 5) {
+        this.value = value.replace(/(\d{5})(\d{0,3})/, '$1-$2');
+      } else {
+        this.value = value;
+      }
+    });
+  });
+</script>
+
+{% endblock %}

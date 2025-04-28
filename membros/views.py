@@ -19,3 +19,7 @@ class HistoricoPagamentosView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Pagamento.objects.filter(membro=self.request.user).order_by('-data_pagamento')
+    
+
+class EditPerfilView(LoginRequiredMixin, TemplateView):
+    template_name = 'membros/editar_perfil.html'
