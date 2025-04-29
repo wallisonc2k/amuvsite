@@ -62,6 +62,51 @@
         <p class="text-sm text-gray-500 mt-2">Um complemento para o título principal (opcional).</p>
       </div>
 
+      <!-- Categoria -->
+      <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm transition-all hover:shadow-md">
+        <label for="{{ form.categoria.id_for_label }}" class="flex items-center text-lg font-semibold text-gray-700 mb-3">
+          <div class="w-8 h-8 bg-red-100 text-red-700 rounded-full flex items-center justify-center mr-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+            </svg>
+          </div>
+          Categoria <span class="text-red-600 ml-1">*</span>
+        </label>
+        {{ form.categoria|add_class:"w-full border-gray-300 rounded-xl shadow-sm focus:ring-red-600 focus:border-red-600 text-gray-900 text-base py-3 px-4" }}
+        {% include "forms/field_errors.html" with field=form.categoria %}
+        <p class="text-sm text-gray-500 mt-2">Selecione o tipo de conteúdo que está publicando.</p>
+      </div>
+
+      <!-- Campos específicos para Eventos (exibidos condicionalmente) -->
+      <div id="campos-evento" class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm transition-all hover:shadow-md" style="display: none;">
+        <!-- Data do Evento -->
+        <label for="{{ form.data_evento.id_for_label }}" class="flex items-center text-lg font-semibold text-gray-700 mb-3">
+          <div class="w-8 h-8 bg-red-100 text-red-700 rounded-full flex items-center justify-center mr-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          Data e Hora do Evento <span class="text-red-600 ml-1">*</span>
+        </label>
+        {{ form.data_evento|add_class:"w-full border-gray-300 rounded-xl shadow-sm focus:ring-red-600 focus:border-red-600 text-gray-900 text-base py-3 px-4" }}
+        {% include "forms/field_errors.html" with field=form.data_evento %}
+        <p class="text-sm text-gray-500 mt-2">Informe quando o evento acontecerá.</p>
+
+        <!-- Local do Evento -->
+        <label for="{{ form.local_evento.id_for_label }}" class="flex items-center text-lg font-semibold text-gray-700 mt-6 mb-3">
+          <div class="w-8 h-8 bg-red-100 text-red-700 rounded-full flex items-center justify-center mr-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          Local do Evento <span class="text-red-600 ml-1">*</span>
+        </label>
+        {{ form.local_evento|add_class:"w-full border-gray-300 rounded-xl shadow-sm focus:ring-red-600 focus:border-red-600 text-gray-900 text-base py-3 px-4" }}
+        {% include "forms/field_errors.html" with field=form.local_evento %}
+        <p class="text-sm text-gray-500 mt-2">Endereço ou local onde o evento acontecerá.</p>
+      </div>
+
       <!-- Resumo -->
       <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm transition-all hover:shadow-md">
         <label for="{{ form.resumo.id_for_label }}" class="flex items-center text-lg font-semibold text-gray-700 mb-3">
@@ -283,6 +328,32 @@
         // Implementar preview de imagem aqui se necessário
       });
     }
+  
+      // Controle de exibição dos campos de evento
+    const categoriaField = document.getElementById('{{ form.categoria.id_for_label }}');
+    const camposEvento = document.getElementById('campos-evento');
+    
+    const toggleCamposEvento = function() {
+      if (categoriaField.value === 'evento') {
+        camposEvento.style.display = 'block';
+        // Tornar campos de evento obrigatórios
+        document.getElementById('{{ form.data_evento.id_for_label }}').required = true;
+        document.getElementById('{{ form.local_evento.id_for_label }}').required = true;
+      } else {
+        camposEvento.style.display = 'none';
+        // Remover obrigatoriedade
+        document.getElementById('{{ form.data_evento.id_for_label }}').required = false;
+        document.getElementById('{{ form.local_evento.id_for_label }}').required = false;
+      }
+    };
+    
+    if (categoriaField && camposEvento) {
+      categoriaField.addEventListener('change', toggleCamposEvento);
+      // Inicializar estado no carregamento da página
+      toggleCamposEvento();
+    }
+
   });
+
 </script>
 {% endblock %}

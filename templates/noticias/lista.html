@@ -31,11 +31,14 @@
     <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
         <div class="flex items-center space-x-4 mb-4 md:mb-0">
             <span class="text-gray-700 font-medium">Filtrar por:</span>
+            <!-- template de lista de notícias -->
             <div class="flex flex-wrap gap-2">
-                <a href="#" class="px-4 py-2 bg-white hover:bg-red-50 text-gray-700 border border-gray-300 rounded-full text-sm transition">Todos</a>
-                <a href="#" class="px-4 py-2 bg-white hover:bg-red-50 text-gray-700 border border-gray-300 rounded-full text-sm transition">Eventos</a>
-                <a href="#" class="px-4 py-2 bg-white hover:bg-red-50 text-gray-700 border border-gray-300 rounded-full text-sm transition">Comunidade</a>
-                <a href="#" class="px-4 py-2 bg-white hover:bg-red-50 text-gray-700 border border-gray-300 rounded-full text-sm transition">Cultura</a>
+                {% for cat in categorias %}
+                    <a href="?categoria={{ cat.valor }}" 
+                    class="px-4 py-2 {% if categoria_atual == cat.valor %}bg-red-100 text-red-700 border-red-300{% else %}bg-white hover:bg-red-50 text-gray-700 border-gray-300{% endif %} border rounded-full text-sm transition">
+                        {{ cat.nome }}
+                    </a>
+                {% endfor %}
             </div>
         </div>
         
@@ -154,7 +157,7 @@
     <div class="flex justify-center mt-10">
         <nav class="inline-flex rounded-md shadow-sm" aria-label="Paginação">
             {% if noticias.has_previous %}
-            <a href="?page={{ noticias.previous_page_number }}" class="relative inline-flex items-center px-3 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+            <a href="?{% if categoria_atual != 'todos' %}categoria={{ categoria_atual }}&{% endif %}page={{ noticias.previous_page_number }}" class="relative inline-flex items-center px-3 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
                 <span class="sr-only">Anterior</span>
                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
@@ -175,14 +178,14 @@
                     {{ i }}
                 </span>
                 {% else %}
-                <a href="?page={{ i }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                <a href="?{% if categoria_atual != 'todos' %}categoria={{ categoria_atual }}&{% endif %}page={{ i }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
                     {{ i }}
                 </a>
                 {% endif %}
             {% endfor %}
             
             {% if noticias.has_next %}
-            <a href="?page={{ noticias.next_page_number }}" class="relative inline-flex items-center px-3 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+            <a href="?{% if categoria_atual != 'todos' %}categoria={{ categoria_atual }}&{% endif %}page={{ noticias.next_page_number }}" class="relative inline-flex items-center px-3 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
                 <span class="sr-only">Próximo</span>
                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />

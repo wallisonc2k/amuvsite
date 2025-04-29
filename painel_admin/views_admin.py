@@ -12,7 +12,8 @@ class AdminDashboardView(TemplateView):
     template_name = 'painel_admin/dashboard.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_news'] = Noticia.objects.count()
+        context['total_news'] = Noticia.objects.filter(categoria="noticia").count()
+        context['total_events'] = Noticia.objects.filter(categoria="evento").count()
         context['recent_news'] = Noticia.objects.filter(publicado_em__date=hoje).count()
         context['total_members'] = Membro.objects.count()
         return context

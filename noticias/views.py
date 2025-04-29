@@ -6,23 +6,41 @@ class ListaNoticiasView(ListView):
     model = Noticia
     template_name = 'noticias/lista.html'
     context_object_name = 'noticias'
-    ordering = ['-publicado_em']
+    paginate_by = 10
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        categoria = self.request.GET.get('categoria')
+        
+        if categoria and categoria != 'todos':
+            queryset = queryset.filter(categoria=categoria)
+            
+        return queryset.order_by('-publicado_em')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Pegando a notícia mais recente (em destaque)
-        noticia_destaque = Noticia.objects.order_by('-publicado_em').first()
-        # Pegando as demais notícias (exceto a notícia em destaque)
-        # noticias = Noticia.objects.exclude(id=noticia_destaque.id).order_by('-publicado_em')[:6]
+        categoria_atual = self.request.GET.get('categoria', 'todos')
         
-        noticias = Noticia.objects.order_by('-publicado_em')[:6]
-
-        # Adicionando ao contexto
-        context['noticia_destaque'] = noticia_destaque
-        context['noticias'] = noticias
+        # Adicionando as categorias para o filtro
+        context['categoria_atual'] = categoria_atual
+        context['categorias'] = Noticia.get_categorias_para_filtro()
+        
+        # Define o breadcrumb
         context['breadcrumb_items'] = [
-            {"name": "Noticias"}
+            {"name": "Notícias"}
         ]
+        
+        # Preserva o parâmetro de categoria na paginação
+        if categoria_atual and categoria_atual != 'todos':
+            # Se estiver em páginas posteriores, mantém a categoria na navegação
+            pagination_links = context.get('page_obj', None)
+            if pagination_links:
+                for page_number in range(1, pagination_links.paginator.num_pages + 1):
+                    pagination_links.paginator.page(page_number).categoria_param = f"?categoria={categoria_atual}"
+                    if page_number != context['page_obj'].number:
+                        # Mantém o parâmetro categoria nas páginas
+                        pagination_links.paginator.page(page_number).url = f"?categoria={categoria_atual}&page={page_number}"
+        
         return context
 
 class DetalheNoticiaView(DetailView):
@@ -42,5 +60,11 @@ class DetalheNoticiaView(DetailView):
         )
         return context
 
-
-
+# Para listar apenas eventos
+class EventosListView(ListView):
+    model = Noticia
+    template_name = 'eventos/lista.html'
+    context_object_name = 'eventos'
+    
+    def get_queryset(self):
+        return Noticia.objects.filter(categoria='evento')

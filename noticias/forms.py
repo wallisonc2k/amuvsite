@@ -4,7 +4,7 @@ from .models import Noticia
 class NoticiaForm(forms.ModelForm):
     class Meta:
         model = Noticia
-        fields = ['titulo', 'subtitulo', 'resumo', 'conteudo', 'imagem_capa']
+        fields = ['titulo', 'subtitulo', 'resumo', 'conteudo', 'imagem_capa', 'categoria', 'data_evento', 'local_evento']
         widgets = {
             'titulo': forms.TextInput(attrs={
                 'class': 'w-full px-4 py-2 border rounded-xl',
@@ -26,7 +26,14 @@ class NoticiaForm(forms.ModelForm):
             'imagem_capa': forms.ClearableFileInput(attrs={
                 'class': 'w-full px-4 py-2'
             }),
+            'data_evento': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Tornar campos de evento condicionais
+        self.fields['data_evento'].required = False
+        self.fields['local_evento'].required = False
 
     def clean_titulo(self):
         titulo = self.cleaned_data.get('titulo')
