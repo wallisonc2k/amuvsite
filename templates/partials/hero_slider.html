@@ -88,40 +88,7 @@
         </a>
     </div>
 </section>
-
-<script>
-function carousel() {
-    return {
-        imagemAtual: 0,
-        imagens: [
-            '/static/img/banner3.jpg',
-            '/static/img/na_cruz.jpeg',
-            '/static/img/banner1.jpg'
-        ],
-        intervalo: null,
-        start() {
-            this.intervalo = setInterval(() => {
-                this.navegarProximo()
-            }, 8000); // Intervalo de 8 segundos para cada imagem
-        },
-        navegarProximo() {
-            clearInterval(this.intervalo);
-            this.imagemAtual = (this.imagemAtual + 1) % this.imagens.length;
-            this.start();
-        },
-        navegarAnterior() {
-            clearInterval(this.intervalo);
-            this.imagemAtual = (this.imagemAtual - 1 + this.imagens.length) % this.imagens.length;
-            this.start();
-        },
-        navegar(index) {
-            clearInterval(this.intervalo);
-            this.imagemAtual = index;
-            this.start();
-        }
-    }
-}
-</script>
+{{ imagens_hero_slider|json_script:"imagens-json" }}
 
 <!-- Âncora para rolagem -->
 <div id="content"></div>

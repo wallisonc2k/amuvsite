@@ -125,59 +125,16 @@
       <div class="swiper-wrapper">
 
         <!-- Slides -->
+        {% for imagem in imagens_swiper %}
         <div class="swiper-slide">
           <div class="relative group">
-            <img src="{% static 'img/na_cruz.jpeg' %}" alt="Cena 1" class="rounded-xl w-full h-64 md:h-80 object-cover shadow-lg">
+            <img src="{{ imagem.url }}" alt="{{ imagem.descricao }}" class="rounded-xl w-full h-64 md:h-80 object-cover shadow-lg">
             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center p-6">
-              <p class="text-white font-medium">Momento da crucificação</p>
+              <p class="text-white font-medium">{{ imagem.descricao }}</p>
             </div>
           </div>
         </div>
-        
-        <div class="swiper-slide">
-          <div class="relative group">
-            <img src="{% static 'img/jesus_carregando.webp' %}" alt="Cena 2" class="rounded-xl w-full h-64 md:h-80 object-cover shadow-lg">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center p-6">
-              <p class="text-white font-medium">Jesus carregando a cruz</p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="swiper-slide">
-          <div class="relative group">
-            <img src="{% static 'img/gemeos.webp' %}" alt="Cena 3" class="rounded-xl w-full h-64 md:h-80 object-cover shadow-lg">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center p-6">
-              <p class="text-white font-medium">Representação dos discípulos</p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="swiper-slide">
-          <div class="relative group">
-            <img src="{% static 'img/herodis.webp' %}" alt="Cena 4" class="rounded-xl w-full h-64 md:h-80 object-cover shadow-lg">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center p-6">
-              <p class="text-white font-medium">Herodes em seu trono</p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="swiper-slide">
-          <div class="relative group">
-            <img src="{% static 'img/povo.jpeg' %}" alt="Cena 5" class="rounded-xl w-full h-64 md:h-80 object-cover shadow-lg">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center p-6">
-              <p class="text-white font-medium">A multidão durante o espetáculo</p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="swiper-slide">
-          <div class="relative group">
-            <img src="{% static 'img/tres_cruz.jpeg' %}" alt="Cena 6" class="rounded-xl w-full h-64 md:h-80 object-cover shadow-lg">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center p-6">
-              <p class="text-white font-medium">As três cruzes no Calvário</p>
-            </div>
-          </div>
-        </div>
+        {% endfor %}
 
       </div>
 

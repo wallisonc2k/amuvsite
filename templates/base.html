@@ -155,6 +155,34 @@
         }
       });
     });
+
+    function carousel() {
+      return {
+          imagemAtual: 0,
+          imagens: JSON.parse(document.getElementById('imagens-json').textContent),
+          intervalo: null,
+          start() {
+              this.intervalo = setInterval(() => {
+                  this.navegarProximo()
+              }, 8000); // Intervalo de 8 segundos para cada imagem
+          },
+          navegarProximo() {
+              clearInterval(this.intervalo);
+              this.imagemAtual = (this.imagemAtual + 1) % this.imagens.length;
+              this.start();
+          },
+          navegarAnterior() {
+              clearInterval(this.intervalo);
+              this.imagemAtual = (this.imagemAtual - 1 + this.imagens.length) % this.imagens.length;
+              this.start();
+          },
+          navegar(index) {
+              clearInterval(this.intervalo);
+              this.imagemAtual = index;
+              this.start();
+        }
+      }
+    };
   </script>
 
 </body>

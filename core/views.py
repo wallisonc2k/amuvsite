@@ -5,11 +5,19 @@ from .models import Contato
 from .forms import ContatoForm
 from noticias.models import Noticia
 from django.shortcuts import render
+from .utils import listar_imagens_estaticas, listar_imagens_com_descricao
+
 
 class HomeView(TemplateView):
     template_name = 'core/home.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
+        imagens_hero_slider = listar_imagens_estaticas('img/hero_slider') # Adiciona as imagens do hero Slider automaticamente
+        imagens_swiper = listar_imagens_com_descricao()
+
+        context['imagens_hero_slider'] = imagens_hero_slider
+        context['imagens_swiper'] = imagens_swiper
         context['noticias'] = Noticia.objects.order_by('-publicado_em')[:3]  # últimas 3 notícias
         return context
 
