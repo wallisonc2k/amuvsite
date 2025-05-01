@@ -13,7 +13,7 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        imagens_hero_slider = listar_imagens_estaticas('img/hero_slider') # Adiciona as imagens do hero Slider automaticamente
+        imagens_hero_slider = listar_imagens_estaticas('shared/img/hero_slider') # Adiciona as imagens do hero Slider automaticamente
         imagens_swiper = listar_imagens_com_descricao()
 
         context['imagens_hero_slider'] = imagens_hero_slider

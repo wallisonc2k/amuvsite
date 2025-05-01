@@ -33,7 +33,7 @@ def listar_imagens_estaticas(subpasta, extensoes_permitidas=None, ordenar=True):
     return imagens
 
 
-def listar_imagens_com_descricao(subpasta='img/galeria'):
+def listar_imagens_com_descricao(subpasta='shared/img/galeria'):
     caminho_absoluto = os.path.join('static', subpasta)
     try:
         arquivos = os.listdir(caminho_absoluto)
