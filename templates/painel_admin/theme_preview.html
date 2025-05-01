@@ -1,0 +1,143 @@
+{# 2. Template de Visualização - Arquivo: templates/admin/theme_preview.html #}
+{% extends 'admin/base_site.html' %}
+{% load static %}
+
+{% block extrahead %}
+  {% include 'includes/dynamic_colors.html' %}
+  <style>
+    .color-sample {
+      width: 100px;
+      height: 100px;
+      display: inline-block;
+      margin: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .color-swatch {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .sample-section {
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+    }
+    .sample-card {
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .sample-button {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: none;
+      color: white;
+      cursor: pointer;
+      display: inline-block;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+    .sample-text {
+      margin-bottom: 15px;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <h1>Visualização do Tema</h1>
+  <p>Esta página mostra como as cores configuradas são aplicadas em diferentes elementos do site.</p>
+  
+  <div class="color-swatch">
+    <h2>Amostras de Cores</h2>
+    
+    <div>
+      <div class="color-sample" style="background-color: {{ site_config.cor_primaria }}"></div>
+      <p>Cor primária: {{ site_config.cor_primaria }}</p>
+    </div>
+    
+    <div>
+      <div class="color-sample" style="background-color: {{ site_config.cor_primaria_hover }}"></div>
+      <p>Cor primária (hover): {{ site_config.cor_primaria_hover }}</p>
+    </div>
+    
+    <div>
+      <div class="color-sample" style="background-color: {{ site_config.cor_secundaria }}"></div>
+      <p>Cor secundária: {{ site_config.cor_secundaria }}</p>
+    </div>
+    
+    <div>
+      <div class="color-sample" style="background-color: {{ site_config.cor_texto }}"></div>
+      <p>Cor de texto principal: {{ site_config.cor_texto }}</p>
+    </div>
+    
+    <div>
+      <div class="color-sample" style="background-color: {{ site_config.cor_texto_claro }}"></div>
+      <p>Cor de texto secundário: {{ site_config.cor_texto_claro }}</p>
+    </div>
+    
+    <div>
+      <div class="color-sample" style="background-color: {{ site_config.cor_fundo_hero }}"></div>
+      <p>Cor de fundo do Hero: {{ site_config.cor_fundo_hero }}</p>
+    </div>
+    
+    <div>
+      <div class="color-sample" style="background-color: {{ site_config.cor_fundo_secoes }}"></div>
+      <p>Cor de fundo das seções: {{ site_config.cor_fundo_secoes }}</p>
+    </div>
+    
+    <div>
+      <div class="color-sample" style="background-color: {{ site_config.cor_fundo_cards }}"></div>
+      <p>Cor de fundo dos cards: {{ site_config.cor_fundo_cards }}</p>
+    </div>
+    
+    <div>
+      <div class="color-sample" style="background-color: {{ site_config.cor_fundo_footer }}"></div>
+      <p>Cor de fundo do rodapé: {{ site_config.cor_fundo_footer }}</p>
+    </div>
+    
+    <div>
+      <div class="color-sample" style="background-color: {{ site_config.cor_divisor }}"></div>
+      <p>Cor dos divisores: {{ site_config.cor_divisor }}</p>
+    </div>
+    
+    <div>
+      <div class="color-sample" style="background-color: {{ site_config.cor_borda_cards }}"></div>
+      <p>Cor da borda dos cards: {{ site_config.cor_borda_cards }}</p>
+    </div>
+  </div>
+  
+  <h2>Exemplos de Uso</h2>
+  
+  <div class="sample-section bg-fundo-hero">
+    <h3 style="color: white;">Hero Section</h3>
+    <p style="color: rgba(255,255,255,0.9);">
+      Este é um exemplo de como fica o hero section com as cores configuradas.
+    </p>
+    <div class="sample-button bg-primaria">Botão Primário</div>
+    <div class="sample-button bg-secundaria">Botão Secundário</div>
+  </div>
+  
+  <div class="sample-section bg-fundo-secoes">
+    <h3 class="text-principal">Seção de Conteúdo</h3>
+    <p class="text-secundario">
+      Este é um exemplo de seção de conteúdo com as cores configuradas.
+    </p>
+    
+    <div class="sample-card bg-fundo-cards" style="border-left: 4px solid var(--cor-borda-cards);">
+      <h4 class="text-principal">Card de Exemplo</h4>
+      <p class="text-secundario">Conteúdo do card com texto secundário</p>
+      <a href="#" class="text-primaria">Link de exemplo</a>
+    </div>
+  </div>
+  
+  <div class="sample-section bg-fundo-footer" style="color: white;">
+    <h3>Footer</h3>
+    <p style="color: rgba(255,255,255,0.7);">
+      Este é um exemplo de como fica o rodapé com as cores configuradas.
+    </p>
+  </div>
+  
+  <p><a href="{% url 'admin:index' %}" class="text-primaria">Voltar ao painel administrativo</a></p>
+{% endblock %}

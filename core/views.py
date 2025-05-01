@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from .models import Contato
 from .forms import ContatoForm
 from noticias.models import Noticia
+from django.shortcuts import render
 
 class HomeView(TemplateView):
     template_name = 'core/home.html'
@@ -39,3 +40,7 @@ class ContatoView(FormView):
 
 class DoacaoView(TemplateView):
     template_name = "core/doacao.html"
+
+
+def error_404_view(request, exception):
+    return render(request, 'erro/404.html', status=404)

@@ -51,6 +51,9 @@ INSTALLED_APPS = [
     'core',
     'noticias',
     'membros',
+
+    # App de cores
+    'colorfield'
 ]
 
 MIDDLEWARE = [
@@ -64,6 +67,8 @@ MIDDLEWARE = [
 
     # Middleware do allauth
     'allauth.account.middleware.AccountMiddleware',
+
+    'core.middleware.SiteConfigMiddleware',
 ]
 
 ROOT_URLCONF = 'amuvsite.urls'
@@ -166,3 +171,6 @@ import os
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# CONFIGURAÇÃO APENAS PARA APRESENTAÇÃO
+CSRF_TRUSTED_ORIGINS = ['https://*.ngrok-free.app', 'https://*.ngrok.io']

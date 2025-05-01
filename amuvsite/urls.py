@@ -14,5 +14,11 @@ urlpatterns = [
     path('painel_admin/', include('painel_admin.urls', namespace='painel_admin')),
 ]
 
+# È PARA COMEMTAR QUANDO ESTIVER EM PRODUÇÃO
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
+# Define o manipulador de erro 404
+handler404 = 'core.views.error_404_view'

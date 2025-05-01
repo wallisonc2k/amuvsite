@@ -1,11 +1,13 @@
 from django.urls import path
-from .views_admin import AdminDashboardView
+from .views_admin import AdminDashboardView, ThemePreviewView
 from .views_news import (AdminNewsListView, AdminNewsCreateView, AdminNewsUpdateView, AdminNewsDeleteView)
 from .views_payments import (AdminPaymentsListView, AdminPaymentsUpdateView)
 
 app_name = 'painel_admin'
 
 urlpatterns = [
+    path('theme-preview/', ThemePreviewView.as_view(), name='theme_preview'),
+
     path('dashboard/', AdminDashboardView.as_view(), name='admin_dashboard'),
 
     # Notícias

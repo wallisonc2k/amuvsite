@@ -1,0 +1,49 @@
+{% extends 'base_membros.html' %}
+{% load static %}
+{% block title %}Página Não Encontrada - AMUV{% endblock %}
+
+{% block content %}
+
+<!-- Página de Erro 404 -->
+<div class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-50 to-red-50 px-6 py-16">
+  <div class="max-w-lg text-center">
+    <!-- Número 404 estilizado -->
+    <h1 class="text-9xl font-bold text-red-600 mb-2 drop-shadow-md">404</h1>
+    
+    <!-- Imagem centralizada -->
+    <div class="relative mb-8 mt-2">
+      <div class="absolute inset-0 bg-red-600 rounded-full opacity-10 transform scale-110 rotate-3"></div>
+      <img src="{% static 'img/404-image2 _sem_fundo.png' %}" alt="Página não encontrada" class="relative z-10 mx-auto h-64 w-auto">
+      <!-- Nota: Você precisa adicionar uma imagem chamada 404-image.png aos seus arquivos estáticos -->
+      <!-- Se não tiver uma imagem específica, substitua o src por outra imagem da sua preferência -->
+    </div>
+    
+    <h2 class="text-3xl font-bold text-gray-800 mb-4">Página não encontrada</h2>
+    <p class="text-lg text-gray-600 mb-8">
+      Parece que você se perdeu no caminho. A página que você estava procurando não existe ou foi movida.
+    </p>
+    
+    <!-- Botões de ação -->
+    <div class="flex flex-col sm:flex-row justify-center gap-4">
+      <a href="{% url 'core:home' %}" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-full shadow-md transition transform hover:scale-105">
+        Voltar ao início
+      </a>
+      <a href="javascript:history.back()" class="border-2 border-red-600 text-red-600 hover:bg-red-50 font-semibold py-3 px-8 rounded-full transition">
+        Voltar à página anterior
+      </a>
+    </div>
+    
+    <!-- Links úteis -->
+    <div class="mt-12 pt-8 border-t border-gray-200">
+      <h3 class="text-lg font-semibold text-gray-700 mb-4">Você também pode tentar</h3>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="{% url 'noticias:lista' %}" class="text-red-600 hover:text-red-700 hover:underline">Notícias</a>
+        <a href="{% url 'core:sobre' %}" class="text-red-600 hover:text-red-700 hover:underline">Sobre nós</a>
+        <a href="{% url 'core:contato' %}" class="text-red-600 hover:text-red-700 hover:underline">Contato</a>
+        <a href="#" class="text-red-600 hover:text-red-700 hover:underline">Eventos</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
