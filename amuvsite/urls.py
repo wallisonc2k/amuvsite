@@ -12,6 +12,8 @@ urlpatterns = [
     
     # Seu painel administrativo customizado:
     path('painel_admin/', include('painel_admin.urls', namespace='painel_admin')),
+
+    path('ckeditor/', include('ckeditor_uploader.urls')),
 ]
 
 # È PARA COMEMTAR QUANDO ESTIVER EM PRODUÇÃO

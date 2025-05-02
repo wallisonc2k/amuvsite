@@ -19,10 +19,7 @@ class NoticiaForm(forms.ModelForm):
                 'placeholder': 'Digite um resumo curto da notícia...',
                 'maxlength': '300',  # Limite visual no form
             }),
-            'conteudo': forms.Textarea(attrs={
-                'class': 'w-full px-4 py-2 border rounded-xl h-40',
-                'placeholder': 'Escreva o conteúdo da notícia aqui...'
-            }),
+            'conteudo': forms.CharField(),  # O CKEditor será aplicado automaticamente
             'imagem_capa': forms.ClearableFileInput(attrs={
                 'class': 'w-full px-4 py-2'
             }),

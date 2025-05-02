@@ -53,7 +53,11 @@ INSTALLED_APPS = [
     'membros',
 
     # App de cores
-    'colorfield'
+    'colorfield',
+
+    # CkEditor editor para noticias
+    'ckeditor',
+    'ckeditor_uploader',  # Para upload de imagens
 ]
 
 MIDDLEWARE = [
@@ -169,8 +173,26 @@ EMAIL_BACKEND="django.core.mail.backends.console.EmailBackend"
 
 import os
 
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+
+# Configurações opcionais para personalizar o CKEditor
+CKEDITOR_CONFIGS = {
+    'default': {
+        #'removePlugins': 'preview,openlink',
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+            ['Link', 'Unlink'],
+            ['Image', 'Table'],
+            ['Source', 'Maximize', 'RemoveFormat'],
+        ],
+        'height': 300,
+        'width': '100%',
+    },
+}
 
 # CONFIGURAÇÃO APENAS PARA APRESENTAÇÃO
 CSRF_TRUSTED_ORIGINS = ['https://*.ngrok-free.app', 'https://*.ngrok.io']

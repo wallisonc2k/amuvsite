@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings  # Importa as configurações do projeto
 from django.utils.text import slugify
+from ckeditor_uploader.fields import RichTextUploadingField
 
 class Noticia(models.Model):
     CATEGORIA_CHOICES = [
@@ -12,7 +13,7 @@ class Noticia(models.Model):
 
     titulo = models.CharField(max_length=200)
     subtitulo = models.CharField(max_length=255, blank=True)
-    conteudo = models.TextField()
+    conteudo = RichTextUploadingField()
     resumo = models.TextField(default='', blank=True)
     imagem_capa = models.ImageField(upload_to='noticias/capas/', blank=True, null=True)
     publicado_em = models.DateTimeField(auto_now_add=True)

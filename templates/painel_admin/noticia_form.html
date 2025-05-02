@@ -135,18 +135,18 @@
           </div>
           Conteúdo <span class="text-red-600 ml-1">*</span>
         </label>
-        {{ form.conteudo|add_class:"w-full border-gray-300 rounded-xl shadow-sm focus:ring-red-600 focus:border-red-600 text-gray-900 text-base py-3 px-4 h-72" }}
+        {{ form.conteudo }}
         {% include "forms/field_errors.html" with field=form.conteudo %}
         
-        <div class="mt-3 flex justify-between items-center text-sm">
-          <p class="text-gray-500">Escreva o texto completo da notícia com detalhes.</p>
-          <div class="flex space-x-2">
-            <button type="button" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-md text-gray-700 text-xs font-medium" onclick="formatText('bold')">Negrito</button>
-            <button type="button" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-md text-gray-700 text-xs font-medium" onclick="formatText('italic')">Itálico</button>
-            <button type="button" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-md text-gray-700 text-xs font-medium" onclick="formatText('list')">Lista</button>
-          </div>
+        <div class="mt-3">
+          <p class="text-gray-500 text-sm">Escreva o texto completo da notícia com detalhes. Use as ferramentas do editor para formatar o texto, adicionar imagens e links.</p>
         </div>
       </div>
+
+      <!-- Inclua os scripts do CKEditor -->
+      {% block extra_js %}
+        {{ form.media }}
+      {% endblock %}
 
       <!-- Imagem de Capa -->
       <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm transition-all hover:shadow-md">
