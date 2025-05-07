@@ -19,6 +19,7 @@ class Noticia(models.Model):
     publicado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
     slug = models.SlugField(unique=True, blank=True)
+    visualizacoes = models.PositiveIntegerField(default=0)
 
     categoria = models.CharField(max_length=20, choices=CATEGORIA_CHOICES, default='noticia')
     

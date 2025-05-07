@@ -54,154 +54,298 @@
 </div>
 
 <main class="max-w-7xl mx-auto px-4 py-12">
-    <!-- Destaque para a notícia mais recente (apenas se houver notícias) -->
-    {% if noticias %}
-    <div class="mb-12">
-        <div class="flex items-center mb-8">
-            <div class="w-12 h-1 bg-red-600 mr-4"></div>
-            <h2 class="text-2xl font-bold text-gray-800">Notícia em Destaque</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Conteúdo Principal (3/4) -->
+        <div class="lg:col-span-3">
+            <!-- Destaque para a notícia mais recente (apenas se houver notícias) -->
+            {% if noticias %}
+            <div class="mb-12">
+                <div class="flex items-center mb-8">
+                    <div class="w-12 h-1 bg-red-600 mr-4"></div>
+                    <h2 class="text-2xl font-bold text-gray-800">Notícia em Destaque</h2>
+                </div>
+                
+                <article class="bg-white rounded-2xl overflow-hidden shadow-lg">
+                    {% if noticias.0.imagem_capa %}
+                    <img src="{{ noticias.0.imagem_capa.url }}" alt="{{ noticias.0.titulo }}" class="w-full h-96 object-cover" loading="lazy">
+                    {% else %}
+                    <img src="{% static 'img/default-news.jpg' %}" alt="Imagem padrão da notícia" class="w-full h-96 object-cover" loading="lazy">
+                    {% endif %}
+                    <div class="p-8">
+                        <span class="inline-block px-3 py-1 bg-red-100 text-red-700 text-sm font-medium rounded-full mb-4">Destaque</span>
+                        <a href="{% url 'noticias:detalhe' slug=noticias.0.slug %}"><h3 class="text-3xl font-bold text-gray-800 hover:text-red-700 mb-3">
+                            {{ noticias.0.titulo }}
+                        </h3></a>
+                        <p class="text-sm text-gray-500 mb-4 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            Publicado em {{ noticias.0.publicado_em|date:"d de F de Y" }} 
+                        </p>
+                        {% if noticias.0.resumo %}
+                            <p class="text-gray-700 mb-6">{{ noticias.0.resumo|truncatewords:40 }}</p>
+                        {% elif noticias.0.subtitulo %}
+                            <p class="text-gray-700 mb-6">{{ noticias.0.subtitulo|truncatewords:40 }}</p>
+                        {% endif %}
+                        <a href="{% url 'noticias:detalhe' slug=noticias.0.slug %}" class="inline-block text-white bg-red-600 hover:bg-red-700 px-6 py-3 rounded-full transition font-medium flex items-center self-start">
+                            Ler notícia completa
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+            </div>
+            {% endif %}
+
+            <!-- Lista de notícias em duas colunas -->
+            <div class="mb-8">
+                <div class="flex items-center mb-8">
+                    <div class="w-12 h-1 bg-red-600 mr-4"></div>
+                    <h2 class="text-2xl font-bold text-gray-800">Últimas Notícias</h2>
+                </div>
+                
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-8">
+                    {% for noticia in noticias %}
+                    {% if forloop.counter > 1 %} <!-- Pula a primeira notícia que já está no destaque -->
+                    <article class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition duration-300 border border-gray-100 flex flex-col h-full transform hover:-translate-y-1">
+                        <div class="relative">
+                            {% if noticia.imagem_capa %}
+                            <img src="{{ noticia.imagem_capa.url }}" alt="{{ noticia.titulo }}" class="w-full h-52 object-cover" loading="lazy">
+                            {% else %}
+                            <img src="{% static 'img/default-news.jpg' %}" alt="Imagem padrão da notícia" class="w-full h-52 object-cover" loading="lazy">
+                            {% endif %}
+                            <div class="absolute bottom-0 left-0 bg-gradient-to-t from-black/60 to-transparent w-full h-16"></div>
+                            <div class="absolute bottom-3 left-4 text-white text-sm font-medium">
+                                {{ noticia.publicado_em|date:"d M Y" }}
+                            </div>
+                        </div>
+                        <div class="p-6 flex-grow">
+                            <h3 class="text-xl font-bold text-gray-800 mb-3 hover:text-red-700 transition">
+                                <a href="{% url 'noticias:detalhe' slug=noticia.slug %}" aria-label="Ler mais sobre {{ noticia.titulo }}">{{ noticia.titulo }}</a>
+                            </h3>
+                            {% if noticia.resumo %}
+                                <p class="text-gray-600 mb-4">{{ noticia.resumo|truncatewords:20 }}</p>
+                            {% elif noticia.subtitulo %}
+                                <p class="text-gray-600 mb-4">{{ noticia.subtitulo|truncatewords:20 }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="px-6 pb-6 mt-auto">
+                            <a href="{% url 'noticias:detalhe' slug=noticia.slug %}" class="inline-flex items-center text-red-600 hover:text-red-700 font-medium transition" aria-label="Ler mais sobre {{ noticia.titulo }}">
+                                Continuar lendo
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+                    {% endif %}
+                    {% empty %}
+                    <div class="col-span-full bg-white rounded-xl shadow-md p-12 text-center">
+                        <img src="{% static 'img/no-news.svg' %}" alt="Nenhuma notícia disponível" class="mx-auto h-48 mb-6" loading="lazy">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">Ainda não temos notícias publicadas</h3>
+                        <p class="text-lg text-gray-600 mb-6">Estamos trabalhando para trazer as informações mais recentes da nossa comunidade em breve.</p>
+                        <a href="{% url 'core:home' %}" class="inline-block text-white bg-red-600 hover:bg-red-700 px-6 py-3 rounded-full transition font-medium">
+                            Voltar para a página inicial
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Paginação -->
+            {% if noticias.has_other_pages %}
+            <div class="flex justify-center mt-10">
+                <nav class="inline-flex rounded-md shadow-sm" aria-label="Paginação">
+                    {% if noticias.has_previous %}
+                    <a href="?{% if categoria_atual != 'todos' %}categoria={{ categoria_atual }}&{% endif %}page={{ noticias.previous_page_number }}" class="relative inline-flex items-center px-3 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                        <span class="sr-only">Anterior</span>
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    {% else %}
+                    <span class="relative inline-flex items-center px-3 py-2 rounded-l-md border border-gray-300 bg-gray-100 text-sm font-medium text-gray-400">
+                        <span class="sr-only">Anterior</span>
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </span>
+                    {% endif %}
+                    
+                    {% for i in noticias.paginator.page_range %}
+                        {% if noticias.number == i %}
+                        <span class="relative inline-flex items-center px-4 py-2 border border-red-600 bg-red-50 text-sm font-medium text-red-700">
+                            {{ i }}
+                        </span>
+                        {% else %}
+                        <a href="?{% if categoria_atual != 'todos' %}categoria={{ categoria_atual }}&{% endif %}page={{ i }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            {{ i }}
+                        </a>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if noticias.has_next %}
+                    <a href="?{% if categoria_atual != 'todos' %}categoria={{ categoria_atual }}&{% endif %}page={{ noticias.next_page_number }}" class="relative inline-flex items-center px-3 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                        <span class="sr-only">Próximo</span>
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    {% else %}
+                    <span class="relative inline-flex items-center px-3 py-2 rounded-r-md border border-gray-300 bg-gray-100 text-sm font-medium text-gray-400">
+                        <span class="sr-only">Próximo</span>
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </span>
+                    {% endif %}
+                </nav>
+            </div>
+            {% endif %}
         </div>
         
-        <article class="bg-white rounded-2xl overflow-hidden shadow-lg grid md:grid-cols-2 gap-0">
-            {% if noticias.0.imagem_capa %}
-            <img src="{{ noticias.0.imagem_capa.url }}" alt="{{ noticias.0.titulo }}" class="w-full h-full object-cover" loading="lazy">
-            {% else %}
-            <img src="{% static 'img/default-news.jpg' %}" alt="Imagem padrão da notícia" class="w-full h-64 md:h-full object-cover" loading="lazy">
-            {% endif %}
-            <div class="p-8 flex flex-col justify-between">
-                <div>
-                    <span class="inline-block px-3 py-1 bg-red-100 text-red-700 text-sm font-medium rounded-full mb-4">Destaque</span>
-                    <a href="{% url 'noticias:detalhe' slug=noticias.0.slug %}"><h3 class="text-3xl font-bold text-gray-800 hover:text-red-700 mb-3">
-                        {{ noticias.0.titulo }}
-                    </h3></a>
-                    <p class="text-sm text-gray-500 mb-4 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        Publicado em {{ noticias.0.publicado_em|date:"d de F de Y" }} 
-                    </p>
-                    {% if noticias.0.resumo %}
-                        <p class="text-gray-700 mb-6">{{ noticias.0.resumo|truncatewords:40 }}</p>
-                    {% elif noticias.0.subtitulo %}
-                        <p class="text-gray-700 mb-6">{{ noticias.0.subtitulo|truncatewords:40 }}</p>
-                    {% endif %}
+        <!-- Sidebar (1/4) -->
+        <div class="lg:col-span-1">
+            <!-- Calendário -->
+            <div class="bg-white rounded-2xl shadow-md p-6 mb-8">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Calendário de Eventos</h3>
+                <div class="bg-gray-50 rounded-xl p-4">
+                    <!-- Cabeçalho do calendário -->
+                    <div class="flex justify-between items-center mb-4">
+                        <button class="text-gray-600 hover:text-red-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <h4 class="text-gray-800 font-medium">Maio 2025</h4>
+                        <button class="text-gray-600 hover:text-red-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                    <!-- Dias da semana -->
+                    <div class="grid grid-cols-7 gap-1 text-center text-xs font-medium text-gray-500 mb-2">
+                        <div>D</div>
+                        <div>S</div>
+                        <div>T</div>
+                        <div>Q</div>
+                        <div>Q</div>
+                        <div>S</div>
+                        <div>S</div>
+                    </div>
+                    <!-- Dias do mês -->
+                    <div class="grid grid-cols-7 gap-1 text-center">
+                        <div class="text-gray-400 p-2 text-sm">28</div>
+                        <div class="text-gray-400 p-2 text-sm">29</div>
+                        <div class="text-gray-400 p-2 text-sm">30</div>
+                        <div class="p-2 text-sm">1</div>
+                        <div class="p-2 text-sm">2</div>
+                        <div class="p-2 text-sm">3</div>
+                        <div class="p-2 text-sm font-bold bg-red-100 rounded-full text-red-700">4</div>
+                        <div class="p-2 text-sm">5</div>
+                        <div class="p-2 text-sm">6</div>
+                        <div class="p-2 text-sm">7</div>
+                        <div class="p-2 text-sm">8</div>
+                        <div class="p-2 text-sm">9</div>
+                        <div class="p-2 text-sm">10</div>
+                        <div class="p-2 text-sm">11</div>
+                        <div class="p-2 text-sm">12</div>
+                        <div class="p-2 text-sm bg-red-50 rounded-full relative">
+                            13
+                            <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-red-500 rounded-full"></span>
+                        </div>
+                        <div class="p-2 text-sm">14</div>
+                        <div class="p-2 text-sm">15</div>
+                        <div class="p-2 text-sm bg-red-50 rounded-full relative">
+                            16
+                            <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-red-500 rounded-full"></span>
+                        </div>
+                        <div class="p-2 text-sm">17</div>
+                        <div class="p-2 text-sm">18</div>
+                        <div class="p-2 text-sm">19</div>
+                        <div class="p-2 text-sm">20</div>
+                        <div class="p-2 text-sm">21</div>
+                        <div class="p-2 text-sm">22</div>
+                        <div class="p-2 text-sm">23</div>
+                        <div class="p-2 text-sm">24</div>
+                        <div class="p-2 text-sm">25</div>
+                        <div class="p-2 text-sm bg-red-50 rounded-full relative">
+                            26
+                            <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-red-500 rounded-full"></span>
+                        </div>
+                        <div class="p-2 text-sm">27</div>
+                        <div class="p-2 text-sm">28</div>
+                        <div class="p-2 text-sm">29</div>
+                        <div class="p-2 text-sm">30</div>
+                        <div class="p-2 text-sm">31</div>
+                        <div class="text-gray-400 p-2 text-sm">1</div>
+                    </div>
                 </div>
-                <a href="{% url 'noticias:detalhe' slug=noticias.0.slug %}" class="inline-block text-white bg-red-600 hover:bg-red-700 px-6 py-3 rounded-full transition font-medium flex items-center self-start">
-                    Ler notícia completa
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                <div class="mt-4">
+                    <div class="text-sm text-gray-600 mb-2 pb-2 border-b border-gray-100">
+                        <div class="font-medium text-gray-800">13 Mai - Reunião Municipal</div>
+                        <div>Centro Administrativo, 14h</div>
+                    </div>
+                    <div class="text-sm text-gray-600 mb-2 pb-2 border-b border-gray-100">
+                        <div class="font-medium text-gray-800">16 Mai - Workshop</div>
+                        <div>Auditório Central, 9h-12h</div>
+                    </div>
+                    <div class="text-sm text-gray-600">
+                        <div class="font-medium text-gray-800">26 Mai - Assembleia Geral</div>
+                        <div>Online, 19h</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Notícias mais lidas -->
+            <div class="bg-white rounded-2xl shadow-md p-6 mb-8">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Mais Lidas</h3>
+                <div class="space-y-4">
+                    {% for noticia in noticias_mais_lidas %}
+                    <a href="{% url 'nome_da_view_detalhe' noticia.slug %}" class="flex items-start space-x-3 group">
+                        <div class="flex-shrink-0 w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
+                            {% if noticia.imagem_capa %}
+                                <img src="{{ noticia.imagem_capa.url }}" alt="{{ noticia.titulo }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy">
+                            {% else %}
+                                <img src="{% static 'img/default-news.jpg' %}" alt="Notícia" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy">
+                            {% endif %}
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-gray-800 font-medium group-hover:text-red-600 transition">{{ noticia.titulo }}</h4>
+                            <p class="text-xs text-gray-500 mt-1">{{ noticia.publicado_em|date:"d M Y" }}</p>
+                        </div>
+                    </a>
+                    {% empty %}
+                    <p class="text-gray-500 text-sm">Nenhuma notícia registrada ainda.</p>
+                    {% endfor %}
+                </div>
+                <a href="{% url 'noticias:lista' %}" class="inline-flex items-center text-red-600 hover:text-red-700 font-medium transition mt-4 text-sm">
+                    Ver todas
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
                 </a>
             </div>
-        </article>
-    </div>
-    {% endif %}
 
-    <!-- Lista de notícias -->
-    <div class="mb-8">
-        <div class="flex items-center mb-8">
-            <div class="w-12 h-1 bg-red-600 mr-4"></div>
-            <h2 class="text-2xl font-bold text-gray-800">Todas as Notícias</h2>
-        </div>
-        
-        <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {% for noticia in noticias %}
-            {% if forloop.counter > 1 %} <!-- Pula a primeira notícia que já está no destaque -->
-            <article class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition duration-300 border border-gray-100 flex flex-col h-full transform hover:-translate-y-1">
-                <div class="relative">
-                    {% if noticia.imagem_capa %}
-                    <img src="{{ noticia.imagem_capa.url }}" alt="{{ noticia.titulo }}" class="w-full h-52 object-cover" loading="lazy">
-                    {% else %}
-                    <img src="{% static 'img/default-news.jpg' %}" alt="Imagem padrão da notícia" class="w-full h-52 object-cover" loading="lazy">
-                    {% endif %}
-                    <div class="absolute bottom-0 left-0 bg-gradient-to-t from-black/60 to-transparent w-full h-16"></div>
-                    <div class="absolute bottom-3 left-4 text-white text-sm font-medium">
-                        {{ noticia.publicado_em|date:"d M Y" }}
-                    </div>
+            
+            <!-- Tags/Categorias -->
+            <div class="bg-white rounded-2xl shadow-md p-6 mb-8">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Categorias</h3>
+                <div class="flex flex-wrap gap-2">
+                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-red-50 hover:text-red-700 transition">Eventos</a>
+                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-red-50 hover:text-red-700 transition">Capacitação</a>
+                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-red-50 hover:text-red-700 transition">Legislação</a>
+                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-red-50 hover:text-red-700 transition">Projetos</a>
+                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-red-50 hover:text-red-700 transition">Gestão</a>
+                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-red-50 hover:text-red-700 transition">Finanças</a>
+                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-red-50 hover:text-red-700 transition">Saúde</a>
+                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-red-50 hover:text-red-700 transition">Educação</a>
                 </div>
-                <div class="p-6 flex-grow">
-                    <h3 class="text-xl font-bold text-gray-800 mb-3 hover:text-red-700 transition">
-                        <a href="{% url 'noticias:detalhe' slug=noticia.slug %}" aria-label="Ler mais sobre {{ noticia.titulo }}">{{ noticia.titulo }}</a>
-                    </h3>
-                    {% if noticia.resumo %}
-                        <p class="text-gray-600 mb-4">{{ noticia.resumo|truncatewords:20 }}</p>
-                    {% elif noticia.subtitulo %}
-                        <p class="text-gray-600 mb-4">{{ noticia.subtitulo|truncatewords:20 }}</p>
-                    {% endif %}
-                </div>
-                <div class="px-6 pb-6 mt-auto">
-                    <a href="{% url 'noticias:detalhe' slug=noticia.slug %}" class="inline-flex items-center text-red-600 hover:text-red-700 font-medium transition" aria-label="Ler mais sobre {{ noticia.titulo }}">
-                        Continuar lendo
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
-                </div>
-            </article>
-            {% endif %}
-            {% empty %}
-            <div class="col-span-full bg-white rounded-xl shadow-md p-12 text-center">
-                <img src="{% static 'img/no-news.svg' %}" alt="Nenhuma notícia disponível" class="mx-auto h-48 mb-6" loading="lazy">
-                <h3 class="text-2xl font-bold text-gray-800 mb-3">Ainda não temos notícias publicadas</h3>
-                <p class="text-lg text-gray-600 mb-6">Estamos trabalhando para trazer as informações mais recentes da nossa comunidade em breve.</p>
-                <a href="{% url 'core:home' %}" class="inline-block text-white bg-red-600 hover:bg-red-700 px-6 py-3 rounded-full transition font-medium">
-                    Voltar para a página inicial
-                </a>
             </div>
-            {% endfor %}
         </div>
     </div>
-
-    <!-- Paginação -->
-    {% if noticias.has_other_pages %}
-    <div class="flex justify-center mt-10">
-        <nav class="inline-flex rounded-md shadow-sm" aria-label="Paginação">
-            {% if noticias.has_previous %}
-            <a href="?{% if categoria_atual != 'todos' %}categoria={{ categoria_atual }}&{% endif %}page={{ noticias.previous_page_number }}" class="relative inline-flex items-center px-3 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-                <span class="sr-only">Anterior</span>
-                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
-            </a>
-            {% else %}
-            <span class="relative inline-flex items-center px-3 py-2 rounded-l-md border border-gray-300 bg-gray-100 text-sm font-medium text-gray-400">
-                <span class="sr-only">Anterior</span>
-                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
-            </span>
-            {% endif %}
-            
-            {% for i in noticias.paginator.page_range %}
-                {% if noticias.number == i %}
-                <span class="relative inline-flex items-center px-4 py-2 border border-red-600 bg-red-50 text-sm font-medium text-red-700">
-                    {{ i }}
-                </span>
-                {% else %}
-                <a href="?{% if categoria_atual != 'todos' %}categoria={{ categoria_atual }}&{% endif %}page={{ i }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-                    {{ i }}
-                </a>
-                {% endif %}
-            {% endfor %}
-            
-            {% if noticias.has_next %}
-            <a href="?{% if categoria_atual != 'todos' %}categoria={{ categoria_atual }}&{% endif %}page={{ noticias.next_page_number }}" class="relative inline-flex items-center px-3 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-                <span class="sr-only">Próximo</span>
-                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                </svg>
-            </a>
-            {% else %}
-            <span class="relative inline-flex items-center px-3 py-2 rounded-r-md border border-gray-300 bg-gray-100 text-sm font-medium text-gray-400">
-                <span class="sr-only">Próximo</span>
-                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                </svg>
-            </span>
-            {% endif %}
-        </nav>
-    </div>
-    {% endif %}
 
     <!-- Newsletter -->
     <div class="mt-16 bg-gradient-to-r from-red-600 to-red-800 rounded-2xl shadow-xl overflow-hidden">

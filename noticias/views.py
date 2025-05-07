@@ -1,6 +1,8 @@
 # noticias/views.py
 from django.views.generic import ListView, DetailView
 from .models import Noticia
+from django.db.models import F
+
 
 class ListaNoticiasView(ListView):
     model = Noticia
@@ -43,6 +45,7 @@ class ListaNoticiasView(ListView):
         
         return context
 
+
 class DetalheNoticiaView(DetailView):
     model = Noticia
     template_name = 'noticias/detalhe.html'
@@ -50,15 +53,30 @@ class DetalheNoticiaView(DetailView):
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
 
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        obj.visualizacoes += 1
+        obj.save(update_fields=['visualizacoes'])
+        return obj
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Buscar até 4 outras notícias, ignorando a atual
+        # Outras notícias recentes, excluindo a atual
         context['outras_noticias'] = (
             Noticia.objects
             .exclude(pk=self.object.pk)
             .order_by('-publicado_em')[:4]
         )
+        # Notícias mais lidas (excluindo a atual)
+        context['noticias_mais_lidas'] = (
+            Noticia.objects
+            .exclude(pk=self.object.pk)
+            .order_by('-visualizacoes')[:3]
+        )
         return context
+
+
 
 # Para listar apenas eventos
 class EventosListView(ListView):
