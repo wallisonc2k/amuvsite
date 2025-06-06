@@ -1,0 +1,25 @@
+{
+  "name": "amuv",
+  "version": "1.0.0",
+  "description": "![AMUV Logo](https://via.placeholder.com/600x200?text=LOGO+DA+AMUV)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "tailwindcss -i ./static/shared/css/input.css -o ./static/shared/css/output.css --minify",
+    "dev:css": "tailwindcss -i ./static/shared/css/input.css -o ./static/shared/css/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wallisonc2k/amuvsite.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wallisonc2k/amuvsite/issues"
+  },
+  "homepage": "https://github.com/wallisonc2k/amuvsite#readme",
+  "devDependencies": {
+    "tailwindcss": "3.4"
+  }
+}
