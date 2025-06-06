@@ -28,6 +28,8 @@ jobs:
             git pull
             source venv/bin/activate
             pip install -r requirements.txt
+            npm ci
+            npm run build:css
             python manage.py migrate
             python manage.py collectstatic --noinput
             sudo /bin/systemctl restart gunicorn

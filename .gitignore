@@ -19,6 +19,9 @@ db.sqlite3-journal
 media/
 staticfiles/
 
+# Tailwind build
+static/shared/css/output.css
+
 # VS Code
 .vscode/
 
