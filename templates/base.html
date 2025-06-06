@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -10,42 +11,8 @@
   <meta name="description" content="Associação dos Moradores Unidos por Vermelhos - AMUV">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="{% static 'shared/css/output.css' %}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            'sans': ['Montserrat', 'sans-serif'],
-          },
-          colors: {
-            'amuv-red': {
-              100: '#FFECEE',
-              200: '#FAD2D5',
-              300: '#E98E95',
-              400: '#E15B67',
-              500: '#D82836',
-              600: '#C41E2B',
-              700: '#A2131F',
-              800: '#7F0F19',
-              900: '#5A0A12',
-            },
-          },
-          animation: {
-            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'float': 'float 6s ease-in-out infinite',
-          },
-          keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-10px)' },
-            }
-          }
-        }
-      }
-    }
-  </script>
   <script src="https://unpkg.com/alpinejs" defer></script>
   <style>
     [x-cloak] { display: none !important; }
