@@ -1,74 +1,39 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-  {% block head %}
-    {% include 'includes/dynamic_colors.html' %}
-  {% endblock %}
-  <meta charset="UTF-8">
-  <title>{% block title %}AMUV{% endblock %}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Associação dos Moradores Unidos por Vermelhos - AMUV">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="{% static 'shared/css/output.css' %}" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/alpinejs" defer></script>
-  <style>
-    [x-cloak] { display: none !important; }
-    html {scroll-behavior: smooth;}
-    .text-shadow { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
-    .gradient-overlay {
-      background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
-    }
-    .swiper-button-next, .swiper-button-prev {
-      color: white !important;
-      background: rgba(216, 40, 54, 0.7);
-      width: 40px !important;
-      height: 40px !important;
-      border-radius: 50%;
-    }
-    .swiper-button-next:after, .swiper-button-prev:after {
-      font-size: 18px !important;
-    }
-    .swiper-pagination-bullet-active {
-      background: #D82836 !important;
-    }
-    .animated-border {
-      position: relative;
-      overflow: hidden;
-    }
-    .animated-border:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background-color: #D82836;
-      transition: width 0.3s ease;
-    }
-    .animated-border:hover:after {
-      width: 100%;
-    }
-    /* No seu arquivo CSS */
-    .django-ckeditor-widget {
-        width: 100%;
-    }
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Associação dos Moradores Unidos por Vermelhos - AMUV">
+    <meta name="theme-color" content="#ec3237">
+    <link rel="icon" href="{% static 'favicon.ico' %}">
+    <title>{% block title %}AMUV{% endblock %}</title>
 
-    .cke_chrome {
-        border-radius: 0.75rem !important;
-        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
-    }
-  </style>
-  <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <!-- Swiper JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
-  <!-- AOS Animation Library -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
-</head>
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Estilos -->
+    <link rel="preload" as="style" href="{% static 'shared/css/output.css' %}" onload="this.rel='stylesheet'">
+    <noscript><link href="{% static 'shared/css/output.css' %}" rel="stylesheet"></noscript>
+    <!-- Estilo Inline (ou minificado em arquivo separado) -->
+    <link href="{% static 'shared/css/inline.css' %}" rel="stylesheet">
+    
+    <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+    <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}" defer></script>
+
+    <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+    <script src="{% static 'vendor/aos/aos.js' %}" defer></script>
+    
+    <script src="{% static 'vendor/alpinejs/alpine.min.js' %}" defer></script>
+
+    
+    {% block head %}
+      {% include 'includes/dynamic_colors.html' %}
+    {% endblock %}
+  </head>
+
 
 <body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen overflow-x-hidden relative font-sans">
 

@@ -1,0 +1,61 @@
+[x-cloak] {
+  display: none !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.gradient-overlay {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+.swiper-button-next, .swiper-button-prev {
+  color: white !important;
+  background: rgba(216, 40, 54, 0.7);
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50%;
+}
+
+.swiper-button-next:after, .swiper-button-prev:after {
+  font-size: 18px !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #D82836 !important;
+}
+
+.animated-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.animated-border:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #D82836;
+  transition: width 0.3s ease;
+}
+
+.animated-border:hover:after {
+  width: 100%;
+}
+
+/* CKEditor */
+.django-ckeditor-widget {
+  width: 100%;
+}
+
+.cke_chrome {
+  border-radius: 0.75rem !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
