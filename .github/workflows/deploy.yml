@@ -32,7 +32,7 @@ jobs:
             npm run build:css
             python manage.py migrate
             python manage.py collectstatic --noinput
-            sudo /bin/systemctl restart gunicorn
+            sudo /bin/systemctl restart amuv_gunicorn
             sudo /bin/systemctl reload nginx
           EOF
 
