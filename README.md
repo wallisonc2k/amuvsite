@@ -1,6 +1,6 @@
 # 📢 AMUV - Portal da Associação dos Moradores Unidos por Vermelhos
 
-![AMUV Logo](https://via.placeholder.com/600x200?text=LOGO+DA+AMUV)
+![AMUV Logo](static/shared/img/logo.jpg)
 
 Portal oficial da Associação AMUV, oferecendo:
 - 📢 Notícias e Comunicados Públicos
@@ -11,17 +11,29 @@ Portal oficial da Associação AMUV, oferecendo:
 ---
 ## 📸 Telas do Sistema
 
-### Página Inicial (Notícias Públicas)
+### Página Inicial
 
-![Página Inicial](https://via.placeholder.com/800x400?text=Página+Inicial+de+Notícias)
+![Página Inicial](static/repositorio/img/inicio.webp)
+
+### Página Notícias
+
+![Página Notícias](static/repositorio/img/noticias.webp)
+
+### Página Sobre Nós
+
+![Página Sobre Nós](static/repositorio/img/sobre.webp)
+
+### Página Contato
+
+![Página Contato](static/repositorio/img/contato.webp)
 
 ### Área de Login
 
-![Login de Membros](https://via.placeholder.com/800x400?text=Tela+de+Login+para+Membros)
+![Login de Membros](static/repositorio/img/entrar.webp)
 
 ### Área Administrativa
 
-![Administração](https://via.placeholder.com/800x400?text=Painel+Administrativo)
+![Administração](static/repositorio/img/administracao.webp)
 
 ---
 
@@ -40,8 +52,8 @@ Portal oficial da Associação AMUV, oferecendo:
 1. **Clone o projeto:**
 
 ```bash
-git clone https://github.com/seuusuario/amuv-portal.git
-cd amuv-portal
+git clone https://github.com/wallisonc2k/amuvsite.git
+cd amuvsite
 ```
 
 2. **Crie e ative um ambiente virtual:**
@@ -138,17 +150,3 @@ amuv_portal/
 Este projeto é licenciado pela [MIT License](LICENSE).
 
 ---
-
-**Nota**:  
-- As imagens estão como **placeholders** (`via.placeholder.com`).  
-- Assim que tivermos screenshots reais do portal da AMUV, podemos substituir! 📷
-
----
-
-Se quiser, também posso gerar:
-- **O `requirements.txt`** pronto
-- **Um exemplo real do `.env.example`**
-- **Templates iniciais para as apps Django (`news`, `members`, etc.)**
-
-Quer que eu já monte também? 🚀🎯  
-(Assim você já sai com o MVP quase rodando!)
