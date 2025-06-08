@@ -1,7 +1,7 @@
 {% load static %}
 <footer class="bg-gradient-to-b from-gray-800 to-gray-900 text-gray-300 py-16 relative overflow-hidden">
   <!-- Padrão de fundo sutil -->
-  <div class="absolute inset-0 opacity-5" style="background-image: url('{% static 'img/pattern-bg.png' %}'); background-repeat: repeat;"></div>
+  <div class="absolute inset-0 opacity-5" style="background-image: url('{% static 'shared/img/pattern-bg.png' %}'); background-repeat: repeat;"></div>
   
   <div class="max-w-7xl mx-auto px-6 relative z-10">
     <!-- Logo e informações principais -->
@@ -126,21 +126,14 @@
             Patrocinadores
           </h3>
           <div class="grid grid-cols-3 gap-2">
-            <a href="#" class="block overflow-hidden rounded-lg transform transition hover:scale-105">
-              <img src="{% static 'img/na_cruz.jpeg' %}" alt="Foto 1" class="w-full h-20 object-cover hover:opacity-80 transition">
-            </a>
-            <a href="#" class="block overflow-hidden rounded-lg transform transition hover:scale-105">
-              <img src="{% static 'img/jesus_carregando.webp' %}" alt="Foto 2" class="w-full h-20 object-cover hover:opacity-80 transition">
-            </a>
-            <a href="#" class="block overflow-hidden rounded-lg transform transition hover:scale-105">
-              <img src="{% static 'img/herodis.webp' %}" alt="Foto 3" class="w-full h-20 object-cover hover:opacity-80 transition">
-            </a>
-            <a href="#" class="block overflow-hidden rounded-lg transform transition hover:scale-105">
-              <img src="{% static 'img/povo.jpeg' %}" alt="Foto 4" class="w-full h-20 object-cover hover:opacity-80 transition">
-            </a>
-            <a href="#" class="block overflow-hidden rounded-lg transform transition hover:scale-105">
-              <img src="{% static 'img/tres_cruz.jpeg' %}" alt="Foto 5" class="w-full h-20 object-cover hover:opacity-80 transition">
-            </a>
+            {% for imagem in imagens_patrocinadores %}
+
+              <a href="#" class="block overflow-hidden rounded-lg transform transition hover:scale-105">
+                <img src="{{ imagem }}" alt="Foto 1" class="w-full h-20 object-cover hover:opacity-80 transition">
+              </a>
+
+            {% endfor %}
+            
             <a href="#" class="block overflow-hidden rounded-lg transform transition hover:scale-105">
               <div class="bg-red-700 w-full h-20 rounded-lg flex items-center justify-center text-white font-bold hover:bg-red-600 transition">
                 Ver +
