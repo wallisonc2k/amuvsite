@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import locale
+
+locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
+
 
 load_dotenv()
 
