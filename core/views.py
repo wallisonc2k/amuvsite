@@ -1,11 +1,12 @@
 # core/views.py
 from django.views.generic import TemplateView, FormView
 from django.urls import reverse_lazy
+from django.utils import timezone
+from django.shortcuts import render
 from .models import Contato
 from .forms import ContatoForm
-from noticias.models import Noticia
-from django.shortcuts import render
 from .utils import listar_imagens_estaticas, listar_imagens_com_descricao
+from noticias.models import Noticia
 
 
 class HomeView(TemplateView):
@@ -21,7 +22,9 @@ class HomeView(TemplateView):
         context['imagens_swiper'] = imagens_swiper
         context['imagens_patrocinadores'] = imagens_patrocinadores
         context['noticias'] = Noticia.objects.filter(categoria='noticia').order_by('-publicado_em')[:2]  # últimas 3 notícias
-        context['eventos'] = Noticia.objects.filter(categoria='evento').order_by('-publicado_em')[:2]  # últimos 3 eventos
+        context['eventos'] = Noticia.objects.filter(categoria='evento',
+                                                    data_evento__gte=timezone.now()
+                                                    ).order_by('data_evento')[:2]  # últimos 3 eventos
 
         return context
 
