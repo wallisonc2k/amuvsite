@@ -20,7 +20,9 @@ class HomeView(TemplateView):
         context['imagens_hero_slider'] = imagens_hero_slider
         context['imagens_swiper'] = imagens_swiper
         context['imagens_patrocinadores'] = imagens_patrocinadores
-        context['noticias'] = Noticia.objects.order_by('-publicado_em')[:2]  # últimas 3 notícias
+        context['noticias'] = Noticia.objects.filter(categoria='noticia').order_by('-publicado_em')[:2]  # últimas 3 notícias
+        context['eventos'] = Noticia.objects.filter(categoria='evento').order_by('-publicado_em')[:2]  # últimos 3 eventos
+
         return context
 
 class SobreView(TemplateView):
