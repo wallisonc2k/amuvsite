@@ -15,7 +15,12 @@ from pathlib import Path
 from dotenv import load_dotenv
 import locale
 
-locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
+try:
+    locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
+except locale.Error:
+    # Fallback: usa o padrão do sistema
+    locale.setlocale(locale.LC_TIME, '')
+
 
 
 load_dotenv()
