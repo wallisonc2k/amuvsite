@@ -38,4 +38,4 @@ class AdminNewsUpdateView(UpdateView):
 class AdminNewsDeleteView(DeleteView):
     model = Noticia
     template_name = 'admin/noticia_confirm_delete.html'
-    success_url = reverse_lazy('admin:news_list')
+    success_url = reverse_lazy('painel_admin:news_list')
