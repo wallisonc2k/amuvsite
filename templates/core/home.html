@@ -126,7 +126,7 @@
         {% for imagem in imagens_swiper %}
         <div class="swiper-slide">
           <div class="relative group">
-            <img src="{{ imagem.url }}" alt="{{ imagem.descricao }}" class="rounded-xl w-full h-64 md:h-80 object-cover shadow-lg">
+            <img src="{{ imagem.url }}" loading="lazy" alt="{{ imagem.descricao }}" class="rounded-xl w-full h-64 md:h-80 object-cover shadow-lg">
             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center p-6">
               <p class="text-white font-medium">{{ imagem.descricao }}</p>
             </div>
