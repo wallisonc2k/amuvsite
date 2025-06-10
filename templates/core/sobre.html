@@ -3,7 +3,7 @@
 {% block title %}Sobre - AMUV{% endblock %}
 
 {% block hero %}
-<section class="relative h-96 bg-cover bg-center" style="background-image: url('{% static "core/img/sobre_amuv.jpg" %}')">
+<section class="relative h-96 bg-cover bg-top" style="background-image: url('{% static "core/img/sobre_amuv_1024px.jpg" %}')">
     <div class="absolute inset-0 bg-gradient-to-b from-black/80 to-red-900/70"></div>
     <div class="relative z-10 flex flex-col justify-end pb-10 h-full p-6 max-w-7xl mx-auto">
         <div class="animate-fade-in-up">
@@ -93,7 +93,11 @@
                 <h2 class="text-3xl font-bold text-gray-800 mb-4">Paixão de Cristo, o Nazareno</h2>
                 
                 <div class="mb-6 overflow-hidden rounded-xl shadow-lg relative group">
-                    <img src="{% static 'shared/img/paixao_de_cristo.webp' %}" alt="Paixão de Cristo" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-500">
+                    <picture>
+                        <source srcset="{% static 'shared/img/paixao_de_cristo_840px.webp' %}" media="(max-width: 640px)">
+                        <source srcset="{% static 'shared/img/paixao_de_cristo_1024px.webp' %}" media="(max-width: 1024px)">
+                        <img src="{% static 'shared/img/paixao_de_cristo.webp' %}" alt="Paixão de Cristo" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-500">
+                    </picture>
                     <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
                         <p class="text-white font-medium">Encenação realizada anualmente desde 2009</p>
                     </div>
