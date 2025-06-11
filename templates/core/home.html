@@ -126,13 +126,19 @@
         {% for imagem in imagens_swiper %}
         <div class="swiper-slide">
           <div class="relative group">
-            <img src="{{ imagem.url }}" loading="lazy" alt="{{ imagem.descricao }}" class="rounded-xl w-full h-64 md:h-80 object-cover shadow-lg">
+            <picture>
+              <source media="(max-width: 640px)" srcset="{{ imagem.fontes.640px }}">
+              <source media="(max-width: 1024px)" srcset="{{ imagem.fontes.1024px }}">
+              <img src="{{ imagem.fontes.original }}" loading="lazy" alt="{{ imagem.descricao }}"
+                  class="rounded-xl w-full h-64 md:h-80 object-cover shadow-lg">
+            </picture>
             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center p-6">
               <p class="text-white font-medium">{{ imagem.descricao }}</p>
             </div>
           </div>
         </div>
         {% endfor %}
+
 
       </div>
 

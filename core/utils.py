@@ -33,10 +33,10 @@ def listar_imagens_estaticas(subpasta, extensoes_permitidas=None, ordenar=True):
     return imagens
 
 
-def listar_imagens_com_descricao(subpasta='shared/img/galeria'):
-    caminho_absoluto = os.path.join('static', subpasta)
+def listar_imagens_com_descricao(subpasta='shared/img/galeria', resolucoes=('640px', '1024px', 'original')):
+    base_path = os.path.join('static', subpasta)
     try:
-        arquivos = os.listdir(caminho_absoluto)
+        arquivos = os.listdir(os.path.join(base_path, resolucoes[-1]))  # usa a pasta 'original' como base
     except FileNotFoundError:
         return []
 
@@ -44,12 +44,18 @@ def listar_imagens_com_descricao(subpasta='shared/img/galeria'):
     for nome_arquivo in arquivos:
         if nome_arquivo.lower().endswith(('.png', '.jpg', '.jpeg', '.webp')):
             descricao = gerar_descricao_legivel(nome_arquivo)
+            fontes = {}
+            for res in resolucoes:
+                caminho_arquivo = f'{subpasta}/{res}/{nome_arquivo}'
+                fontes[res] = static(caminho_arquivo)
+
             imagens.append({
-                'url': static(f'{subpasta}/{nome_arquivo}'),
-                'descricao': descricao
+                'descricao': descricao,
+                'fontes': fontes  # dict com cada resolução
             })
 
     return imagens
+
 
 def gerar_descricao_legivel(nome_arquivo):
     nome_sem_extensao = os.path.splitext(nome_arquivo)[0]
