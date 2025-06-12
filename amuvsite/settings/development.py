@@ -11,3 +11,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# Configurações de e-mail (console para testes locais)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
