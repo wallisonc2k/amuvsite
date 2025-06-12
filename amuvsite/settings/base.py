@@ -158,27 +158,6 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Primeiro, garanta que o novo model de usuário está configurado
-# em settings.py
-SITE_ID = 1
-
-AUTH_USER_MODEL = 'membros.Membro'
-
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
-
-ACCOUNT_ADAPTER = 'membros.adapters.CustomAccountAdapter'
-
-LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = 'membros:painel'
-LOGOUT_REDIRECT_URL = '/'
-
-#ACCOUNT_EMAIL_VERIFICATION="mandatory"
-ACCOUNT_EMAIl_REQUIRED=False
-EMAIL_BACKEND="django.core.mail.backends.console.EmailBackend"
-
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -200,3 +179,45 @@ CKEDITOR_CONFIGS = {
         'width': '100%',
     },
 }
+
+# Configurações básicas do Django Allauth
+SITE_ID = 1
+AUTH_USER_MODEL = 'membros.Membro'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ACCOUNT_ADAPTER = 'membros.adapters.CustomAccountAdapter'
+
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = 'membros:painel'
+LOGOUT_REDIRECT_URL = '/'
+
+# Nova configuração para métodos de login (substitui ACCOUNT_AUTHENTICATION_METHOD)
+ACCOUNT_LOGIN_METHODS = {'username', 'email'}
+
+# Nova configuração para campos obrigatórios no signup 
+# (substitui ACCOUNT_EMAIL_REQUIRED e ACCOUNT_USERNAME_REQUIRED)
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
+
+# Verificação de e-mail obrigatória
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+# Nova configuração para limite de tentativas de login
+# (substitui ACCOUNT_LOGIN_ATTEMPTS_LIMIT e ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT)
+ACCOUNT_RATE_LIMITS = {
+    'login_failed': '5/5m',  # 5 tentativas por 5 minutos
+}
+
+
+
+# Configurações para confirmação e reset de senha
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+ACCOUNT_PASSWORD_RESET_EXPIRE_DAYS = 1
+
+# Configurações adicionais úteis (opcionais)
+ACCOUNT_PRESERVE_USERNAME_CASING = False  # Username em minúsculas
+ACCOUNT_SESSION_REMEMBER = None  # Não lembrar sessão por padrão
+ACCOUNT_LOGOUT_ON_GET = False  # Exigir POST para logout por segurança
