@@ -1,0 +1,123 @@
+<!-- templates/noticias/_calendario_widget.html -->
+{% load static %}
+
+<div class="bg-white rounded-2xl shadow-md p-6 mb-8">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-gray-800">Próximos Eventos</h3>
+        <a href="{% url 'noticias:calendario' %}" class="text-red-600 hover:text-red-700 text-sm font-medium">
+            Ver calendário completo →
+        </a>
+    </div>
+    
+    <div class="bg-gray-50 rounded-xl p-4" id="widget-calendario-mini">
+        <!-- Mini calendário -->
+        <div class="grid grid-cols-7 gap-1 text-center text-xs font-medium text-gray-500 mb-2">
+            <div>D</div>
+            <div>S</div>
+            <div>T</div>
+            <div>Q</div>
+            <div>Q</div>
+            <div>S</div>
+            <div>S</div>
+        </div>
+        
+        <div id="mini-calendario-dias" class="grid grid-cols-7 gap-1 text-center mb-4">
+            <!-- Será preenchido via JavaScript -->
+        </div>
+        
+        <div class="border-t border-gray-200 pt-4">
+            {% if proximos_eventos %}
+                {% for evento in proximos_eventos %}
+                <div class="text-sm text-gray-600 mb-3 pb-3 {% if not forloop.last %}border-b border-gray-100{% endif %}">
+                    <div class="font-medium text-gray-800">
+                        {{ evento.data_evento|date:"d M" }} - {{ evento.titulo }}
+                    </div>
+                    <div class="flex items-center mt-1 text-xs">
+                        <svg class="h-3 w-3 text-gray-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="mr-3">{{ evento.data_evento|date:"H:i" }}</span>
+                        {% if evento.local_evento %}
+                            <svg class="h-3 w-3 text-gray-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span>{{ evento.local_evento }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="text-center py-4 text-gray-500">
+                    <svg class="mx-auto h-8 w-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <p class="text-sm">Nenhum evento próximo</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Mini calendário widget
+    const hoje = new Date();
+    const mesAtual = hoje.getMonth();
+    const anoAtual = hoje.getFullYear();
+    
+    // Renderizar mini calendário
+    function renderizarMiniCalendario() {
+        const diasContainer = document.getElementById('mini-calendario-dias');
+        if (!diasContainer) return;
+        
+        diasContainer.innerHTML = '';
+        
+        const primeiroDia = new Date(anoAtual, mesAtual, 1);
+        const ultimoDia = new Date(anoAtual, mesAtual + 1, 0);
+        const diasNoMes = ultimoDia.getDate();
+        const diaDaSemana = primeiroDia.getDay();
+        
+        // Preencher com espaços vazios até o primeiro dia
+        for (let i = 0; i < diaDaSemana; i++) {
+            const div = document.createElement('div');
+            div.className = 'p-1';
+            diasContainer.appendChild(div);
+        }
+        
+        // Preencher os dias do mês
+        for (let dia = 1; dia <= diasNoMes; dia++) {
+            const div = document.createElement('div');
+            div.className = 'p-1 text-xs';
+            
+            // Destacar o dia atual
+            if (dia === hoje.getDate()) {
+                div.className += ' bg-red-100 text-red-700 font-bold rounded-full';
+            }
+            
+            div.textContent = dia;
+            diasContainer.appendChild(div);
+        }
+    }
+    
+    renderizarMiniCalendario();
+});
+</script>
+
+<style>
+#widget-calendario-mini .mini-dia-evento {
+    position: relative;
+}
+
+#widget-calendario-mini .mini-dia-evento::after {
+    content: '';
+    position: absolute;
+    bottom: 1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 3px;
+    background-color: #ef4444;
+    border-radius: 50%;
+}
+</style>

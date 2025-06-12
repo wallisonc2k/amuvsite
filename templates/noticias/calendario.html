@@ -1,0 +1,302 @@
+<!-- templates/noticias/calendario.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Calendário de Eventos{% endblock %}
+{% block hero %}{% endblock  %}
+
+<style>
+.calendario-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.dia-evento {
+    position: relative;
+}
+
+.dia-evento::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background-color: #ef4444;
+    border-radius: 50%;
+}
+
+.dia-hoje {
+    background-color: #fef2f2 !important;
+    color: #dc2626 !important;
+    font-weight: bold;
+}
+
+.dia-hover:hover {
+    background-color: #f3f4f6;
+    cursor: pointer;
+}
+
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.evento-item {
+    transition: all 0.2s ease;
+}
+
+.evento-item:hover {
+    background-color: #f9fafb;
+}
+</style>
+
+
+{% block content %}
+<div class="calendario-container">
+    <!-- Calendário -->
+    <div class="bg-white rounded-2xl shadow-md p-6 mb-8">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Calendário de Eventos</h3>
+        
+        <div class="bg-gray-50 rounded-xl p-4" id="calendario-widget">
+            <!-- Cabeçalho do calendário -->
+            <div class="flex justify-between items-center mb-4">
+                <button id="btn-mes-anterior" class="text-gray-600 hover:text-red-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <h4 id="titulo-mes" class="text-gray-800 font-medium">{{ nome_mes }} {{ ano_atual }}</h4>
+                <button id="btn-mes-proximo" class="text-gray-600 hover:text-red-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Dias da semana -->
+            <div class="grid grid-cols-7 gap-1 text-center text-xs font-medium text-gray-500 mb-2">
+                <div>DOM</div>
+                <div>SEG</div>
+                <div>TER</div>
+                <div>QUA</div>
+                <div>QUI</div>
+                <div>SEX</div>
+                <div>SÁB</div>
+            </div>
+            
+            <!-- Dias do mês -->
+            <div id="dias-calendario" class="grid grid-cols-7 gap-1 text-center">
+                <!-- Dias serão inseridos via JavaScript -->
+            </div>
+            
+            <!-- Loading indicator -->
+            <div id="loading-calendario" class="hidden text-center py-4">
+                <div class="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-gray-500 bg-white">
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Carregando...
+                </div>
+            </div>
+        </div>
+        
+        <!-- Lista de eventos do mês -->
+        <div class="mt-6">
+            <h4 class="text-lg font-semibold text-gray-800 mb-4">Eventos do Mês</h4>
+            <div id="lista-eventos">
+                <!-- Eventos serão inseridos via JavaScript -->
+            </div>
+            
+            <div id="sem-eventos" class="hidden text-center py-8 text-gray-500">
+                <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <p>Nenhum evento programado para este mês</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+class CalendarioWidget {
+    constructor() {
+        this.mesAtual = {{ mes_atual }};
+        this.anoAtual = {{ ano_atual }};
+        this.hoje = new Date('{{ hoje|date:"Y-m-d" }}');
+        this.eventos = [];
+        
+        this.init();
+    }
+    
+    init() {
+        this.bindEvents();
+        this.carregarCalendario();
+    }
+    
+    bindEvents() {
+        document.getElementById('btn-mes-anterior').addEventListener('click', () => {
+            this.navegarMes(-1);
+        });
+        
+        document.getElementById('btn-mes-proximo').addEventListener('click', () => {
+            this.navegarMes(1);
+        });
+    }
+    
+    navegarMes(direcao) {
+        this.mesAtual += direcao;
+        
+        if (this.mesAtual > 12) {
+            this.mesAtual = 1;
+            this.anoAtual++;
+        } else if (this.mesAtual < 1) {
+            this.mesAtual = 12;
+            this.anoAtual--;
+        }
+        
+        this.carregarCalendario();
+    }
+    
+    async carregarCalendario() {
+        this.mostrarLoading(true);
+        
+        try {
+            const response = await fetch(`{% url 'noticias:calendario_api' %}?mes=${this.mesAtual}&ano=${this.anoAtual}`);
+            const data = await response.json();
+            
+            this.eventos = data.eventos;
+            this.atualizarTitulo(data.nome_mes, this.anoAtual);
+            this.renderizarCalendario();
+            this.renderizarEventos();
+            
+        } catch (error) {
+            console.error('Erro ao carregar calendário:', error);
+        } finally {
+            this.mostrarLoading(false);
+        }
+    }
+    
+    mostrarLoading(mostrar) {
+        const loading = document.getElementById('loading-calendario');
+        const calendario = document.getElementById('dias-calendario');
+        
+        if (mostrar) {
+            loading.classList.remove('hidden');
+            calendario.classList.add('loading');
+        } else {
+            loading.classList.add('hidden');
+            calendario.classList.remove('loading');
+        }
+    }
+    
+    atualizarTitulo(nomeMes, ano) {
+        document.getElementById('titulo-mes').textContent = `${nomeMes} ${ano}`;
+    }
+    
+    renderizarCalendario() {
+        const diasCalendario = document.getElementById('dias-calendario');
+        diasCalendario.innerHTML = '';
+        
+        // Primeiro dia do mês e quantos dias tem
+        const primeiroDia = new Date(this.anoAtual, this.mesAtual - 1, 1);
+        const ultimoDia = new Date(this.anoAtual, this.mesAtual, 0);
+        const diasNoMes = ultimoDia.getDate();
+        const diaDaSemana = primeiroDia.getDay();
+        
+        // Dias do mês anterior
+        const ultimoDiaMesAnterior = new Date(this.anoAtual, this.mesAtual - 1, 0).getDate();
+        for (let i = diaDaSemana - 1; i >= 0; i--) {
+            const dia = ultimoDiaMesAnterior - i;
+            const divDia = this.criarDivDia(dia, 'text-gray-400 p-2 text-sm');
+            diasCalendario.appendChild(divDia);
+        }
+        
+        // Dias do mês atual
+        for (let dia = 1; dia <= diasNoMes; dia++) {
+            const dataAtual = new Date(this.anoAtual, this.mesAtual - 1, dia);
+            const ehHoje = this.ehMesmodia(dataAtual, this.hoje);
+            const temEvento = this.temEventoNoDia(dia);
+            
+            let classes = 'p-2 text-sm dia-hover rounded-full';
+            
+            if (ehHoje) {
+                classes += ' dia-hoje';
+            }
+            
+            if (temEvento) {
+                classes += ' dia-evento bg-red-50';
+            }
+            
+            const divDia = this.criarDivDia(dia, classes);
+            diasCalendario.appendChild(divDia);
+        }
+        
+        // Completar com dias do próximo mês se necessário
+        const totalCelulas = diasCalendario.children.length;
+        const celulasRestantes = 42 - totalCelulas; // 6 semanas x 7 dias
+        
+        for (let dia = 1; dia <= celulasRestantes; dia++) {
+            const divDia = this.criarDivDia(dia, 'text-gray-400 p-2 text-sm');
+            diasCalendario.appendChild(divDia);
+        }
+    }
+    
+    criarDivDia(dia, classes) {
+        const div = document.createElement('div');
+        div.className = classes;
+        div.textContent = dia;
+        return div;
+    }
+    
+    ehMesmodia(data1, data2) {
+        return data1.getDate() === data2.getDate() &&
+               data1.getMonth() === data2.getMonth() &&
+               data1.getFullYear() === data2.getFullYear();
+    }
+    
+    temEventoNoDia(dia) {
+        return this.eventos.some(evento => evento.dia === dia);
+    }
+    
+    renderizarEventos() {
+        const listaEventos = document.getElementById('lista-eventos');
+        const semEventos = document.getElementById('sem-eventos');
+        
+        if (this.eventos.length === 0) {
+            listaEventos.innerHTML = '';
+            semEventos.classList.remove('hidden');
+            return;
+        }
+        
+        semEventos.classList.add('hidden');
+        
+        listaEventos.innerHTML = this.eventos.map(evento => `
+            <div class="evento-item text-sm text-gray-600 mb-3 pb-3 border-b border-gray-100 last:border-b-0 rounded-lg p-3">
+                <div class="font-medium text-gray-800">${evento.dia} - ${evento.titulo}</div>
+                <div class="flex items-center mt-1">
+                    <svg class="h-4 w-4 text-gray-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span class="mr-4">${evento.hora}</span>
+                    ${evento.local ? `
+                        <svg class="h-4 w-4 text-gray-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span>${evento.local}</span>
+                    ` : ''}
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+// Inicializar o calendário quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    new CalendarioWidget();
+});
+</script>
+{% endblock %}
