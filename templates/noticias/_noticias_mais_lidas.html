@@ -1,0 +1,29 @@
+{% load static %}
+<div class="bg-white rounded-2xl shadow-md p-6 mb-8">
+    <h3 class="text-xl font-bold text-gray-800 mb-4">Mais Lidas</h3>
+    <div class="space-y-4">
+        {% for noticia in noticias_mais_lidas %}
+            <a href="{% url 'noticias:detalhe' noticia.slug %}" class="flex items-start space-x-3 group">
+                <div class="flex-shrink-0 w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
+                    {% if noticia.imagem_capa %}
+                        <img src="{{ noticia.imagem_capa.url }}" alt="{{ noticia.titulo }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy">
+                    {% else %}
+                        <img src="{% static 'img/default-news.jpg' %}" alt="Notícia" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy">
+                    {% endif %}
+                </div>
+                <div class="flex-1">
+                    <h4 class="text-gray-800 font-medium group-hover:text-red-600 transition">{{ noticia.titulo }}</h4>
+                    <p class="text-xs text-gray-500 mt-1">{{ noticia.publicado_em|date:"d M Y" }}</p>
+                </div>
+            </a>
+        {% empty %}
+            <p class="text-gray-500 text-sm">Nenhuma notícia para exibir.</p>
+        {% endfor %}
+    </div>
+    <a href="{% url 'noticias:lista' %}" class="inline-flex items-center text-red-600 hover:text-red-700 font-medium transition mt-4 text-sm">
+        Ver todas
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+    </a>
+</div>

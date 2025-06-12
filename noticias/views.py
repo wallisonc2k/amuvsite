@@ -181,12 +181,6 @@ class DetalheNoticiaView(DetailView):
             .exclude(pk=self.object.pk)
             .order_by('-publicado_em')[:4]
         )
-        # Notícias mais lidas (excluindo a atual)
-        context['noticias_mais_lidas'] = (
-            Noticia.objects
-            .exclude(pk=self.object.pk)
-            .order_by('-visualizacoes')[:3]
-        )
         return context
 
 
