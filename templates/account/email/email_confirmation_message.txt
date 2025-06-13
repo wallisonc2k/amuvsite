@@ -1,0 +1,43 @@
+✉️ Confirme seu Email
+{{ site_name }} - Associação
+
+Olá {{ user.get_full_name|default:user.username }},
+
+Bem-vindo à {{ site_name }}! Você está recebendo este e-mail porque criou uma conta em nosso sistema.
+
+Para ativar sua conta e começar a usar todos os nossos serviços, você precisa confirmar seu endereço de email.
+
+✅ Confirmar meu email:
+{{ activate_url }}
+
+🔗 Link alternativo:
+Se o botão acima não funcionar, copie e cole este link no seu navegador:
+{{ activate_url }}
+
+⏰ Informações Importantes:
+- Este link de confirmação é válido por 3 dias
+- Após confirmar, você poderá acessar todas as funcionalidades
+- Mantenha suas credenciais seguras
+
+🎉 O que você pode fazer após confirmar:
+- Acessar conteúdos exclusivos da AMUV
+- Participar de eventos e atividades
+- Receber notificações importantes
+- Gerenciar seu perfil completo
+
+🛡️ Não criou esta conta?
+Se você não criou uma conta na {{ site_name }}, pode ignorar este email com segurança.
+Nenhuma conta será ativada sem a confirmação.
+
+📞 Precisa de Ajuda?
+Email: suporte@amuvtv.com.br
+Telefone: (XX) XXXX-XXXX
+Site: https://{{ current_site.domain }}
+
+---
+
+Obrigado por escolher a {{ site_name }}!
+Equipe AMUV 🤝
+
+Este é um email automático, por favor não responda.
+© {{ current_site.domain }} - Todos os direitos reservados.
