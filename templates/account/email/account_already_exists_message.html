@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redefinição de Senha - AMUV</title>
+    <title>Conta Já Existe - AMUV</title>
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
     
     <!-- Header -->
     <div style="background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; padding: 30px 20px; border-radius: 10px 10px 0 0; text-align: center;">
-        <h1 style="margin: 0; font-size: 24px;">🔐 Redefinição de Senha</h1>
+        <h1 style="margin: 0; font-size: 24px;">⚠️ Conta Já Existe</h1>
         <p style="margin: 10px 0 0 0; opacity: 0.9;">AMUV - Associação</p>
     </div>
     
@@ -17,37 +17,41 @@
     <div style="background: #ffffff; padding: 30px 20px; border: 1px solid #e5e7eb; border-top: none;">
         
         <p style="font-size: 16px; margin-bottom: 20px;">
-            Olá <strong>{{ user.get_full_name|default:user.username }}</strong>,
+            Olá,
         </p>
         
         <p style="margin-bottom: 25px;">
-            Recebemos uma solicitação para redefinir a senha da sua conta AMUV.
+            Recebemos uma tentativa de criação de conta com este endereço de email, mas já existe uma conta AMUV associada a ele.
         </p>
-        
-        <!-- CTA Button -->
-        <div style="text-align: center; margin: 30px 0;">
-            <a href="{{ password_reset_url }}" 
-               style="background: #dc2626; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block; box-shadow: 0 4px 6px rgba(220, 38, 38, 0.2);">
-                🔗 Redefinir Minha Senha
-            </a>
-        </div>
         
         <!-- Info Box -->
         <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 25px 0; border-radius: 0 5px 5px 0;">
-            <h3 style="margin: 0 0 10px 0; color: #92400e; font-size: 16px;">⏰ Informações Importantes:</h3>
+            <h3 style="margin: 0 0 10px 0; color: #92400e; font-size: 16px;">📋 Opções Disponíveis:</h3>
             <ul style="margin: 0; padding-left: 20px; color: #92400e;">
-                <li>Este link é válido por <strong>24 horas</strong></li>
-                <li>Após redefinir, você precisará fazer login novamente</li>
-                <li>O link só pode ser usado uma vez</li>
+                <li><strong>Fazer Login:</strong> Use suas credenciais existentes</li>
+                <li><strong>Esqueceu a senha?</strong> Solicite uma redefinição</li>
+                <li><strong>Problema com acesso?</strong> Entre em contato conosco</li>
             </ul>
+        </div>
+        
+        <!-- CTA Buttons -->
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{ login_url }}" 
+               style="background: #dc2626; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block; box-shadow: 0 4px 6px rgba(220, 38, 38, 0.2); margin-right: 10px;">
+                🔑 Fazer Login
+            </a>
+            <a href="{{ password_reset_url }}" 
+               style="background: #6b7280; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block; box-shadow: 0 4px 6px rgba(107, 114, 128, 0.2);">
+                🔐 Redefinir Senha
+            </a>
         </div>
         
         <!-- Security Notice -->
         <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 15px; margin: 25px 0; border-radius: 0 5px 5px 0;">
-            <h3 style="margin: 0 0 10px 0; color: #dc2626; font-size: 16px;">🛡️ Não solicitou esta redefinição?</h3>
+            <h3 style="margin: 0 0 10px 0; color: #dc2626; font-size: 16px;">🛡️ Segurança da Sua Conta</h3>
             <p style="margin: 0; color: #dc2626;">
-                Ignore este email - sua senha atual permanece segura. 
-                Considere alterar sua senha por precaução se necessário.
+                Se você não tentou criar esta conta, ignore este email. 
+                Sua conta existente permanece segura e não foi afetada.
             </p>
         </div>
         
