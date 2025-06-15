@@ -1,0 +1,30 @@
+# Ambiente virtual e arquivos de configuração local
+venv/
+.env
+*.pyc
+__pycache__/
+
+# Banco de dados e socket
+db.sqlite3
+amuv.sock
+
+# Diretórios de mídia (serve via Cloud Storage ou volume externo)
+media/
+
+# Arquivos de frontend de desenvolvimento
+node_modules/
+
+# Arquivos estáticos compilados (vamos gerar dentro do contêiner)
+staticfiles/
+
+# Git e metadados de IDE
+.git/
+.idea/
+.vscode/
+
+# Logs, coverage e arquivos pesados
+*.log
+coverage/
+htmlcov/
+*.tar.gz
+*.zip
