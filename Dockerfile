@@ -42,7 +42,7 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Copiar o CSS compilado pelo Tailwind da primeira stage
-COPY --from=frontend /app/static /app/static
+COPY --from=frontend /app/static/shared/css/output.css /app/static/shared/css/output.css
 
 # Coletar arquivos estáticos do Django
 RUN python manage.py collectstatic --noinput
