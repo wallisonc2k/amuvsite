@@ -1,22 +1,26 @@
 from .base import *
+import dj_database_url
+import dj_email_url
+from decouple import config
 
 DEBUG = False
 
+# === Banco de dados ===
+DATABASE_URL = config("DATABASE_URL", default=None)
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL não está definida no ambiente.")
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv("POSTGRES_DB"),
-        'USER': os.getenv("POSTGRES_USER"),
-        'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
-        'HOST': os.getenv("POSTGRES_HOST", "localhost"),
-        'PORT': os.getenv("POSTGRES_PORT", "5432"),
-    }
+    'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
 }
 
-EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend")
-EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.zoho.com")
-EMAIL_PORT = int(os.getenv("EMAIL_PORT", 587))  # cast para inteiro
-EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True").lower() in ["true", "1", "yes"]  # cast para booleano
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", EMAIL_HOST_USER)
+# === E-mail ===
+EMAIL_URL = config("EMAIL_URL", default=None)
+if not EMAIL_URL:
+    raise ValueError("EMAIL_URL não está definida no ambiente.")
+
+EMAIL_CONFIG = dj_email_url.config(env="EMAIL_URL")
+vars().update(EMAIL_CONFIG)
+
+# Fallback opcional se você quiser garantir que DEFAULT_FROM_EMAIL seja o mesmo que USER
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default=EMAIL_HOST_USER)
