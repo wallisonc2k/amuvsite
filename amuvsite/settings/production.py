@@ -3,7 +3,7 @@ import dj_database_url
 import dj_email_url
 from decouple import config
 
-DEBUG = False
+DEBUG = config("DEBUG", default=False, cast=bool)
 
 # === Banco de dados ===
 DATABASE_URL = config("DATABASE_URL", default=None)

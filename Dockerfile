@@ -65,7 +65,10 @@ COPY --from=frontend /app/static/shared/css/output.css /app/static/shared/css/ou
 #   Para isto funcionar, instale 'dj-database-url' e use-o no seu settings.py.
 RUN DJANGO_ENV="production" \
     DJANGO_SECRET_KEY="dummy-key-for-build-dont-use-in-prod" \
+    DATABASE_URL="postgres://user:pass@localhost:5432/dbname" \
+    EMAIL_URL="smtp://user:pass@localhost:587" \
     python manage.py collectstatic --noinput
+
 
 # Muda a propriedade de todos os arquivos para o usuário 'app'
 RUN chown -R app:app /app /opt/venv
