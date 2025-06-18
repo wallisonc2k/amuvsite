@@ -1,0 +1,11 @@
+[
+  {
+    "origin": [
+      "https://amuvtv.com.br",
+      "https://amuvsite-app-123646709129.southamerica-east1.run.app"
+    ],
+    "responseHeader": ["Content-Type"],
+    "method": ["GET", "HEAD"],
+    "maxAgeSeconds": 3600
+  }
+]

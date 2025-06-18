@@ -159,6 +159,13 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 
+# Adicione esta seção para configurar o armazenamento de arquivos.
+# As variáveis serão definidas em production.py ou development.py.
+# Por padrão, ele usará o sistema de arquivos local.
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+
 # Configurações opcionais para personalizar o CKEditor
 CKEDITOR_CONFIGS = {
     'default': {

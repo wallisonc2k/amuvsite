@@ -58,18 +58,6 @@ COPY . .
 # Copia o CSS compilado do estágio do frontend para o diretório de estáticos da aplicação
 COPY --from=frontend /app/static/shared/css/output.css /app/static/shared/css/output.css
 
-# Coleta todos os arquivos estáticos do Django.
-# - DJANGO_ENV=production: Garante que as settings de produção sejam carregadas.
-# - DJANGO_SECRET_KEY: Fornece uma chave dummy, pois é necessária para o comando. Use o nome da variável do seu settings.py.
-# - DATABASE_URL: (Opcional, mas recomendado) Força o uso de um banco em memória para evitar erros de conexão com o Postgres durante o build.
-#   Para isto funcionar, instale 'dj-database-url' e use-o no seu settings.py.
-RUN DJANGO_ENV="production" \
-    DJANGO_SECRET_KEY="dummy-key-for-build-dont-use-in-prod" \
-    DATABASE_URL="postgres://user:pass@localhost:5432/dbname" \
-    EMAIL_URL="smtp://user:pass@localhost:587" \
-    python manage.py collectstatic --noinput
-
-
 # Muda a propriedade de todos os arquivos para o usuário 'app'
 RUN chown -R app:app /app /opt/venv
 
