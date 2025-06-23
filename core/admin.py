@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SiteConfig
+from .models import SiteConfig, SiteConfigContato
 
 @admin.register(SiteConfig)
 class SiteConfigAdmin(admin.ModelAdmin):
@@ -29,3 +29,11 @@ class SiteConfigAdmin(admin.ModelAdmin):
         if obj and obj.ativo and SiteConfig.objects.filter(ativo=True).count() <= 1:
             return False
         return super().has_delete_permission(request, obj)
+
+
+@admin.register(SiteConfigContato)
+class SiteConfigContatoAdmin(admin.ModelAdmin):
+    list_display = ('site_titulo', 'contato_email', 'updated_at')
+    
+    def has_add_permission(self, request):
+        return not SiteConfigContato.objects.exists()

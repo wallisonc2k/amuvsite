@@ -70,3 +70,39 @@ class SiteConfig(models.Model):
     def __str__(self):
         return f"Configuração de Tema ({self.ultima_atualizacao.strftime('%d/%m/%Y %H:%M')})"
 
+
+class SiteConfigContato(models.Model):
+    # Contatos
+    contato_email = models.EmailField("E-mail de Contato")
+    suporte_email = models.EmailField("E-mail de Suporte") 
+    telefone_contato = models.CharField("Telefone", max_length=20)
+    whatsapp_numero = models.CharField("WhatsApp", max_length=20, blank=True)
+    
+    # Dados do Site
+    site_titulo = models.CharField("Título do Site", max_length=100)
+    chave_pix = models.CharField("Chave PIX", max_length=100)
+    
+    # Controle
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Configuração do Site"
+        verbose_name_plural = "Configurações do Site"
+
+    def __str__(self):
+        return f"Config - {self.site_titulo}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Limpa cache
+        cache.delete_many(['site_titulo', 'contato_email', 'suporte_email', 
+                          'telefone_contato', 'whatsapp_numero', 'chave_pix'])
+
+    @classmethod
+    def get_config(cls):
+        config = cache.get('site_config_obj')
+        if not config:
+            config = cls.objects.first()
+            if config:
+                cache.set('site_config_obj', config, 300)
+        return config

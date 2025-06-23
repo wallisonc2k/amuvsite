@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load config_contato_pix_tags %}
 
 {% block hero %}
 <section class="relative h-96 bg-cover bg-center" style="background-image: url('{% static "core/img/colabore_amuv.jpeg" %}')">
@@ -39,7 +40,7 @@
                 </div>
                 <h3 class="text-xl font-semibold text-red-800 mb-2">Contribuição via PIX</h3>
                 <p class="text-gray-600 mb-4">
-                    Chave PIX: <strong id="pix-key">amuv@comunidade.org</strong>
+                    Chave PIX: <strong id="pix-key">{% chave_pix %}</strong>
                 </p>
                 <div class="flex flex-col gap-3 items-center">
                     <button
