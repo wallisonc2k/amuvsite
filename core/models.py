@@ -2,6 +2,9 @@
 from django.db import models
 from django.core.cache import cache
 from colorfield.fields import ColorField
+from django.core.exceptions import ValidationError
+from PIL import Image
+import os
 
 class Contato(models.Model):
     nome = models.CharField(max_length=100)
@@ -106,3 +109,184 @@ class SiteConfigContato(models.Model):
             if config:
                 cache.set('site_config_obj', config, 300)
         return config
+
+
+def upload_imagem_site(instance, filename):
+    """Define o caminho de upload baseado no tipo da imagem"""
+    return f"site_imagens/{instance.tipo}/{filename}"
+
+
+# Manager customizado para consultas otimizadas
+class ImagemSiteManager(models.Manager):
+    def ativas(self):
+        return self.filter(ativo=True)
+    
+    def por_tipo(self, tipo):
+        return self.ativas().filter(tipo=tipo).order_by('ordem')
+    
+    def hero_slider(self):
+        return self.por_tipo('hero_slider')
+    
+    def galeria_home(self):
+        return self.por_tipo('galeria')
+
+
+class ImagemSite(models.Model):
+    class TipoImagem(models.TextChoices):
+        # Home
+        HERO_SLIDER = "hero_slider", "Hero Slider (Home)"
+        LOGO_PEQUENA = "logo_pequena", "Logo Pequena"
+        LOGO_GRANDE = "logo_grande", "Logo Grande"
+        GALERIA = "galeria", "Galeria (Home)"
+        
+        # Sobre
+        TOPO_SOBRE = "topo_sobre", "Imagem no Topo (Sobre)"
+        MEIO_SOBRE = "meio_sobre", "Imagem no Meio (Sobre)"
+        
+        # Contato
+        TOPO_CONTATO = "topo_contato", "Imagem no Topo (Contato)"
+        
+        # Notícias
+        TOPO_NOTICIA = "topo_noticia", "Imagem no Topo (Notícia)"
+        SEM_NOTICIA = "sem_noticia", "Imagem Padrão (Sem Notícia)"
+
+    # Configurações de limite por tipo
+    LIMITES_POR_TIPO = {
+        'logo_pequena': 1,
+        'logo_grande': 1,
+        'topo_sobre': 1,
+        'meio_sobre': 1,
+        'topo_contato': 1,
+        'topo_noticia': 1,
+        'sem_noticia': 1,
+        # hero_slider e galeria podem ter múltiplas imagens
+    }
+
+    tipo = models.CharField(
+        max_length=30,
+        choices=TipoImagem.choices,
+        help_text="Selecione onde esta imagem será utilizada"
+    )
+    imagem = models.ImageField(
+        upload_to=upload_imagem_site,
+        help_text="Formatos aceitos: JPG, PNG, WebP"
+    )
+    titulo = models.CharField(
+        max_length=100, 
+        blank=True,
+        help_text="Título da imagem (usado em alt text)"
+    )
+    descricao = models.TextField(
+        blank=True,
+        help_text="Descrição detalhada para acessibilidade"
+    )
+    alt_text = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text="Texto alternativo para acessibilidade (se vazio, usará o título)"
+    )
+    ativo = models.BooleanField(
+        default=True,
+        help_text="Marque para exibir esta imagem no site"
+    )
+    ordem = models.PositiveIntegerField(
+        default=0,
+        help_text="Ordem de exibição (menor número aparece primeiro)"
+    )
+    
+    # Campos para otimização
+    tamanho_arquivo = models.PositiveIntegerField(
+        null=True, 
+        blank=True,
+        help_text="Tamanho do arquivo em bytes"
+    )
+    largura = models.PositiveIntegerField(null=True, blank=True)
+    altura = models.PositiveIntegerField(null=True, blank=True)
+    
+    # Timestamps
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["tipo", "ordem", "-criado_em"]
+        verbose_name = "Imagem do Site"
+        verbose_name_plural = "Imagens do Site"
+        indexes = [
+            models.Index(fields=['tipo', 'ativo']),
+            models.Index(fields=['ordem']),
+        ]
+
+    def __str__(self):
+        return f"{self.get_tipo_display()} - {self.titulo or f'ID {self.id}'}"
+
+    def clean(self):
+        """Validações customizadas"""
+        super().clean()
+        
+        # Verifica limites por tipo
+        if self.tipo in self.LIMITES_POR_TIPO:
+            limite = self.LIMITES_POR_TIPO[self.tipo]
+            existing = ImagemSite.objects.filter(tipo=self.tipo, ativo=True)
+            if self.pk:
+                existing = existing.exclude(pk=self.pk)
+            
+            if existing.count() >= limite:
+                raise ValidationError(
+                    f"Já existe o número máximo ({limite}) de imagens ativas para '{self.get_tipo_display()}'"
+                )
+
+    def save(self, *args, **kwargs):
+        # Se alt_text estiver vazio, usa o título
+        if not self.alt_text and self.titulo:
+            self.alt_text = self.titulo
+            
+        super().save(*args, **kwargs)
+        
+        # Atualiza informações da imagem após salvar
+        if self.imagem:
+            self._update_image_info()
+
+    def _update_image_info(self):
+        """Atualiza informações técnicas da imagem"""
+        try:
+            # Tamanho do arquivo
+            self.tamanho_arquivo = self.imagem.size
+            
+            # Dimensões da imagem
+            with Image.open(self.imagem.path) as img:
+                self.largura, self.altura = img.size
+                
+            # Salva sem triggerar save() novamente
+            ImagemSite.objects.filter(pk=self.pk).update(
+                tamanho_arquivo=self.tamanho_arquivo,
+                largura=self.largura,
+                altura=self.altura
+            )
+        except Exception:
+            pass  # Se der erro, ignora
+
+    @property
+    def tamanho_formatado(self):
+        """Retorna o tamanho do arquivo formatado"""
+        if not self.tamanho_arquivo:
+            return "N/A"
+        
+        if self.tamanho_arquivo < 1024:
+            return f"{self.tamanho_arquivo} bytes"
+        elif self.tamanho_arquivo < 1024 * 1024:
+            return f"{self.tamanho_arquivo / 1024:.1f} KB"
+        else:
+            return f"{self.tamanho_arquivo / (1024 * 1024):.1f} MB"
+
+    @property
+    def dimensoes(self):
+        """Retorna as dimensões formatadas"""
+        if self.largura and self.altura:
+            return f"{self.largura} x {self.altura}px"
+        return "N/A"
+
+    def get_alt_text(self):
+        """Retorna o texto alternativo apropriado"""
+        return self.alt_text or self.titulo or f"Imagem {self.get_tipo_display()}"
+    
+    objects = ImagemSiteManager()

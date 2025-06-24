@@ -1,28 +1,35 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load media_tags %}
+
 {% block title %}Notícias - AMUV{% endblock %}
 
 {% block hero %}
-<section class="relative h-80 bg-cover bg-center" style="background-image: url('{% static "noticias/img/noticias_amuv.webp" %}')">
-    <!-- Overlay com gradiente para melhorar legibilidade -->
-    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/40"></div>
-    
-    <div class="relative z-10 flex flex-col justify-between h-full px-6 text-white py-8">
-        <div class="text-center mt-14">
-            <div class="inline-block px-4 py-1 bg-red-600 text-white text-sm font-semibold rounded-full mb-3">
-                Fique Informado
-            </div>
-            <h1 class="text-4xl md:text-5xl font-bold mb-3">Notícias</h1>
-            <p class="text-base md:text-xl max-w-2xl mx-auto">Acompanhe os acontecimentos e novidades da AMUV e da nossa comunidade</p>
-        </div>
+    {% get_imagem_site 'topo_sobre' as img_topo %}
+        {% if img_topo %}
+          <section class="relative h-80 bg-cover bg-center" style="background-image: url('{{ img_topo.imagem.url }}')">
+        {% else %}
+          <section class="relative h-80 bg-cover bg-center" style="background-image: url('{% static "noticias/img/noticias_amuv.webp" %}')">
+        {% endif %}
+            <!-- Overlay com gradiente para melhorar legibilidade -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/40"></div>
+            
+            <div class="relative z-10 flex flex-col justify-between h-full px-6 text-white py-8">
+                <div class="text-center mt-14">
+                    <div class="inline-block px-4 py-1 bg-red-600 text-white text-sm font-semibold rounded-full mb-3">
+                        Fique Informado
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-3">Notícias</h1>
+                    <p class="text-base md:text-xl max-w-2xl mx-auto">Acompanhe os acontecimentos e novidades da AMUV e da nossa comunidade</p>
+                </div>
 
-        <div class="text-left">
-            <nav aria-label="Breadcrumb" class="bg-white/10 inline-block px-4 py-2 rounded-lg backdrop-blur-sm">
-                {% include "partials/breadcrumb.html" %}
-            </nav>
-        </div>
-    </div>
-</section>
+                <div class="text-left">
+                    <nav aria-label="Breadcrumb" class="bg-white/10 inline-block px-4 py-2 rounded-lg backdrop-blur-sm">
+                        {% include "partials/breadcrumb.html" %}
+                    </nav>
+                </div>
+            </div>
+        </section>
 {% endblock %}
 
 {% block content %}

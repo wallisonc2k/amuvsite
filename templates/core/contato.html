@@ -2,25 +2,31 @@
 {% load static %}
 {% load widget_tweaks %}
 {% load config_contato_pix_tags %}
+{% load media_tags %}
 
 {% block title %}Contato - AMUV{% endblock %}
 
 {% block hero %}
-<section class="relative h-96 bg-cover bg-center" style="background-image: url('{% static "core/img/contato_amuv.jpeg" %}')">
-    <div class="absolute inset-0 bg-gradient-to-b from-black/70 to-red-900/50"></div>
-    <div class="max-w-6xl mx-auto relative z-10 flex flex-col justify-end pb-10 h-full p-6">
-        <h2 class="text-4xl md:text-5xl font-bold text-white pb-4 animate-fade-in">Contato</h2>
-        <p class="text-white/90 text-lg max-w-xl mb-4">Estamos aqui para ouvir você e construir juntos uma comunidade mais forte.</p>
-        {% include "partials/breadcrumb.html" %}
-    </div>
-    
-    <!-- Elementos decorativos -->
-    <div class="absolute bottom-0 left-0 w-full overflow-hidden">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" fill="#ffffff" preserveAspectRatio="none" class="h-12 w-full">
-            <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"></path>
-        </svg>
-    </div>
-</section>
+    {% get_imagem_site 'topo_contato' as img_topo %}
+        {% if img_topo %}
+        <section class="relative h-96 bg-cover bg-center" style="background-image: url('{{ img_topo.imagem.url }}')">
+        {% else %}
+        <section class="relative h-96 bg-cover bg-center" style="background-image: url('{% static "core/img/contato_amuv.jpeg" %}')">
+        {% endif %}
+            <div class="absolute inset-0 bg-gradient-to-b from-black/70 to-red-900/50"></div>
+            <div class="max-w-6xl mx-auto relative z-10 flex flex-col justify-end pb-10 h-full p-6">
+                <h2 class="text-4xl md:text-5xl font-bold text-white pb-4 animate-fade-in">Contato</h2>
+                <p class="text-white/90 text-lg max-w-xl mb-4">Estamos aqui para ouvir você e construir juntos uma comunidade mais forte.</p>
+                {% include "partials/breadcrumb.html" %}
+            </div>
+            
+            <!-- Elementos decorativos -->
+            <div class="absolute bottom-0 left-0 w-full overflow-hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" fill="#ffffff" preserveAspectRatio="none" class="h-12 w-full">
+                    <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"></path>
+                </svg>
+            </div>
+        </section>
 {% endblock %}
 
 {% block content %}
