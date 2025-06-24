@@ -1,3 +1,5 @@
+# media_site/templatetags/media_tags.py
+
 from django import template
 from django.db.models import Q
 from ..models import ImagemSite
@@ -9,6 +11,14 @@ def hero_slider():
     """Renderiza o hero slider da home"""
     imagens = ImagemSite.objects.por_tipo('hero_slider')
     return {'imagens': imagens}
+
+@register.simple_tag
+def hero_slider_json():
+    """Retorna as URLs das imagens do hero slider em formato JSON para Alpine.js"""
+    import json
+    imagens = ImagemSite.objects.por_tipo('hero_slider')
+    urls = [imagem.imagem.url for imagem in imagens] if imagens.exists() else []
+    return json.dumps(urls)
 
 @register.inclusion_tag('partials/galeria_home.html')
 def galeria_home():

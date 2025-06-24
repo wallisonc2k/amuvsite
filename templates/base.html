@@ -1,5 +1,6 @@
 {% load static %}
 {% load config_contato_pix_tags %}
+{% load media_tags %}
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -95,7 +96,7 @@ html {
 
   <!-- Hero dinâmico (slider) ou fixo -->
   {% block hero %}
-    {% include 'partials/hero_slider.html' %}
+    {% hero_slider %}
   {% endblock %}
 
   <!-- Conteúdo principal -->
