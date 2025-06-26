@@ -130,7 +130,7 @@
             {% for imagem in imagens_patrocinadores %}
 
               <a href="#" class="block overflow-hidden rounded-lg transform transition hover:scale-105">
-                <img src="{{ imagem }}" alt="Foto 1" class="w-full h-20 object-cover hover:opacity-80 transition">
+                <img src="{{ imagem.imagem.url }}" alt="Foto 1" class="w-full h-20 object-cover hover:opacity-80 transition">
               </a>
 
             {% endfor %}

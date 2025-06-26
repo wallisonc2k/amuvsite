@@ -135,6 +135,7 @@ class ImagemSite(models.Model):
     class TipoImagem(models.TextChoices):
         # Home
         HERO_SLIDER = "hero_slider", "Hero Slider (Home)"
+        PATROCINADORES = "patrocinadores", "Patrocinadores"
         LOGO_PEQUENA = "logo_pequena", "Logo Pequena"
         LOGO_GRANDE = "logo_grande", "Logo Grande"
         GALERIA = "galeria", "Galeria (Home)"
@@ -159,7 +160,7 @@ class ImagemSite(models.Model):
         'topo_contato': 1,
         'topo_noticia': 1,
         'sem_noticia': 1,
-        # hero_slider e galeria podem ter múltiplas imagens
+        # hero_slider, galeria e patrocinadores podem ter múltiplas imagens
     }
 
     tipo = models.CharField(
