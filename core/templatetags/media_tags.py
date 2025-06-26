@@ -6,11 +6,11 @@ from ..models import ImagemSite
 
 register = template.Library()
 
-@register.inclusion_tag('partials/hero_slider.html')
-def hero_slider():
+@register.inclusion_tag('partials/hero_slider.html', takes_context=True)
+def hero_slider(context):
     """Renderiza o hero slider da home"""
     imagens = ImagemSite.objects.por_tipo('hero_slider')
-    return {'imagens': imagens}
+    return {'imagens': imagens, 'user': context['user']}
 
 @register.simple_tag
 def hero_slider_json():
