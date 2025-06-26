@@ -1,34 +1,84 @@
-<section x-data="carousel()" x-init="start()" x-cloak class="relative overflow-hidden h-[90vh]">
+<!-- templates/media_site/hero_slider_avancado.html -->
+{% load media_tags %}
+
+<!-- Dados completos das imagens para Alpine.js -->
+<script>
+window.heroSliderData = [
+    {% for imagem in imagens %}
+    {
+        url: "{{ imagem.imagem.url }}",
+        titulo: "{{ imagem.titulo|default:'' }}",
+        descricao: "{{ imagem.descricao|default:'' }}",
+        alt: "{{ imagem|get_alt_text }}"
+    }{% if not forloop.last %},{% endif %}
+    {% empty %}
+    {
+        url: "/static/img/default-hero.jpg",
+        titulo: "Bem-vindo à AMUV",
+        descricao: "Fortalecendo a Comunidade de Vermelhos",
+        alt: "Imagem padrão AMUV"
+    }
+    {% endfor %}
+];
+</script>
+
+<section x-data="heroCarousel()" x-init="init()" x-cloak class="relative overflow-hidden h-[90vh]">
     
-    <!-- Wrapper de Slides (apenas para as imagens de fundo) -->
-    <div class="absolute inset-0 flex transition-transform duration-1000 ease-in-out"
+    <!-- Wrapper de Slides -->
+    <!-- <div class="absolute inset-0 flex transition-transform duration-1000 ease-in-out"
          :style="`transform: translateX(-${imagemAtual * 100}%);`">
         
         <template x-for="(imagem, index) in imagens" :key="index">
             <div class="flex-shrink-0 w-full h-full bg-cover bg-center transform scale-110 transition-transform duration-10000"
                  :class="{'scale-100': index === imagemAtual}"
-                 :style="`background-image: url('${imagem}')`">
+                 :style="`background-image: url('${imagem.url}')`">
             </div>
         </template>
-    </div>
+    </div> -->
+    
+    <!-- Slides com fade -->
+    <template x-for="(imagem, index) in imagens" :key="index">
+        <div
+            x-show="index === imagemAtual"
+            x-transition:enter="transition-opacity duration-1000 ease-out"
+            x-transition:enter-start="opacity-0 scale-105"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition-opacity duration-1000 ease-in"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+            class="absolute inset-0 bg-cover bg-center"
+            :style="`background-image: url('${imagem.url}')`"
+        ></div>
+    </template>
 
-    <!-- Filtro escuro sobre as imagens com gradiente -->
+
+    <!-- Filtro escuro -->
     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70"></div>
 
-    <!-- Conteúdo fixo sobre as imagens -->
+    <!-- Conteúdo dinâmico baseado na imagem atual -->
     <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-6 max-w-6xl mx-auto">
+        
+        <!-- Título dinâmico -->
         <div data-aos="fade-down" data-aos-duration="1000">
             <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 text-shadow leading-tight">
-                Fortalecendo a Comunidade de <span class="text-amuv-red-400">Vermelhos</span>
+                <span x-text="imagemAtual < imagens.length ? 
+                    (imagens[imagemAtual].titulo || 'Fortalecendo a Comunidade de Vermelhos') : 
+                    'Fortalecendo a Comunidade de Vermelhos'">
+                </span>
             </h1>
         </div>
         
+        <!-- Descrição dinâmica -->
         <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
             <p class="text-lg md:text-2xl max-w-3xl mx-auto mb-8 text-shadow">
-                União, cidadania e solidariedade para transformar o nosso futuro e construir uma comunidade mais forte.
+                <span x-text="imagemAtual < imagens.length ? 
+                    (imagens[imagemAtual].descricao || 'União, cidadania e solidariedade para transformar o nosso futuro e construir uma comunidade mais forte.') : 
+                    'União, cidadania e solidariedade para transformar o nosso futuro e construir uma comunidade mais forte.'">
+                </span>
             </p>
         </div>
 
+        <!-- Botões -->
         <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400" class="flex flex-col sm:flex-row justify-center gap-6 mt-6">
             <a href="{% url 'noticias:lista' %}" class="bg-amuv-red-600 text-white px-8 py-4 rounded-full shadow-lg hover:bg-amuv-red-700 transition transform hover:scale-105 flex items-center justify-center">
                 <span>Ver Notícias</span>
@@ -57,10 +107,10 @@
 
     <!-- Controles do Carrossel -->
     <div class="absolute bottom-8 left-0 right-0 flex justify-center space-x-3 z-20">
-        <template x-for="(_, index) in imagens" :key="index">
+        <template x-for="(imagem, index) in imagens" :key="index">
             <button @click="navegar(index)" 
                     role="button"
-                    :aria-label="`Ir para imagem ${index + 1}`"
+                    :aria-label="`Ir para ${imagem.titulo || 'imagem ' + (index + 1)}`"
                     :aria-current="index === imagemAtual ? 'true' : undefined"
                     class="w-3 h-3 rounded-full transition-all duration-300"
                     :class="index === imagemAtual ? 'bg-amuv-red-600 w-8' : 'bg-white/50 hover:bg-white/80'">
@@ -91,7 +141,56 @@
         </a>
     </div>
 </section>
-{{ imagens_hero_slider|json_script:"imagens-json" }}
 
-<!-- Âncora para rolagem -->
 <div id="content"></div>
+
+<script>
+function heroCarousel() {
+    return {
+        imagens: [],
+        imagemAtual: 0,
+        intervalo: null,
+        
+        init() {
+            this.imagens = window.heroSliderData || [];
+            this.$nextTick(() => {
+                this.start();
+            });
+        },
+        
+        start() {
+            this.clearIntervalo(); // Garante que não tenha intervalos duplicados
+            if (this.imagens.length > 1) {
+                this.intervalo = setInterval(() => {
+                    this.navegarProximo();
+                }, 5000);
+            }
+        },
+
+        clearIntervalo() {
+            if (this.intervalo) {
+                clearInterval(this.intervalo);
+                this.intervalo = null;
+            }
+        },
+        
+        navegar(index) {
+            this.clearIntervalo();
+            this.imagemAtual = index;
+            this.start();
+        },
+        
+        navegarProximo() {
+            this.clearIntervalo();
+            this.imagemAtual = (this.imagemAtual + 1) % this.imagens.length;
+            this.start();
+        },
+        
+        navegarAnterior() {
+            this.clearIntervalo();
+            this.imagemAtual = this.imagemAtual === 0 ? this.imagens.length - 1 : this.imagemAtual - 1;
+            this.start();
+        }
+    }
+}
+</script>

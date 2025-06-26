@@ -3,7 +3,7 @@ from django.views.generic import TemplateView, FormView
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.shortcuts import render
-from .models import Contato
+from .models import Contato, ImagemSite
 from .forms import ContatoForm
 from .utils import listar_imagens_estaticas, listar_imagens_com_descricao
 from noticias.models import Noticia
@@ -14,13 +14,9 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        imagens_hero_slider = listar_imagens_estaticas('shared/img/hero_slider') # Adiciona as imagens do hero Slider automaticamente
         imagens_swiper = listar_imagens_com_descricao()
-        imagens_patrocinadores = listar_imagens_estaticas('shared/img/patrocinadores/miniatura')[:5] # Adiciona as imagens dos patrocinadores
-        
-        context['imagens_hero_slider'] = imagens_hero_slider
+
         context['imagens_swiper'] = imagens_swiper
-        context['imagens_patrocinadores'] = imagens_patrocinadores
         context['noticias'] = Noticia.objects.filter(categoria='noticia').order_by('-publicado_em')[:2]  # últimas 3 notícias
         context['eventos'] = Noticia.objects.filter(categoria='evento',
                                                     data_evento__gte=timezone.now()
