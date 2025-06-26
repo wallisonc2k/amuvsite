@@ -112,7 +112,12 @@
                 ✖
             </button>
             <h2 class="text-lg font-bold text-center text-red-800 mb-4">Escaneie o QR Code</h2>
-            <img src="{% static 'core/img/pix_qrcode_amuv.png' %}" alt="QR Code PIX" class="w-64 mx-auto">
+            {% get_imagem_site 'qr_code_pix' as qr_pix %}
+            {% if qr_pix %}
+              <img src="{{ qr_pix.imagem.url }}" alt="QR Code PIX" class="w-64 mx-auto">
+            {% else %}
+              <img src="{% static 'core/img/pix_qrcode_amuv.png' %}" alt="QR Code PIX" class="w-64 mx-auto">
+            {% endif %}
         </div>
     </div>
 </section>

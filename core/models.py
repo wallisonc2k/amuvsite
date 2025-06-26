@@ -151,6 +151,9 @@ class ImagemSite(models.Model):
         TOPO_NOTICIA = "topo_noticia", "Imagem no Topo (Notícia)"
         SEM_NOTICIA = "sem_noticia", "Imagem Padrão (Sem Notícia)"
 
+        # Doações
+        QR_CODE_PIX = "qr_code_pix", "QR Code Pix"
+
     # Configurações de limite por tipo
     LIMITES_POR_TIPO = {
         'logo_pequena': 1,
@@ -160,6 +163,7 @@ class ImagemSite(models.Model):
         'topo_contato': 1,
         'topo_noticia': 1,
         'sem_noticia': 1,
+        'qr_code_pix': 1,
         # hero_slider, galeria e patrocinadores podem ter múltiplas imagens
     }
 
