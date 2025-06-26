@@ -1,5 +1,6 @@
 {% load static %}
 {% load config_contato_pix_tags %}
+{% load media_tags %}
 <footer class="bg-gradient-to-b from-gray-800 to-gray-900 text-gray-300 py-16 relative overflow-hidden">
   <!-- Padrão de fundo sutil -->
   <!-- <div class="absolute inset-0 opacity-5 bg-pattern bg-no-repeat bg-cover bg-center"></div> -->
@@ -127,13 +128,14 @@
             Patrocinadores
           </h3>
           <div class="grid grid-cols-3 gap-2">
-            {% for imagem in imagens_patrocinadores %}
+            {% get_imagens_site 'patrocinadores' as imagens_patrocinadores %}
+              {% for imagem in imagens_patrocinadores %}
 
-              <a href="#" class="block overflow-hidden rounded-lg transform transition hover:scale-105">
-                <img src="{{ imagem.imagem.url }}" alt="Foto 1" class="w-full h-20 object-cover hover:opacity-80 transition">
-              </a>
+                <a href="#" class="block overflow-hidden rounded-lg transform transition hover:scale-105">
+                  <img src="{{ imagem.imagem.url }}" alt="Foto 1" class="w-full h-20 object-cover hover:opacity-80 transition">
+                </a>
 
-            {% endfor %}
+              {% endfor %}
             
             <a href="#" class="block overflow-hidden rounded-lg transform transition hover:scale-105">
               <div class="bg-red-700 w-full h-20 rounded-lg flex items-center justify-center text-white font-bold hover:bg-red-600 transition">
